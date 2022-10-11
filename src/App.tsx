@@ -1,11 +1,17 @@
 import LoginForm from "./components/LoginForm";
 import styled from "styled-components";
-import { formDetails } from "./constans";
+import { Route, Routes } from "react-router";
+import RegisterForm from "./components/RegisterForm";
+import RegisterFormTest from "./components/RegisterFormTest";
 
 function App() {
   return (
     <StyledApp>
-      <LoginForm {...formDetails["login"]} />
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/registertest" element={<RegisterFormTest />} />
+      </Routes>
     </StyledApp>
   );
 }
