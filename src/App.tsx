@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Route, Routes } from "react-router";
 import RegisterForm from "./components/RegisterForm";
 import RegisterFormTest from "./components/RegisterFormTest";
+import Home from "./components/Home";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/registertest" element={<RegisterFormTest />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </StyledApp>
   );
