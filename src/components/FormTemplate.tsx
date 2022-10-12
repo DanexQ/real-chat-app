@@ -1,31 +1,54 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { FormDetails } from "../interfaces";
 import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
 import react from "react";
 
-interface FormTemplateDetails extends FormDetails {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface FormTemplateProps<T> extends FormDetails {
+  initialState: T;
 }
 
-const FormTemplate = ({
+const FormTemplate = <T extends {}>({
+  initialState,
   formType,
   inputs,
   reminder,
   reminderAnchor,
   linkTo,
-  onChange,
   isDisabled,
-}: FormTemplateDetails) => {
+}: FormTemplateProps<T>) => {
+  const [formData, setFormData] = useState<T>(initialState);
+  // const isDisabled =
+  //   Object.values(formData).every((val) => val !== "") &&
+  //   formData.password === formData.confirmPassword;
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  }, []);
+
+  console.log(formData);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("sent");
+  };
   return (
-    <StyledFormContainer>
+    <StyledFormContainer onSubmit={handleSubmit}>
       <FormLabelMain>Chat app</FormLabelMain>
       <FormLabelSub>{formType}</FormLabelSub>
       <InputsWrapper>
-        {inputs.map((input, index) => (
-          <FormInput key={index} {...input} onChange={onChange} />
-        ))}
+        {inputs.map((input, index) => {
+          return (
+            <FormInput
+              key={index}
+              {...input}
+              onChange={handleChange}
+              value={"" + formData[input.name as keyof typeof formData]}
+            />
+          );
+        })}
       </InputsWrapper>
       <SubmitButton disabled={!isDisabled}>{formType}</SubmitButton>
       <Reminder>
@@ -37,7 +60,7 @@ const FormTemplate = ({
 
 export default react.memo(FormTemplate);
 
-const StyledFormContainer = styled.div`
+const StyledFormContainer = styled.form`
   width: 50rem;
   padding: 6rem;
   background-color: #fff;

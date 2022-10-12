@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 import react, { useState } from "react";
 
 interface FormInputProps extends inputsProps {
+  value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

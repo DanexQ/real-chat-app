@@ -2,7 +2,6 @@ export interface inputsProps {
   type: string;
   placeholder: string;
   name: string;
-  value: string;
   errorMessage?: string;
   inputDetail?: string;
   pattern?: string;

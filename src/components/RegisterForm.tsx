@@ -1,13 +1,12 @@
 import FormTemplate from "./FormTemplate";
 import { FormDetails } from "../interfaces";
-import useStateForm from "./useStateForm";
 
-type registerState = {
+interface registerState {
   name: string;
   email: string;
   password: string;
   confirmPassword: string;
-};
+}
 
 const initialState: registerState = {
   name: "",
@@ -17,13 +16,6 @@ const initialState: registerState = {
 };
 
 const RegisterForm = () => {
-  const { formData, handleChange, handleSubmit } =
-    useStateForm<registerState>(initialState);
-
-  const isDisabled =
-    Object.values(formData).every((val) => val !== "") &&
-    formData.password === formData.confirmPassword;
-
   const registerDetails: FormDetails = {
     formType: "Register",
     inputs: [
@@ -31,7 +23,6 @@ const RegisterForm = () => {
         type: "text",
         placeholder: "name",
         name: "name",
-        value: formData.name,
         errorMessage: "Name is not 3-16 characters or special letters!",
         inputDetail:
           "Name should be 3-16 characters and should not include any special letters",
@@ -41,14 +32,12 @@ const RegisterForm = () => {
         type: "email",
         placeholder: "email",
         name: "email",
-        value: formData.email,
         errorMessage: "Email is not valid!",
       },
       {
         type: "password",
         placeholder: "password",
         name: "password",
-        value: formData.password,
         errorMessage:
           "Password is not 8-20 characters or does not include 1 letter, 1 number and 1 special character!",
         inputDetail:
@@ -60,22 +49,17 @@ const RegisterForm = () => {
         type: "password",
         placeholder: "confirm password",
         name: "confirmPassword",
-        value: formData.confirmPassword,
         errorMessage: "Passwords are not the same!",
-        pattern: formData.password,
+        pattern: "Elolenelopl123!",
       },
     ],
     reminder: "Have you got an account?",
     reminderAnchor: "Sign in",
     linkTo: "login",
-    isDisabled,
+    isDisabled: true,
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <FormTemplate {...registerDetails} onChange={handleChange} />
-    </form>
-  );
+  return <FormTemplate initialState={initialState} {...registerDetails} />;
 };
 
 export default RegisterForm;

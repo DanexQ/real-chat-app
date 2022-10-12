@@ -1,11 +1,10 @@
 import FormTemplate from "./FormTemplate";
 import { FormDetails } from "../interfaces";
-import useStateForm from "./useStateForm";
 
-interface loginData {
+type loginData = {
   email: string;
   password: string;
-}
+};
 
 const initialState: loginData = {
   email: "",
@@ -13,9 +12,6 @@ const initialState: loginData = {
 };
 
 const LoginForm = () => {
-  const { formData, handleChange, handleSubmit } =
-    useStateForm<loginData>(initialState);
-  const isDisabled = Object.values(formData).every((val) => val !== "");
   const loginDetails: FormDetails = {
     formType: "Login",
     inputs: [
@@ -23,20 +19,18 @@ const LoginForm = () => {
         type: "text",
         name: "email",
         placeholder: "email",
-        value: formData.email,
         errorMessage: "Email is not valid!",
       },
       {
         type: "password",
         name: "password",
         placeholder: "password",
-        value: formData.password,
       },
     ],
     reminder: "You do not have an account?",
     reminderAnchor: "Sign up",
     linkTo: "register",
-    isDisabled,
+    isDisabled: true,
   };
 
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,11 +38,7 @@ const LoginForm = () => {
   //   setFormData((prevData) => ({ ...prevData, [name]: value }));
   // };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <FormTemplate {...loginDetails} onChange={handleChange} />
-    </form>
-  );
+  return <FormTemplate {...loginDetails} initialState={initialState} />;
 };
 
 export default LoginForm;
