@@ -1,15 +1,15 @@
-import LoginForm from "./components/LoginForm";
+import Login from "./pages/Login";
 import styled from "styled-components";
 import { Route, Routes } from "react-router";
-import RegisterForm from "./components/RegisterForm";
+import Register from "./pages/Register";
 import Home from "./components/Home";
 
 function App() {
   return (
     <StyledApp>
       <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </StyledApp>

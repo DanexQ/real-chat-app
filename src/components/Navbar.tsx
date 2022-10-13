@@ -9,6 +9,8 @@ const Navbar = () => {
         src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         alt="imgdsa"
       />
+      {/* TODO: CLICK AVATAR AND PROFILE MENU SHOWS UP */}
+      <Name>Daniel Szczepaniak</Name>
       <LogoutButton>Logout</LogoutButton>
     </NavbarContainer>
   );
@@ -21,18 +23,23 @@ const NavbarContainer = styled.div`
   padding: 2rem;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
-const Avatar = styled.img`
-  width: 5rem;
-  height: 5rem;
+export const Avatar = styled.img`
+  width: 3rem;
+  height: 3rem;
   object-fit: cover;
   border-radius: 50px;
 `;
 
+const Name = styled.span`
+  color: white;
+  font-size: 1.2rem;
+`;
+
 const Logo = styled.span`
-  font-size: 3rem;
+  font-size: 2rem;
   color: #fff;
   margin-right: auto;
   font-weight: 600;
@@ -44,8 +51,8 @@ const LogoutButton = styled.button`
   outline: none;
   border-radius: 2px;
   background-color: #189ad3;
-  font-weight: 700;
-  color: #005073;
+  font-weight: 400;
+  color: #fff;
   padding: 0.5rem 1rem;
   cursor: pointer;
   transition: all 0.1s;

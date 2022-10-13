@@ -1,21 +1,21 @@
-import FormTemplate from "./FormTemplate";
+import FormTemplate from "../components/FormTemplate";
 import { FormDetails } from "../interfaces";
 
-interface registerState {
+interface registerFormType {
   name: string;
   email: string;
   password: string;
   confirmPassword: string;
 }
 
-const initialState: registerState = {
+const initialState: registerFormType = {
   name: "",
   email: "",
   password: "",
   confirmPassword: "",
 };
 
-const RegisterForm = () => {
+const Register = () => {
   const registerDetails: FormDetails = {
     formType: "Register",
     inputs: [
@@ -59,7 +59,19 @@ const RegisterForm = () => {
     isDisabled: true,
   };
 
-  return <FormTemplate initialState={initialState} {...registerDetails} />;
+  const handleSubmit = <Type,>(e: React.FormEvent, formData: Type) => {
+    e.preventDefault();
+    console.log(typeof formData);
+    console.log(formData);
+  };
+
+  return (
+    <FormTemplate
+      initialState={initialState}
+      handleSubmit={handleSubmit}
+      {...registerDetails}
+    />
+  );
 };
 
-export default RegisterForm;
+export default Register;

@@ -7,9 +7,10 @@ import react from "react";
 
 interface FormTemplateProps<T> extends FormDetails {
   initialState: T;
+  handleSubmit: <T>(e: React.FormEvent, data: T) => void;
 }
 
-const FormTemplate = <T extends {}>({
+const FormTemplate = <T,>({
   initialState,
   formType,
   inputs,
@@ -17,6 +18,7 @@ const FormTemplate = <T extends {}>({
   reminderAnchor,
   linkTo,
   isDisabled,
+  handleSubmit,
 }: FormTemplateProps<T>) => {
   const [formData, setFormData] = useState<T>(initialState);
   // const isDisabled =
@@ -27,15 +29,9 @@ const FormTemplate = <T extends {}>({
 
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
-
   console.log(formData);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("sent");
-  };
   return (
-    <StyledFormContainer onSubmit={handleSubmit}>
+    <StyledFormContainer onSubmit={(e) => handleSubmit<T>(e, formData)}>
       <FormLabelMain>Chat app</FormLabelMain>
       <FormLabelSub>{formType}</FormLabelSub>
       <InputsWrapper>
@@ -45,7 +41,7 @@ const FormTemplate = <T extends {}>({
               key={index}
               {...input}
               onChange={handleChange}
-              value={"" + formData[input.name as keyof typeof formData]}
+              value={formData[input.name as keyof typeof formData] as string}
             />
           );
         })}
@@ -69,7 +65,7 @@ const StyledFormContainer = styled.form`
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
   font-size: 2rem;
 `;

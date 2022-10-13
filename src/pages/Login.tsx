@@ -1,17 +1,17 @@
-import FormTemplate from "./FormTemplate";
+import FormTemplate from "../components/FormTemplate";
 import { FormDetails } from "../interfaces";
 
-type loginData = {
+type loginFormType = {
   email: string;
   password: string;
 };
 
-const initialState: loginData = {
+const initialState: loginFormType = {
   email: "",
   password: "",
 };
 
-const LoginForm = () => {
+const Login = () => {
   const loginDetails: FormDetails = {
     formType: "Login",
     inputs: [
@@ -37,8 +37,19 @@ const LoginForm = () => {
   //   const { name, value } = e.target;
   //   setFormData((prevData) => ({ ...prevData, [name]: value }));
   // };
+  const handleSubmit = <Type,>(e: React.FormEvent, formData: Type) => {
+    e.preventDefault();
+    console.log(typeof formData);
+    console.log("NA PEWNO DZIAŁA?", formData);
+  };
 
-  return <FormTemplate {...loginDetails} initialState={initialState} />;
+  return (
+    <FormTemplate
+      {...loginDetails}
+      initialState={initialState}
+      handleSubmit={handleSubmit}
+    />
+  );
 };
 
-export default LoginForm;
+export default Login;
