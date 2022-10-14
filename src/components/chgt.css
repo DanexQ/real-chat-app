@@ -1,7 +1,0 @@
-.suea {
-  display: grid;
-  grid-template-columns: 8rem 1fr;
-  grid-template-rows: repeat(2, 4rem);
-  align-items: center;
-  justify-content: center;
-}

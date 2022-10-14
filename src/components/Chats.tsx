@@ -49,6 +49,7 @@ export const FriendsName = styled.span`
   color: white;
   font-size: 2rem;
   font-weight: 500;
+  margin-right: auto;
 `;
 
 const LatestMessage = styled.div`

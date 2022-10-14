@@ -1,5 +1,8 @@
 import FormTemplate from "../components/FormTemplate";
 import { FormDetails } from "../interfaces";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 type loginFormType = {
   email: string;
@@ -12,6 +15,7 @@ const initialState: loginFormType = {
 };
 
 const Login = () => {
+  const navigate = useNavigate();
   const loginDetails: FormDetails = {
     formType: "Login",
     inputs: [
@@ -37,10 +41,23 @@ const Login = () => {
   //   const { name, value } = e.target;
   //   setFormData((prevData) => ({ ...prevData, [name]: value }));
   // };
-  const handleSubmit = <Type,>(e: React.FormEvent, formData: Type) => {
+  const handleSubmit = <T,>(e: React.FormEvent, formData: T) => {
     e.preventDefault();
-    console.log(typeof formData);
-    console.log("NA PEWNO DZIAŁA?", formData);
+    const email = String(formData["email" as keyof typeof formData]);
+    const password = String(formData["password" as keyof typeof formData]);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(auth);
+        console.log(user);
+        navigate("/");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   return (

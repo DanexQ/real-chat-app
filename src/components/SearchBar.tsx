@@ -44,7 +44,6 @@ const SingleResult = styled.div`
   gap: 1rem;
   padding: 1rem 2rem;
   background-color: inherit;
-  border-top: 1px solid #005073;
 
   &:hover {
     filter: brightness(90%);

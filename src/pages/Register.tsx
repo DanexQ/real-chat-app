@@ -1,5 +1,7 @@
 import FormTemplate from "../components/FormTemplate";
 import { FormDetails } from "../interfaces";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 interface registerFormType {
   name: string;
@@ -59,10 +61,24 @@ const Register = () => {
     isDisabled: true,
   };
 
-  const handleSubmit = <Type,>(e: React.FormEvent, formData: Type) => {
+  const handleSubmit = <T,>(e: React.FormEvent, formData: T) => {
     e.preventDefault();
-    console.log(typeof formData);
-    console.log(formData);
+    type Keys = Extract<keyof T, string>;
+    const password = "" + formData["password" as Keys];
+    const email = "" + formData["email" as Keys];
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
   };
 
   return (

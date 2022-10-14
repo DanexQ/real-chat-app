@@ -24,6 +24,7 @@ const NavbarContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  height: 8rem;
 `;
 
 export const Avatar = styled.img`

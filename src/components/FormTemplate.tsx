@@ -7,7 +7,7 @@ import react from "react";
 
 interface FormTemplateProps<T> extends FormDetails {
   initialState: T;
-  handleSubmit: <T>(e: React.FormEvent, data: T) => void;
+  handleSubmit: (e: React.FormEvent, data: T) => void;
 }
 
 const FormTemplate = <T,>({
@@ -31,7 +31,7 @@ const FormTemplate = <T,>({
   }, []);
   console.log(formData);
   return (
-    <StyledFormContainer onSubmit={(e) => handleSubmit<T>(e, formData)}>
+    <StyledFormContainer onSubmit={(e) => handleSubmit(e, formData)}>
       <FormLabelMain>Chat app</FormLabelMain>
       <FormLabelSub>{formType}</FormLabelSub>
       <InputsWrapper>
