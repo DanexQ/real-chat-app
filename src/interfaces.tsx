@@ -9,6 +9,7 @@ export interface inputsProps {
 
 export interface FormDetails {
   formType: string;
+  errorMessage: string;
   inputs: inputsProps[];
   reminder: string;
   reminderAnchor: string;

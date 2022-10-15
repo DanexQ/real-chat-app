@@ -7,12 +7,14 @@ const ChatInput = () => {
   return (
     <ChatFormContainer>
       <Input type="text" placeholder="Type something..." />
-      <FileInput name="sendFile" type="file" />
+
       <label htmlFor="sendFile">
+        <FileInput name="sendFile" type="file" />
         <AttachFileIcon />
       </label>
-      <FileInput name="sendImg" type="file" />
+
       <label htmlFor="sendImg">
+        <FileInput name="sendImg" type="file" />
         <AddPhotoAlternateIcon />
       </label>
       <button>Send</button>
@@ -28,7 +30,7 @@ const ChatFormContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   padding: 0 2rem;
 
   label {
@@ -93,5 +95,10 @@ const Input = styled.input`
 `;
 
 const FileInput = styled.input`
-  display: none;
+  width: 0px;
+  height: 0px;
+  visibility: hidden;
+  &::-webkit-file-upload-button {
+    visibility: hidden;
+  }
 `;

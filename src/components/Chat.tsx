@@ -7,6 +7,8 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Messages from "./Messages";
 import ChatInput from "./ChatInput";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Chat = () => {
   return (
@@ -25,6 +27,13 @@ const Chat = () => {
       </ChatDetails>
       <Messages />
       <ChatInput />
+      <button
+        onClick={() => {
+          signOut(auth);
+        }}
+      >
+        WYLOGUJ
+      </button>
     </ChatContainer>
   );
 };

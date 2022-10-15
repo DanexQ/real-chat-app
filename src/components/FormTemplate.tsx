@@ -8,6 +8,7 @@ import react from "react";
 interface FormTemplateProps<T> extends FormDetails {
   initialState: T;
   handleSubmit: (e: React.FormEvent, data: T) => void;
+  error: boolean;
 }
 
 const FormTemplate = <T,>({
@@ -19,6 +20,8 @@ const FormTemplate = <T,>({
   linkTo,
   isDisabled,
   handleSubmit,
+  errorMessage,
+  error,
 }: FormTemplateProps<T>) => {
   const [formData, setFormData] = useState<T>(initialState);
   // const isDisabled =
@@ -29,23 +32,30 @@ const FormTemplate = <T,>({
 
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
-  console.log(formData);
+
   return (
     <StyledFormContainer onSubmit={(e) => handleSubmit(e, formData)}>
       <FormLabelMain>Chat app</FormLabelMain>
       <FormLabelSub>{formType}</FormLabelSub>
       <InputsWrapper>
         {inputs.map((input, index) => {
+          const { pattern, ...inputDetail } = input;
           return (
             <FormInput
               key={index}
-              {...input}
+              {...inputDetail}
               onChange={handleChange}
               value={formData[input.name as keyof typeof formData] as string}
+              pattern={
+                input.name === "confirmPassword"
+                  ? "" + formData["password" as keyof typeof formData]
+                  : pattern
+              }
             />
           );
         })}
       </InputsWrapper>
+      {error && <Error>{errorMessage}</Error>}
       <SubmitButton disabled={!isDisabled}>{formType}</SubmitButton>
       <Reminder>
         {reminder} <Link to={`/${linkTo}`}>{reminderAnchor}</Link>
@@ -87,6 +97,11 @@ const InputsWrapper = styled.div`
   align-items: center;
   gap: 2rem;
   width: 100%;
+`;
+
+const Error = styled.span`
+  color: red;
+  font-size: 1.5rem;
 `;
 
 const SubmitButton = styled.button`

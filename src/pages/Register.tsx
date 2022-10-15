@@ -1,7 +1,10 @@
 import FormTemplate from "../components/FormTemplate";
 import { FormDetails } from "../interfaces";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, db, storage } from "../firebase";
+import { useState } from "react";
+import { doc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 interface registerFormType {
   name: string;
@@ -18,8 +21,12 @@ const initialState: registerFormType = {
 };
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [err, setErr] = useState(false);
+  const [errorMessage, seterrorMessage] = useState("");
   const registerDetails: FormDetails = {
     formType: "Register",
+    errorMessage,
     inputs: [
       {
         type: "text",
@@ -61,24 +68,37 @@ const Register = () => {
     isDisabled: true,
   };
 
-  const handleSubmit = <T,>(e: React.FormEvent, formData: T) => {
+  const handleSubmit = async <T,>(e: React.FormEvent, formData: T) => {
     e.preventDefault();
     type Keys = Extract<keyof T, string>;
+    const name = "" + formData["name" as Keys];
     const password = "" + formData["password" as Keys];
     const email = "" + formData["email" as Keys];
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
+    try {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      await setDoc(doc(db, "users", response.user.uid), {
+        uid: response.user.uid,
+        name,
+        email,
+        photoUrl: "",
       });
+
+      await setDoc(doc(db, "userChats", response.user.uid), {});
+
+      navigate("/login");
+    } catch (err) {
+      if (err instanceof Error) {
+        err.message === "Firebase: Error (auth/email-already-in-use)." &&
+          seterrorMessage("There is account with this email already!");
+        setErr(true);
+      }
+    }
   };
 
   return (
@@ -86,6 +106,7 @@ const Register = () => {
       initialState={initialState}
       handleSubmit={handleSubmit}
       {...registerDetails}
+      error={err}
     />
   );
 };

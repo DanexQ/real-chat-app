@@ -3,6 +3,8 @@ import { FormDetails } from "../interfaces";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../context/AuthContext";
 
 type loginFormType = {
   email: string;
@@ -15,9 +17,13 @@ const initialState: loginFormType = {
 };
 
 const Login = () => {
+  const { currentUser } = useContext(AuthContext);
+  const [err, setErr] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const loginDetails: FormDetails = {
     formType: "Login",
+    errorMessage,
     inputs: [
       {
         type: "text",
@@ -41,30 +47,31 @@ const Login = () => {
   //   const { name, value } = e.target;
   //   setFormData((prevData) => ({ ...prevData, [name]: value }));
   // };
-  const handleSubmit = <T,>(e: React.FormEvent, formData: T) => {
+  const handleSubmit = async <T,>(e: React.FormEvent, formData: T) => {
     e.preventDefault();
     const email = String(formData["email" as keyof typeof formData]);
     const password = String(formData["password" as keyof typeof formData]);
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(auth);
-        console.log(user);
-        navigate("/");
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
+    } catch (err) {
+      if (err instanceof Error) {
+        setErrorMessage("Invalid email or password!");
+        setErr(true);
+      }
+    }
   };
+
+  // useEffect(() => {
+  //   if (currentUser) navigate("/");
+  // });
 
   return (
     <FormTemplate
       {...loginDetails}
       initialState={initialState}
       handleSubmit={handleSubmit}
+      error={err}
     />
   );
 };
