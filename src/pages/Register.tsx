@@ -1,10 +1,11 @@
 import FormTemplate from "../components/FormTemplate";
 import { FormDetails } from "../interfaces";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db, storage } from "../firebase";
-import { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../firebase";
+import { useContext, useEffect, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 interface registerFormType {
   name: string;
@@ -59,7 +60,6 @@ const Register = () => {
         placeholder: "confirm password",
         name: "confirmPassword",
         errorMessage: "Passwords are not the same!",
-        pattern: "Elolenelopl123!",
       },
     ],
     reminder: "Have you got an account?",

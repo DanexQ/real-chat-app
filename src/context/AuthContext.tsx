@@ -2,10 +2,12 @@ import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { User } from "firebase/auth";
 import { auth } from "../firebase";
-import { useNavigate } from "react-router-dom";
+
+type currentUserType = User | null;
 
 export interface AuthContextInterface {
-  currentUser: User | null;
+  currentUser: currentUserType;
+  isAuthorized: boolean | null;
 }
 
 export const AuthContext = createContext({} as AuthContextInterface);
@@ -15,22 +17,22 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<currentUserType>(null);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const AuthCheck = onAuthStateChanged(auth, (user) => {
-      if (user) setCurrentUser(user);
-      if (!user) navigate("/login");
-      console.log("CONTEXT", user);
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setIsAuthorized(!!user);
     });
+
     return () => {
-      AuthCheck();
+      unsub();
     };
-  }, [auth]);
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser }}>
+    <AuthContext.Provider value={{ currentUser, isAuthorized }}>
       {children}
     </AuthContext.Provider>
   );
