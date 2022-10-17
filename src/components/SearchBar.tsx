@@ -1,28 +1,103 @@
+import {
+  collection,
+  doc,
+  DocumentData,
+  getDoc,
+  getDocs,
+  query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { useContext, useState } from "react";
 import styled from "styled-components";
+import AuthContext from "../context/AuthContext";
+import { db } from "../firebase";
 import { FriendsName } from "./Chats";
 import { Avatar } from "./Navbar";
 
 const SearchBar = () => {
+  const { currentUser } = useContext(AuthContext);
+  const [searchedName, setSearchedName] = useState("");
+  const [user, setUser] = useState<DocumentData | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!(currentUser?.displayName !== searchedName)) return;
+
+    const q = query(
+      collection(db, "users"),
+      where("displayName", "==", searchedName)
+    );
+
+    try {
+      const querySnapshot = await getDocs(q);
+      console.log("querySnapshot", querySnapshot);
+      querySnapshot.forEach((doc) => {
+        setUser(doc.data());
+        console.log("doc.data()", doc.data());
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSelect = async () => {
+    if (!user || !currentUser) return;
+
+    const combinedID =
+      currentUser?.uid > user?.uid
+        ? currentUser.uid + user.uid
+        : user.uid + currentUser.uid;
+    const docRef = doc(db, "chats", combinedID);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("There is conversation with this user already!");
+    } else {
+      const docCollection = collection(db, "chats");
+      await setDoc(doc(docCollection, combinedID), { messages: [] });
+
+      await updateDoc(doc(db, "userChats", currentUser.uid), {
+        [combinedID + ".userInfo"]: {
+          uid: user.uid,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        },
+        [combinedID + ".date"]: serverTimestamp(),
+      });
+
+      await updateDoc(doc(db, "userChats", user.uid), {
+        [combinedID + ".userInfo"]: {
+          uid: currentUser.uid,
+          displayName: currentUser.displayName,
+          photoURL: currentUser.photoURL,
+        },
+        [combinedID + ".date"]: serverTimestamp(),
+      });
+    }
+    setUser(null);
+    setSearchedName("");
+  };
+
   return (
-    <>
-      <SInput type="text" placeholder="Find someone..." />
+    <form onSubmit={handleSubmit}>
+      <SInput
+        type="text"
+        placeholder="Find someone..."
+        onChange={(e) => setSearchedName(e.target.value)}
+        value={searchedName}
+      />
       <SearchContainer>
-        <SingleResult>
-          <Avatar
-            src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt="friend"
-          />
-          <FriendsName>Dylan McGregor</FriendsName>
-        </SingleResult>
-        <SingleResult>
-          <Avatar
-            src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt="friend"
-          />
-          <FriendsName>Dylan McGregor</FriendsName>
-        </SingleResult>
+        {user && (
+          <SingleResult onClick={handleSelect}>
+            <Avatar src={user.photoURL} alt="friend" />
+            <FriendsName>{user.displayName}</FriendsName>
+          </SingleResult>
+        )}
       </SearchContainer>
-    </>
+    </form>
   );
 };
 

@@ -27,13 +27,6 @@ const Chat = () => {
       </ChatDetails>
       <Messages />
       <ChatInput />
-      <button
-        onClick={() => {
-          signOut(auth);
-        }}
-      >
-        WYLOGUJ
-      </button>
     </ChatContainer>
   );
 };

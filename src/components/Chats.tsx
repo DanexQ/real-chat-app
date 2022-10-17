@@ -1,19 +1,39 @@
+import { doc, DocumentData, onSnapshot } from "firebase/firestore";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import AuthContext from "../context/AuthContext";
+import { db } from "../firebase";
 import { Avatar } from "./Navbar";
 
 const Chats = () => {
+  const { currentUser } = useContext(AuthContext);
+  const [chats, setChats] = useState<DocumentData | undefined>(undefined);
+
+  useEffect(() => {
+    if (!currentUser) return;
+    const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+      setChats(doc.data());
+    });
+
+    return () => {
+      unsub();
+    };
+  }, [currentUser?.uid]);
+
   return (
     <ChatsContainer>
-      <ChatAvatar
-        src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1600"
-        alt="friend"
-      />
-      <ChatDetails>
-        <FriendsName>Dylan McGregor</FriendsName>
-        <LatestMessage>
-          {"siema gnoju jebanygrsda gioaoig  asdou".slice(0, 30)}...
-        </LatestMessage>
-      </ChatDetails>
+      {chats &&
+        Object.entries(chats).map((chat) => (
+          <SChat key={chat[0]}>
+            <ChatAvatar src={chat[1].userInfo.photoURL} alt="friend" />
+            <ChatDetails>
+              <FriendsName>{chat[1].userInfo.displayName}</FriendsName>
+              <LatestMessage>
+                {"siema gnoju jebanygrsda gioaoig  asdou".slice(0, 30)}...
+              </LatestMessage>
+            </ChatDetails>
+          </SChat>
+        ))}
     </ChatsContainer>
   );
 };
@@ -22,10 +42,15 @@ export default Chats;
 
 const ChatsContainer = styled.div`
   display: flex;
-  padding: 1rem 2rem;
-  gap: 1rem;
-  cursor: pointer;
+  flex-direction: column;
+`;
+
+const SChat = styled.div`
+  display: flex;
+  gap: 2rem;
   background-color: #189ad3;
+  padding: 1rem;
+  cursor: pointer;
 
   &:hover {
     filter: brightness(90%);
@@ -41,6 +66,7 @@ const ChatAvatar = styled(Avatar)`
 const ChatDetails = styled.div`
   flex: 1;
   display: flex;
+
   justify-content: center;
   flex-direction: column;
 `;

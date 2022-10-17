@@ -1,17 +1,25 @@
-import React from "react";
+import { signOut } from "firebase/auth";
+import { useContext } from "react";
 import styled from "styled-components";
+import AuthContext from "../context/AuthContext";
+import { auth } from "../firebase";
 
 const Navbar = () => {
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   return (
     <NavbarContainer>
       <Logo>Chat app</Logo>
-      <Avatar
-        src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        alt="imgdsa"
-      />
+      <Avatar src={currentUser?.photoURL || undefined} alt="imgdsa" />
       {/* TODO: CLICK AVATAR AND PROFILE MENU SHOWS UP */}
-      <Name>Daniel Szczepaniak</Name>
-      <LogoutButton>Logout</LogoutButton>
+      <Name>{currentUser?.displayName}</Name>
+      <LogoutButton
+        onClick={() => {
+          signOut(auth);
+        }}
+      >
+        Logout
+      </LogoutButton>
     </NavbarContainer>
   );
 };

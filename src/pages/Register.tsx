@@ -1,11 +1,11 @@
 import FormTemplate from "../components/FormTemplate";
 import { FormDetails } from "../interfaces";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
+import defaultAvatar from "../defaultAvatar.png";
 
 interface registerFormType {
   name: string;
@@ -74,6 +74,8 @@ const Register = () => {
     const name = "" + formData["name" as Keys];
     const password = "" + formData["password" as Keys];
     const email = "" + formData["email" as Keys];
+    const image = "" + defaultAvatar;
+    console.log(image);
 
     try {
       const response = await createUserWithEmailAndPassword(
@@ -82,14 +84,24 @@ const Register = () => {
         password
       );
 
+      //Update profile
+      await updateProfile(response.user, {
+        displayName: name,
+        photoURL:
+          "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png",
+      });
+      //create user on firestore
       await setDoc(doc(db, "users", response.user.uid), {
         uid: response.user.uid,
-        name,
+        displayName: name,
         email,
-        photoUrl: "",
+        photoURL:
+          "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png",
       });
 
+      //create empty user chats on firestore
       await setDoc(doc(db, "userChats", response.user.uid), {});
+      navigate("/");
 
       navigate("/login");
     } catch (err) {
