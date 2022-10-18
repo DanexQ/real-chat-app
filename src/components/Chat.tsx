@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { Avatar } from "./Navbar";
 import { FriendsName } from "./Chats";
@@ -7,18 +6,17 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Messages from "./Messages";
 import ChatInput from "./ChatInput";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { useContext } from "react";
+import { ChatContext } from "../context/ChatContext";
 
 const Chat = () => {
+  const { data } = useContext(ChatContext);
+
   return (
     <ChatContainer>
       <ChatDetails>
-        <ChatAvatar
-          src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1600"
-          alt="friend"
-        />
-        <FriendsName>Dylan McGregor</FriendsName>
+        <ChatAvatar src={data.user.photoURL} alt="friend" />
+        <FriendsName>{data.user.displayName}</FriendsName>
         <ChatOptions>
           <CameraAltIcon />
           <PersonAddIcon />

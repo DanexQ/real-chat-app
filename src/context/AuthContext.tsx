@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import { User } from "firebase/auth";
 import { auth } from "../firebase";
 
-type currentUserType = User | null;
+export type currentUserType = User | null;
 
 export interface AuthContextInterface {
   currentUser: currentUserType;
@@ -22,7 +22,7 @@ export const AuthContextProvider = ({
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+      if (user) setCurrentUser(user);
       setIsAuthorized(!!user);
     });
 

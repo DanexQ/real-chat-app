@@ -1,30 +1,114 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import AuthContext from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
+import { arrayUnion, doc, Timestamp, updateDoc } from "firebase/firestore";
+import { db, storage } from "../firebase";
+import { v4 as uuid } from "uuid";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const ChatInput = () => {
+  const [text, setText] = useState("");
+  const [image, setImage] = useState<File | undefined>(undefined);
+  const [file, setFile] = useState<File | undefined>(undefined);
+
+  const { currentUser } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
+
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (image) {
+      const storageRef = ref(storage, uuid());
+      const uploadTask = uploadBytesResumable(storageRef, image);
+      console.log("check");
+
+      uploadTask.on(
+        "state_changed",
+        () => {},
+        (error: Error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await updateDoc(doc(db, "chats", data?.chatID), {
+              messages: arrayUnion({
+                id: uuid(),
+                text,
+                senderId: currentUser?.uid,
+                date: Timestamp.now(),
+                image: downloadURL,
+              }),
+            });
+          });
+        }
+      );
+    } else if (text) {
+      await updateDoc(doc(db, "chats", data?.chatID), {
+        messages: arrayUnion({
+          id: uuid(),
+          text,
+          senderId: currentUser?.uid,
+          date: Timestamp.now(),
+        }),
+      });
+    }
+    await updateDoc(doc(db, "userChats", currentUser!.uid), {
+      [data?.chatID + ".lastMessage"]: { text },
+      [data?.chatID + ".date"]: Timestamp.now(),
+    });
+    await updateDoc(doc(db, "userChats", data.user.uid), {
+      [data?.chatID + ".lastMessage"]: { text },
+      [data?.chatID + ".date"]: Timestamp.now(),
+    });
+    setText("");
+    setFile(undefined);
+    setImage(undefined);
+  };
+
   return (
-    <ChatFormContainer>
-      <Input type="text" placeholder="Type something..." />
+    <ChatFormContainer onSubmit={(e) => handleSend(e)}>
+      <Input
+        type="text"
+        placeholder="Type something..."
+        onChange={(e) => setText(e.target.value)}
+        value={text}
+      />
 
       <label htmlFor="sendFile">
-        <FileInput name="sendFile" type="file" />
+        <FileInput
+          name="sendFile"
+          type="file"
+          id="sendFile"
+          onChange={(e) => {
+            console.log(e.target.files);
+            setFile(e.target.files![0]);
+          }}
+        />
         <AttachFileIcon />
       </label>
 
       <label htmlFor="sendImg">
-        <FileInput name="sendImg" type="file" />
+        <FileInput
+          name="sendImg"
+          type="file"
+          id="sendImg"
+          onChange={(e) => {
+            console.log(e.target.files);
+            setImage(e.target.files![0]);
+          }}
+        />
         <AddPhotoAlternateIcon />
       </label>
-      <button>Send</button>
+      <button onClick={handleSend}>Send</button>
     </ChatFormContainer>
   );
 };
 
 export default ChatInput;
 
-const ChatFormContainer = styled.div`
+const ChatFormContainer = styled.form`
   width: 100%;
   position: relative;
   display: flex;

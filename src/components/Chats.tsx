@@ -2,34 +2,47 @@ import { doc, DocumentData, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import AuthContext from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
 import { Avatar } from "./Navbar";
 
+export type UserInfoType = {
+  displayName: string;
+  photoURL: string;
+  uid: string;
+};
+
 const Chats = () => {
   const { currentUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
   const [chats, setChats] = useState<DocumentData | undefined>(undefined);
 
   useEffect(() => {
-    if (!currentUser) return;
-    const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+    const unsub = onSnapshot(doc(db, "userChats", currentUser!.uid), (doc) => {
       setChats(doc.data());
     });
 
     return () => {
       unsub();
+      dispatch({ type: "CLEAR_STATE" });
     };
   }, [currentUser?.uid]);
+
+  const handleSelect = (userInfo: UserInfoType) => {
+    dispatch({ type: "CHANGE_USER", payload: userInfo });
+    dispatch({ type: "SHOW_STATE" });
+  };
 
   return (
     <ChatsContainer>
       {chats &&
         Object.entries(chats).map((chat) => (
-          <SChat key={chat[0]}>
+          <SChat key={chat[0]} onClick={() => handleSelect(chat[1].userInfo)}>
             <ChatAvatar src={chat[1].userInfo.photoURL} alt="friend" />
             <ChatDetails>
               <FriendsName>{chat[1].userInfo.displayName}</FriendsName>
               <LatestMessage>
-                {"siema gnoju jebanygrsda gioaoig  asdou".slice(0, 30)}...
+                {chat[1].userInfo.LastMessage?.text.slice(0, 20)}...
               </LatestMessage>
             </ChatDetails>
           </SChat>
