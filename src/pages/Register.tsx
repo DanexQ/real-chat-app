@@ -5,21 +5,7 @@ import { auth, db } from "../firebase";
 import { useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import defaultAvatar from "../defaultAvatar.png";
-
-interface registerFormType {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-const initialState: registerFormType = {
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
+import { initialStateType } from "../components/FormTemplate";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -68,14 +54,14 @@ const Register = () => {
     isDisabled: true,
   };
 
-  const handleSubmit = async <T,>(e: React.FormEvent, formData: T) => {
+  const handleSubmit = async (
+    e: React.FormEvent,
+    formData: initialStateType
+  ) => {
     e.preventDefault();
-    type Keys = Extract<keyof T, string>;
-    const name = "" + formData["name" as Keys];
-    const password = "" + formData["password" as Keys];
-    const email = "" + formData["email" as Keys];
-    const image = "" + defaultAvatar;
-    console.log(image);
+    const name = formData.name;
+    const password = formData.password;
+    const email = formData.email;
 
     try {
       const response = await createUserWithEmailAndPassword(
@@ -115,7 +101,6 @@ const Register = () => {
 
   return (
     <FormTemplate
-      initialState={initialState}
       handleSubmit={handleSubmit}
       {...registerDetails}
       error={err}

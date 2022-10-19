@@ -6,11 +6,11 @@ import { auth } from "../firebase";
 
 const Navbar = () => {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
+
   return (
     <NavbarContainer>
       <Logo>Chat app</Logo>
-      <Avatar src={currentUser?.photoURL || undefined} alt="imgdsa" />
+      <Avatar src={currentUser!.photoURL!} alt="imgdsa" />
       {/* TODO: CLICK AVATAR AND PROFILE MENU SHOWS UP */}
       <Name>{currentUser?.displayName}</Name>
       <LogoutButton

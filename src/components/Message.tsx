@@ -1,5 +1,5 @@
 import { Timestamp } from "firebase/firestore";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import AuthContext from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
@@ -16,22 +16,32 @@ type MessageType = {
 const Message = ({ message }: { message: MessageType }) => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
+  const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+
+  useEffect(() => {
+    ref.current!.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
   return (
     <>
-      {message.senderId === currentUser?.uid ? (
-        <MessageContainer owner={true}>
-          <Avatar src={currentUser.photoURL!} alt="you" />
-          <MessageContent>
-            {message.image && <Image src={message.image} alt="img" />}
-            {message.text && <MessageText>{message.text}</MessageText>}
-          </MessageContent>
-        </MessageContainer>
-      ) : (
-        <MessageContainer owner={false}>
-          <Avatar src={data.user.photoURL} alt="friend" />
-          <MessageText>{message.text}</MessageText>
-        </MessageContainer>
-      )}
+      <MessageContainer
+        ref={ref}
+        owner={message.senderId === currentUser?.uid ? true : false}
+      >
+        <Avatar
+          src={
+            message.senderId === currentUser?.uid
+              ? currentUser.photoURL!
+              : data.user.photoURL
+          }
+          alt="you"
+        />
+        <MessageContent
+          owner={message.senderId === currentUser?.uid ? true : false}
+        >
+          {message.image && <Image src={message.image} alt="img" />}
+          {message.text && <MessageText>{message.text}</MessageText>}
+        </MessageContent>
+      </MessageContainer>
     </>
   );
 };
@@ -41,7 +51,7 @@ export default Message;
 const MessageContainer = styled.div<{ owner: boolean }>`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   ${({ owner }) =>
     owner &&
     `flex-direction: row-reverse;
@@ -58,10 +68,11 @@ const MessageText = styled.span`
   max-width: 100%;
 `;
 
-const MessageContent = styled.div`
+const MessageContent = styled.div<{ owner: boolean }>`
   display: flex;
   flex-direction: column-reverse;
-  align-items: flex-end;
+  ${({ owner }) => owner && "align-items: flex-end;"}
+  align-items: flex-start;
   gap: 0.2rem;
 `;
 

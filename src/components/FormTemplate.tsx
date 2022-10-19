@@ -1,18 +1,29 @@
-import React, { useState, useCallback } from "react";
-import styled from "styled-components";
+import React, { useState, useCallback, useMemo } from "react";
 import { FormDetails } from "../interfaces";
 import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
 import react from "react";
+import * as Style from "./StyledFormTemplate";
+import { inputsProps } from "../interfaces";
 
-interface FormTemplateProps<T> extends FormDetails {
-  initialState: T;
-  handleSubmit: (e: React.FormEvent, data: T) => void;
+export type initialStateType = {
+  [x: string]: string;
+};
+
+interface FormTemplateProps extends FormDetails {
+  handleSubmit: (e: React.FormEvent, data: initialStateType) => void;
   error: boolean;
 }
 
-const FormTemplate = <T,>({
-  initialState,
+const createInitialState = (inputsArr: inputsProps[]) => {
+  const prevState: initialStateType = {};
+  inputsArr.map((prev) => {
+    prevState[prev.name] = "";
+  });
+  return prevState;
+};
+
+const FormTemplate = ({
   formType,
   inputs,
   reminder,
@@ -22,22 +33,24 @@ const FormTemplate = <T,>({
   handleSubmit,
   errorMessage,
   error,
-}: FormTemplateProps<T>) => {
-  const [formData, setFormData] = useState<T>(initialState);
-  // const isDisabled =
-  //   Object.values(formData).every((val) => val !== "") &&
-  //   formData.password === formData.confirmPassword;
+}: FormTemplateProps) => {
+  const initState = useMemo(() => createInitialState(inputs), [inputs]);
+  const [formData, setFormData] = useState(initState);
+
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
+  console.log(formData);
 
   return (
-    <StyledFormContainer onSubmit={(e) => handleSubmit(e, formData)}>
-      <FormLabelMain>Chat app</FormLabelMain>
-      <FormLabelSub>{formType}</FormLabelSub>
-      <InputsWrapper>
+    <Style.StyledFormContainer
+      onSubmit={(e: React.FormEvent) => handleSubmit(e, formData)}
+    >
+      <Style.FormLabelMain>Chat app</Style.FormLabelMain>
+      <Style.FormLabelSub>LOGIN</Style.FormLabelSub>
+      <Style.InputsWrapper>
         {inputs.map((input, index) => {
           const { pattern, ...inputDetail } = input;
           return (
@@ -45,7 +58,7 @@ const FormTemplate = <T,>({
               key={index}
               {...inputDetail}
               onChange={handleChange}
-              value={formData[input.name as keyof typeof formData] as string}
+              value={formData[input.name]}
               pattern={
                 input.name === "confirmPassword"
                   ? "" + formData["password" as keyof typeof formData]
@@ -54,87 +67,14 @@ const FormTemplate = <T,>({
             />
           );
         })}
-      </InputsWrapper>
-      {error && <Error>{errorMessage}</Error>}
-      <SubmitButton disabled={!isDisabled}>{formType}</SubmitButton>
-      <Reminder>
+      </Style.InputsWrapper>
+      {error && <Style.Error>{errorMessage}</Style.Error>}
+      <Style.SubmitButton disabled={!isDisabled}>{formType}</Style.SubmitButton>
+      <Style.Reminder>
         {reminder} <Link to={`/${linkTo}`}>{reminderAnchor}</Link>
-      </Reminder>
-    </StyledFormContainer>
+      </Style.Reminder>
+    </Style.StyledFormContainer>
   );
 };
 
 export default react.memo(FormTemplate);
-
-const StyledFormContainer = styled.form`
-  width: 50rem;
-  padding: 6rem;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-  border-radius: 1rem;
-  font-size: 2rem;
-`;
-
-const FormLabelMain = styled.h2`
-  font-size: 5rem;
-  color: #88cafc;
-  text-transform: uppercase;
-`;
-
-const FormLabelSub = styled.span`
-  text-transform: uppercase;
-`;
-
-const InputsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  width: 100%;
-`;
-
-const Error = styled.span`
-  color: red;
-  font-size: 1.5rem;
-`;
-
-const SubmitButton = styled.button`
-  width: 100%;
-  padding: 1rem 0;
-  letter-spacing: 1px;
-  font-size: 2.1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  border: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: #88cafc;
-  border-radius: 1rem;
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:disabled {
-    background-color: rgba(0, 0, 0, 0.2);
-    cursor: default;
-  }
-
-  &:not(:disabled) &:active {
-    transform: translateY(1px);
-  }
-`;
-
-const Reminder = styled.span`
-  font-size: 1.5rem;
-
-  > a {
-    color: #88cafc;
-    text-decoration: none;
-    font-weight: 700;
-  }
-`;

@@ -3,17 +3,8 @@ import { FormDetails } from "../interfaces";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-
-type loginFormType = {
-  email: string;
-  password: string;
-};
-
-const initialState: loginFormType = {
-  email: "",
-  password: "",
-};
+import { useState } from "react";
+import React from "react";
 
 const Login = () => {
   const [err, setErr] = useState(false);
@@ -58,13 +49,8 @@ const Login = () => {
   };
 
   return (
-    <FormTemplate
-      {...loginDetails}
-      initialState={initialState}
-      handleSubmit={handleSubmit}
-      error={err}
-    />
+    <FormTemplate {...loginDetails} handleSubmit={handleSubmit} error={err} />
   );
 };
 
-export default Login;
+export default React.memo(Login);
