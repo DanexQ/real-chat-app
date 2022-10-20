@@ -1,23 +1,23 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import { FormDetails } from "../interfaces";
 import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
-import react from "react";
 import * as Style from "./StyledFormTemplate";
 import { inputsProps } from "../interfaces";
+import Spinner from "./Spinner";
 
 export type initialStateType = {
   [x: string]: string;
 };
 
 interface FormTemplateProps extends FormDetails {
-  handleSubmit: (e: React.FormEvent, data: initialStateType) => void;
+  handleSubmitCallback: (data: initialStateType) => void;
   error: boolean;
 }
 
 const createInitialState = (inputsArr: inputsProps[]) => {
   const prevState: initialStateType = {};
-  inputsArr.map((prev) => {
+  inputsArr.forEach((prev) => {
     prevState[prev.name] = "";
   });
   return prevState;
@@ -29,23 +29,32 @@ const FormTemplate = ({
   reminder,
   reminderAnchor,
   linkTo,
-  isDisabled,
-  handleSubmit,
+  handleSubmitCallback,
   errorMessage,
   error,
 }: FormTemplateProps) => {
   const initState = useMemo(() => createInitialState(inputs), [inputs]);
   const [formData, setFormData] = useState(initState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
-  console.log(formData);
+
+  useEffect(() => {
+    error && setIsLoading(false);
+  }, [error]);
+
+  const handleSubmit = (e: React.FormEvent, formData: initialStateType) => {
+    e.preventDefault();
+    setIsLoading(true);
+    handleSubmitCallback(formData);
+  };
 
   return (
-    <Style.StyledFormContainer
+    <Style.FormContainer
       onSubmit={(e: React.FormEvent) => handleSubmit(e, formData)}
     >
       <Style.FormLabelMain>Chat app</Style.FormLabelMain>
@@ -61,7 +70,7 @@ const FormTemplate = ({
               value={formData[input.name]}
               pattern={
                 input.name === "confirmPassword"
-                  ? "" + formData["password" as keyof typeof formData]
+                  ? formData["password"]
                   : pattern
               }
             />
@@ -69,12 +78,15 @@ const FormTemplate = ({
         })}
       </Style.InputsWrapper>
       {error && <Style.Error>{errorMessage}</Style.Error>}
-      <Style.SubmitButton disabled={!isDisabled}>{formType}</Style.SubmitButton>
+      <Style.SubmitButton isLoading={isLoading}>
+        {formType}
+        <Spinner />
+      </Style.SubmitButton>
       <Style.Reminder>
         {reminder} <Link to={`/${linkTo}`}>{reminderAnchor}</Link>
       </Style.Reminder>
-    </Style.StyledFormContainer>
+    </Style.FormContainer>
   );
 };
 
-export default react.memo(FormTemplate);
+export default FormTemplate;

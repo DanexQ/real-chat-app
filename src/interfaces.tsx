@@ -14,5 +14,4 @@ export interface FormDetails {
   reminder: string;
   reminderAnchor: string;
   linkTo: string;
-  isDisabled: boolean;
 }

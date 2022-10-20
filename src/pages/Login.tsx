@@ -5,6 +5,7 @@ import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import React from "react";
+import { initialStateType } from "../components/FormTemplate";
 
 const Login = () => {
   const [err, setErr] = useState(false);
@@ -29,13 +30,12 @@ const Login = () => {
     reminder: "You do not have an account?",
     reminderAnchor: "Sign up",
     linkTo: "register",
-    isDisabled: true,
   };
 
-  const handleSubmit = async <T,>(e: React.FormEvent, formData: T) => {
-    e.preventDefault();
-    const email = String(formData["email" as keyof typeof formData]);
-    const password = String(formData["password" as keyof typeof formData]);
+  const handleSubmitCallback = async (formData: initialStateType) => {
+    const email = formData["email"];
+    const password = formData["password"];
+    setErr(false);
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -49,7 +49,11 @@ const Login = () => {
   };
 
   return (
-    <FormTemplate {...loginDetails} handleSubmit={handleSubmit} error={err} />
+    <FormTemplate
+      {...loginDetails}
+      handleSubmitCallback={handleSubmitCallback}
+      error={err}
+    />
   );
 };
 

@@ -1,6 +1,7 @@
+import react from "react";
 import styled from "styled-components";
 
-export const StyledFormContainer = styled.form`
+export const FormContainer = styled.form`
   width: 50rem;
   padding: 6rem;
   background-color: #fff;
@@ -33,12 +34,13 @@ export const InputsWrapper = styled.div`
   width: 100%;
 `;
 
-export const Error = styled.span`
+export const Error = react.memo(styled.span`
   color: red;
   font-size: 1.5rem;
-`;
+`);
 
-export const SubmitButton = styled.button`
+export const SubmitButton = react.memo(styled.button<{ isLoading: boolean }>`
+  position: relative;
   width: 100%;
   padding: 1rem 0;
   letter-spacing: 1px;
@@ -52,16 +54,30 @@ export const SubmitButton = styled.button`
   color: #fff;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  &:disabled {
-    background-color: rgba(0, 0, 0, 0.2);
-    cursor: default;
-  }
-
-  &:not(:disabled) &:active {
+  &:active {
     transform: translateY(1px);
   }
-`;
+
+  ${({ isLoading }) =>
+    isLoading &&
+    `
+    cursor: default;
+    color: #d0d0d0;
+    background-color: #d0d0d0;
+
+    &:active {
+      transform: translateY(1px);
+    }
+
+    > div > div{
+      display:block;
+    }
+`}
+`);
 
 export const Reminder = styled.span`
   font-size: 1.5rem;
@@ -70,5 +86,10 @@ export const Reminder = styled.span`
     color: #88cafc;
     text-decoration: none;
     font-weight: 700;
+    transition: all 0.2s;
+
+    &:hover {
+      color: #107dac;
+    }
   }
 `;

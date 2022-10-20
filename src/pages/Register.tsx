@@ -51,17 +51,13 @@ const Register = () => {
     reminder: "Have you got an account?",
     reminderAnchor: "Sign in",
     linkTo: "login",
-    isDisabled: true,
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent,
-    formData: initialStateType
-  ) => {
-    e.preventDefault();
+  const handleSubmitCallback = async (formData: initialStateType) => {
     const name = formData.name;
     const password = formData.password;
     const email = formData.email;
+    setErr(false);
 
     try {
       const response = await createUserWithEmailAndPassword(
@@ -101,7 +97,7 @@ const Register = () => {
 
   return (
     <FormTemplate
-      handleSubmit={handleSubmit}
+      handleSubmitCallback={handleSubmitCallback}
       {...registerDetails}
       error={err}
     />
