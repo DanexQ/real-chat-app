@@ -26,7 +26,8 @@ const Chats = () => {
       unsub();
       dispatch({ type: "CLEAR_STATE" });
     };
-  }, [currentUser?.uid]);
+    // eslint-disable-next-line
+  }, [currentUser]);
 
   const handleSelect = (userInfo: UserInfoType) => {
     dispatch({ type: "CHANGE_USER", payload: userInfo });
@@ -42,7 +43,9 @@ const Chats = () => {
             <ChatDetails>
               <FriendsName>{chat[1].userInfo.displayName}</FriendsName>
               <LatestMessage>
-                {chat[1].userInfo.LastMessage?.text.slice(0, 20)}...
+                {chat[1].lastMessage?.text.length < 20
+                  ? chat[1].lastMessage?.text
+                  : `${chat[1].lastMessage?.text.slice(0, 20)}...`}
               </LatestMessage>
             </ChatDetails>
           </SChat>

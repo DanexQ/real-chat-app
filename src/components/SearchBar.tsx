@@ -66,6 +66,7 @@ const SearchBar = () => {
           photoURL: user.photoURL,
         },
         [combinedID + ".date"]: serverTimestamp(),
+        [combinedID + ".lastMessage"]: { text: "" },
       });
 
       await updateDoc(doc(db, "userChats", user.uid), {
@@ -75,6 +76,9 @@ const SearchBar = () => {
           photoURL: currentUser.photoURL,
         },
         [combinedID + ".date"]: serverTimestamp(),
+        [combinedID + ".lastMessage"]: {
+          text: "",
+        },
       });
     }
     setUser(null);
@@ -106,7 +110,7 @@ export default SearchBar;
 const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #107dac;
+  background-color: #1e88e5;
   border-bottom: 1px solid #005073;
   cursor: pointer;
 `;

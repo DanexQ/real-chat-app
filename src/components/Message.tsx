@@ -1,12 +1,13 @@
-import { Timestamp } from "firebase/firestore";
+import { Timestamp as TimestampType } from "firebase/firestore";
 import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import AuthContext from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { Avatar } from "./Navbar";
+import Timestamp from "react-timestamp";
 
 type MessageType = {
-  date: Timestamp;
+  date: TimestampType;
   id: string;
   senderId: string;
   text?: string;
@@ -21,13 +22,14 @@ const Message = ({ message }: { message: MessageType }) => {
   useEffect(() => {
     ref.current!.scrollIntoView({ behavior: "smooth" });
   }, [message]);
+
   return (
     <>
       <MessageContainer
         ref={ref}
         owner={message.senderId === currentUser?.uid ? true : false}
       >
-        <Avatar
+        <MessageAvatar
           src={
             message.senderId === currentUser?.uid
               ? currentUser.photoURL!
@@ -41,6 +43,15 @@ const Message = ({ message }: { message: MessageType }) => {
           {message.image && <Image src={message.image} alt="img" />}
           {message.text && <MessageText>{message.text}</MessageText>}
         </MessageContent>
+        <MessageDate>
+          <Timestamp
+            relative
+            date={message.date.toDate()}
+            relativeTo={new Date()}
+            autoUpdate
+          />{" "}
+          ago
+        </MessageDate>
       </MessageContainer>
     </>
   );
@@ -52,12 +63,16 @@ const MessageContainer = styled.div<{ owner: boolean }>`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  align-items: center;
   ${({ owner }) =>
     owner &&
     `flex-direction: row-reverse;
   justify-content: flex-start;`}
-  align-items: flex-end;
   gap: 1rem;
+`;
+
+const MessageAvatar = styled(Avatar)`
+  align-self: flex-end;
 `;
 
 const MessageText = styled.span`
@@ -65,7 +80,9 @@ const MessageText = styled.span`
   background-color: rgba(0, 0, 0, 0.1);
   font-size: 1.6rem;
   border-radius: 1rem;
-  max-width: 100%;
+  hyphens: auto;
+  word-wrap: break-word;
+  width: 100%;
 `;
 
 const MessageContent = styled.div<{ owner: boolean }>`
@@ -74,9 +91,21 @@ const MessageContent = styled.div<{ owner: boolean }>`
   ${({ owner }) => owner && "align-items: flex-end;"}
   align-items: flex-start;
   gap: 0.2rem;
+  max-width: 70%;
+
+  &:hover {
+    ~ div {
+      display: block;
+    }
+  }
 `;
 
 const Image = styled.img`
   max-width: 20rem;
   max-height: 20rem;
+`;
+
+const MessageDate = styled.div`
+  display: none;
+  font-size: 1.2rem;
 `;

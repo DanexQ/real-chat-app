@@ -14,15 +14,17 @@ const ChatInput = () => {
   const [image, setImage] = useState<File | undefined>(undefined);
   const [file, setFile] = useState<File | undefined>(undefined);
 
+  console.log([file, image, text].some((val) => !!val));
+  const isDisabled = ![file, image, text].some((val) => !!val);
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (image) {
       const storageRef = ref(storage, uuid());
       const uploadTask = uploadBytesResumable(storageRef, image);
-      console.log("check");
 
       uploadTask.on(
         "state_changed",
@@ -95,13 +97,14 @@ const ChatInput = () => {
           type="file"
           id="sendImg"
           onChange={(e) => {
-            console.log(e.target.files);
             setImage(e.target.files![0]);
           }}
         />
         <AddPhotoAlternateIcon />
       </label>
-      <button onClick={handleSend}>Send</button>
+      <button onClick={handleSend} disabled={isDisabled}>
+        Send
+      </button>
     </ChatFormContainer>
   );
 };
@@ -116,6 +119,7 @@ const ChatFormContainer = styled.form`
   align-items: center;
   gap: 2rem;
   padding: 0 2rem;
+  background-color: #f0f0f0;
 
   label {
     color: #c5c5c5;
@@ -142,10 +146,10 @@ const ChatFormContainer = styled.form`
     border: none;
     color: white;
     font-weight: 500;
-    background-color: #a5a5a5;
     box-shadow: 0 2px 0.5rem rgba(0, 0, 0, 0.3);
     cursor: pointer;
     transition: all 0.2s;
+    background-color: #189ad3;
 
     &:hover {
       filter: brightness(90%);
@@ -155,6 +159,10 @@ const ChatFormContainer = styled.form`
       transform: translateY(1px);
       box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0);
     }
+
+    &:disabled {
+      background-color: #a5a5a5;
+    }
   }
 `;
 
@@ -163,6 +171,7 @@ const Input = styled.input`
   height: 80px;
   flex: 1;
   border: none;
+  background-color: inherit;
 
   &:focus {
     outline: none;
@@ -170,10 +179,6 @@ const Input = styled.input`
 
     ~ label {
       color: #189ad3;
-    }
-
-    ~ button {
-      background-color: #189ad3;
     }
   }
 `;

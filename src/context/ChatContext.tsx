@@ -44,6 +44,7 @@ export const ChatContextProvider = ({
   const chatReducer = (state: ChatContextState, action: ActionType) => {
     switch (action.type) {
       case "CHANGE_USER":
+        console.log(action.payload);
         return {
           user: action.payload,
           chatID:
@@ -57,6 +58,9 @@ export const ChatContextProvider = ({
       case "CLEAR_STATE":
         return {
           chatID: "null",
+          lastMessage: {
+            text: "",
+          },
           user: {
             displayName: "",
             photoURL: "",

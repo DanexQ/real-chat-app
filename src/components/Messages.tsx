@@ -42,6 +42,6 @@ const MessagesContainer = styled.div`
 const Siema = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  overflow: auto;
+  overflow-y: auto;
   height: calc(100% - 160px);
 `;

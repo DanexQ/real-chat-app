@@ -27,7 +27,7 @@ const Navbar = () => {
 export default Navbar;
 
 const NavbarContainer = styled.div`
-  background-color: #005073;
+  background-color: #1976d2;
   padding: 2rem;
   display: flex;
   align-items: center;

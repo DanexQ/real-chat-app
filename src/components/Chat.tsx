@@ -14,22 +14,39 @@ const Chat = () => {
 
   return (
     <ChatContainer>
-      <ChatDetails>
-        <ChatAvatar src={data.user.photoURL} alt="friend" />
-        <FriendsName>{data.user.displayName}</FriendsName>
-        <ChatOptions>
-          <CameraAltIcon />
-          <PersonAddIcon />
-          <MoreHorizIcon />
-        </ChatOptions>
-      </ChatDetails>
-      <Messages />
-      <ChatInput />
+      {data.chatID === "null" ? (
+        <NotChoosedChat>Start chatting with your friend!</NotChoosedChat>
+      ) : (
+        <>
+          <ChatDetails>
+            <ChatAvatar src={data.user.photoURL} alt="friend" />
+            <FriendsName>{data.user.displayName}</FriendsName>
+            <ChatOptions>
+              <CameraAltIcon />
+              <PersonAddIcon />
+              <MoreHorizIcon />
+            </ChatOptions>
+          </ChatDetails>
+          <Messages />
+          <ChatInput />
+        </>
+      )}
     </ChatContainer>
   );
 };
 
 export default Chat;
+
+const NotChoosedChat = styled.div`
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  font-size: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(30, 187, 215, 0.8);
+`;
 
 const ChatContainer = styled.div`
   background-color: #fff;
@@ -44,7 +61,7 @@ const ChatDetails = styled.div`
   height: 8rem;
   padding: 2rem;
   gap: 1rem;
-  background-color: #189ad3;
+  background-color: #42a5f5;
 `;
 
 const ChatAvatar = styled(Avatar)`
