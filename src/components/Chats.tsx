@@ -16,7 +16,7 @@ const Chats = () => {
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
   const [chats, setChats] = useState<DocumentData | undefined>(undefined);
-
+  console.log(chats);
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "userChats", currentUser!.uid), (doc) => {
       setChats(doc.data());
@@ -36,6 +36,9 @@ const Chats = () => {
 
   return (
     <ChatsContainer>
+      <ChatsCounter>
+        Your chats: {chats ? Object.keys(chats).length : "0"}
+      </ChatsCounter>
       {chats &&
         Object.entries(chats).map((chat) => (
           <SChat key={chat[0]} onClick={() => handleSelect(chat[1].userInfo)}>
@@ -56,20 +59,27 @@ const Chats = () => {
 
 export default Chats;
 
+const ChatsCounter = styled.span`
+  color: #4bb3fd;
+  font-size: 2rem;
+  font-weight: 600;
+`;
+
 const ChatsContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 2rem;
 `;
 
 const SChat = styled.div`
   display: flex;
   gap: 2rem;
-  background-color: #189ad3;
-  padding: 1rem;
+  background-color: #212529;
   cursor: pointer;
 
   &:hover {
-    filter: brightness(90%);
+    background-color: #343a40;
   }
 `;
 

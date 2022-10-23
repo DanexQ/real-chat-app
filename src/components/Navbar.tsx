@@ -27,12 +27,14 @@ const Navbar = () => {
 export default Navbar;
 
 const NavbarContainer = styled.div`
-  background-color: #1976d2;
+  background-color: #212529;
   padding: 2rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  height: 8rem;
+  height: 9rem;
+  border-radius: 2rem 0 0 0;
+  border-bottom: 1px solid #495057;
 `;
 
 export const Avatar = styled.img`
@@ -48,8 +50,8 @@ const Name = styled.span`
 `;
 
 const Logo = styled.span`
-  font-size: 2rem;
-  color: #fff;
+  font-size: 2.5rem;
+  color: #4bb3fd;
   margin-right: auto;
   font-weight: 600;
 `;

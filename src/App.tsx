@@ -48,5 +48,5 @@ const StyledApp = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: #bbdefb;
+  background-color: #495057;
 `;

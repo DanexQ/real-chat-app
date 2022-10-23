@@ -13,15 +13,14 @@ const ChatInput = () => {
   const [text, setText] = useState("");
   const [image, setImage] = useState<File | undefined>(undefined);
   const [file, setFile] = useState<File | undefined>(undefined);
-
-  console.log([file, image, text].some((val) => !!val));
-  const isDisabled = ![file, image, text].some((val) => !!val);
+  const isDisabled =
+    ![file, image, text].some((val) => !!val) ||
+    text.split("").every((letter) => letter === " ");
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (image) {
       const storageRef = ref(storage, uuid());
       const uploadTask = uploadBytesResumable(storageRef, image);
@@ -37,7 +36,7 @@ const ChatInput = () => {
             await updateDoc(doc(db, "chats", data?.chatID), {
               messages: arrayUnion({
                 id: uuid(),
-                text,
+                text: text.trim(),
                 senderId: currentUser?.uid,
                 date: Timestamp.now(),
                 image: downloadURL,
@@ -50,7 +49,7 @@ const ChatInput = () => {
       await updateDoc(doc(db, "chats", data?.chatID), {
         messages: arrayUnion({
           id: uuid(),
-          text,
+          text: text.trim(),
           senderId: currentUser?.uid,
           date: Timestamp.now(),
         }),
@@ -113,16 +112,18 @@ export default ChatInput;
 
 const ChatFormContainer = styled.form`
   width: 100%;
+  height: 9rem;
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 2rem;
   padding: 0 2rem;
-  background-color: #f0f0f0;
+  background-color: #212529;
+  color: white;
 
   label {
-    color: #c5c5c5;
+    color: #adb5bd;
 
     svg {
       font-size: 3rem !important;
@@ -144,7 +145,7 @@ const ChatFormContainer = styled.form`
     font-size: 1.5rem;
     padding: 0.5rem 1rem;
     border: none;
-    color: white;
+    color: #212529;
     font-weight: 500;
     box-shadow: 0 2px 0.5rem rgba(0, 0, 0, 0.3);
     cursor: pointer;
@@ -161,15 +162,18 @@ const ChatFormContainer = styled.form`
     }
 
     &:disabled {
-      background-color: #a5a5a5;
+      background-color: #adb5bd;
     }
   }
 `;
 
 const Input = styled.input`
   font-size: 2rem;
-  height: 80px;
+  height: auto;
+  width: 90%;
   flex: 1;
+  color: inherit;
+  word-break: break-word;
   border: none;
   background-color: inherit;
 

@@ -1,5 +1,5 @@
 import { doc, onSnapshot } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
@@ -43,5 +43,6 @@ const Siema = styled.div`
   display: flex;
   flex-direction: column-reverse;
   overflow-y: auto;
-  height: calc(100% - 160px);
+  background-color: #343a40;
+  height: calc(100% - 180px);
 `;

@@ -20,5 +20,4 @@ const HomePage = styled.div`
   grid-template-columns: repeat(6, minmax(10rem, 20rem));
   grid-template-rows: 80vh;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-  border-radius: 1rem;
 `;

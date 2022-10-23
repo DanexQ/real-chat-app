@@ -22,6 +22,10 @@ const SearchBar = () => {
   const [searchedName, setSearchedName] = useState("");
   const [user, setUser] = useState<DocumentData | null>(null);
 
+  const handleBlur = () => {
+    setUser(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(currentUser?.displayName !== searchedName)) return;
@@ -86,13 +90,14 @@ const SearchBar = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <SForm onSubmit={handleSubmit} onClick={handleBlur}>
       <SInput
         type="text"
         placeholder="Find someone..."
         onChange={(e) => setSearchedName(e.target.value)}
         value={searchedName}
       />
+      <SearchIcon></SearchIcon>
       <SearchContainer>
         {user && (
           <SingleResult onClick={handleSelect}>
@@ -101,18 +106,29 @@ const SearchBar = () => {
           </SingleResult>
         )}
       </SearchContainer>
-    </form>
+    </SForm>
   );
 };
 
 export default SearchBar;
 
+const SForm = styled.form`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 0.5rem;
+  width: 100%;
+  background-color: #212529;
+`;
+
 const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #1e88e5;
-  border-bottom: 1px solid #005073;
   cursor: pointer;
+  width: 100%;
 `;
 
 const SingleResult = styled.div`
@@ -120,12 +136,14 @@ const SingleResult = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  background-color: #1565c0;
+  border-radius: 2rem;
   gap: 1rem;
   padding: 1rem 2rem;
   background-color: inherit;
 
   &:hover {
-    filter: brightness(90%);
+    background-color: #343a40;
   }
 `;
 
@@ -133,19 +151,73 @@ const SInput = styled.input`
   padding: 1rem 2rem;
   font-size: 1.5rem;
   width: 100%;
+  align-self: flex-start;
   color: white;
-  background-color: #107dac;
+  background-color: #343a40;
   border: none;
-  transition: all 0.2s;
+  border-radius: 2rem;
+  transition: all 0.2s, filter 0.1s;
 
   &::placeholder {
-    color: white;
+    color: #adb5bd;
     font-weight: 400;
   }
 
+  &:active {
+    filter: brightness(90%);
+  }
+
   &:focus {
-    font-size: 1.7rem;
-    padding: 2rem 2rem;
     outline: none;
+  }
+`;
+
+const SearchIcon = styled.div`
+  position: absolute;
+  top: 2rem;
+  right: 3rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 10rem;
+  background-color: #6c757d;
+  transition: all 0.2s;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 10rem;
+    background-color: #343a40;
+    z-index: 10;
+  }
+
+  &::after {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    content: "";
+    background-color: #6c757d;
+    width: 0.4rem;
+    border-radius: 2rem;
+    transform: rotate(-35deg);
+    height: 1.5rem;
+    z-index: 9;
+  }
+
+  &:hover {
+    background-color: #495057;
+
+    &::after {
+      background-color: inherit;
+    }
+  }
+
+  &:active {
+    transform: translateY(1px);
   }
 `;

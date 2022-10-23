@@ -66,7 +66,8 @@ const MessageContainer = styled.div<{ owner: boolean }>`
   align-items: center;
   ${({ owner }) =>
     owner &&
-    `flex-direction: row-reverse;
+    `
+    flex-direction: row-reverse;
   justify-content: flex-start;`}
   gap: 1rem;
 `;
@@ -77,7 +78,7 @@ const MessageAvatar = styled(Avatar)`
 
 const MessageText = styled.span`
   padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: #adb5bd;
   font-size: 1.6rem;
   border-radius: 1rem;
   hyphens: auto;
@@ -88,7 +89,9 @@ const MessageText = styled.span`
 const MessageContent = styled.div<{ owner: boolean }>`
   display: flex;
   flex-direction: column-reverse;
-  ${({ owner }) => owner && "align-items: flex-end;"}
+
+  ${({ owner }) =>
+    owner && "align-items: flex-end; span{background-color: #00a6fb;}"}
   align-items: flex-start;
   gap: 0.2rem;
   max-width: 70%;
