@@ -1,40 +1,18 @@
 import styled from "styled-components";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import Error from "./pages/Error";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import SearchBar from "./components/SearchBar";
+import Sidebar from "./components/Sidebar";
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <StyledApp>
+      <Sidebar />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute passedFrom="home">
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <ProtectedRoute passedFrom="login">
-              <Login />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <ProtectedRoute passedFrom="register">
-              <Register />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<Error />} />
+        <Route path="/" element={<Home />}>
+          <Route path="search" element={<SearchBar />} />
+        </Route>
       </Routes>
     </StyledApp>
   );

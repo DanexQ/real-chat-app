@@ -17,7 +17,7 @@ const ProtectedRoute = ({
     isAuthorized === true &&
     (passedFrom === "login" || passedFrom === "register")
   )
-    return <Navigate to="/" replace />;
+    return <Navigate to="/chat" replace />;
 
   return <>{isAuthorized !== null && children}</>;
 };

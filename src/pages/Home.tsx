@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import Chat from "../components/Chat";
-import Sidebar from "../components/Sidebar";
+import Chats from "../components/Chats";
 
 const Home = () => {
   return (
     <HomePage>
-      <Sidebar />
+      <Chats />
       <Chat />
     </HomePage>
   );
@@ -14,10 +14,9 @@ const Home = () => {
 export default Home;
 
 const HomePage = styled.div`
-  max-width: 140rem;
-  height: 80vh;
-  display: grid;
-  grid-template-columns: repeat(6, minmax(10rem, 20rem));
-  grid-template-rows: 80vh;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 `;

@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { Avatar } from "./Navbar";
-import { FriendsName } from "./Chats";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -48,9 +46,10 @@ const NotChoosedChat = styled.div`
   background-color: #212529;
 `;
 
+const FriendsName = styled.span``;
+
 const ChatContainer = styled.div`
-  grid-column: 3/7;
-  grid-row: 1/2;
+  flex: 3;
 `;
 
 const ChatDetails = styled.div`
@@ -64,7 +63,7 @@ const ChatDetails = styled.div`
   background-color: #212529;
 `;
 
-const ChatAvatar = styled(Avatar)`
+const ChatAvatar = styled.img`
   width: 5rem;
   height: 5rem;
 `;

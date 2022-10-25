@@ -3,9 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthContextProvider } from "./context/AuthContext";
 import { ChatContextProvider } from "./context/ChatContext";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -16,7 +19,32 @@ root.render(
     <AuthContextProvider>
       <ChatContextProvider>
         <BrowserRouter>
-          <App />
+          <Routes>
+            <Route
+              path="/*"
+              element={
+                <ProtectedRoute passedFrom="home">
+                  <App />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <ProtectedRoute passedFrom="login">
+                  <Login />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <ProtectedRoute passedFrom="register">
+                  <Register />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
         </BrowserRouter>
       </ChatContextProvider>
     </AuthContextProvider>

@@ -16,7 +16,7 @@ const Chats = () => {
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
   const [chats, setChats] = useState<DocumentData | undefined>(undefined);
-  console.log(chats);
+
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "userChats", currentUser!.uid), (doc) => {
       setChats(doc.data());
@@ -31,7 +31,6 @@ const Chats = () => {
 
   const handleSelect = (userInfo: UserInfoType) => {
     dispatch({ type: "CHANGE_USER", payload: userInfo });
-    dispatch({ type: "SHOW_STATE" });
   };
 
   return (
@@ -68,8 +67,11 @@ const ChatsCounter = styled.span`
 const ChatsContainer = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: #fff;
+  height: 100vh;
   gap: 1rem;
   padding: 1rem 2rem;
+  flex: 1;
 `;
 
 const SChat = styled.div`
