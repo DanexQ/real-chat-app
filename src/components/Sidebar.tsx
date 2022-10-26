@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import ChatIcon from "@mui/icons-material/Chat";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
@@ -13,7 +13,7 @@ const Sidebar = () => {
       <SSidebarMenu>
         <li>
           <ActiveLink to="/" end>
-            <SChatIcon />
+            <SChatOutlinedIcon />
           </ActiveLink>
         </li>
         <li>
@@ -42,7 +42,7 @@ const SSidebarContainer = styled.nav`
   flex-direction: column;
   padding: 3rem 0;
   height: 100vh;
-  background-color: #3f84e5;
+  background-color: #34aa44;
   width: 10rem;
 `;
 
@@ -62,6 +62,7 @@ export const SSidebarAvatar = styled.img`
 const SSidebarLogo = styled.span`
   color: #fff;
   font-size: 2rem;
+  font-weight: 700;
 `;
 
 const SIcon = styled.svg`
@@ -69,7 +70,7 @@ const SIcon = styled.svg`
   padding: 1.3rem;
   border-radius: 0.5rem;
   color: #fff;
-  background: #3f84e5;
+  background-color: #34aa44;
   cursor: pointer;
   transition: filter 0.2s, scale 0.1s !important;
 
@@ -85,7 +86,7 @@ const SIcon = styled.svg`
 const ActiveLink = styled(NavLink)`
   &.active {
     svg {
-      background-color: #3268b3;
+      background-color: #21960f;
       &:hover {
         filter: brightness(100%);
       }
@@ -93,5 +94,5 @@ const ActiveLink = styled(NavLink)`
   }
 `;
 
-const SChatIcon = SIcon.withComponent(ChatIcon);
-const SPersonAddIcon = SIcon.withComponent(PersonAddIcon);
+const SChatOutlinedIcon = SIcon.withComponent(ChatOutlinedIcon);
+const SPersonAddIcon = SIcon.withComponent(PersonAddOutlinedIcon);

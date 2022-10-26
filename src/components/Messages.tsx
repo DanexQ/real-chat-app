@@ -43,6 +43,5 @@ const Siema = styled.div`
   display: flex;
   flex-direction: column-reverse;
   overflow-y: auto;
-  background-color: #343a40;
   height: calc(100% - 180px);
 `;

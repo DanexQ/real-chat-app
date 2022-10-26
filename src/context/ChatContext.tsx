@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer } from "react";
 import AuthContext from "./AuthContext";
-import { UserInfoType } from "../components/Chats";
+import { UserInfoType } from "../components/ChatPreview";
 
 type ChatContextState = {
   chatID: string;

@@ -14,7 +14,7 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import AuthContext from "../context/AuthContext";
 import { db } from "../firebase";
-import { FriendsName } from "./Chats";
+import { FriendsName } from "./ChatPreview";
 import { Avatar } from "./Navbar";
 
 const SearchBar = () => {

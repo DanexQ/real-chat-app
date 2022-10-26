@@ -18,7 +18,7 @@ const Chat = () => {
         <>
           <ChatDetails>
             <ChatAvatar src={data.user.photoURL} alt="friend" />
-            <FriendsName>{data.user.displayName}</FriendsName>
+            <span>{data.user.displayName}</span>
             <ChatOptions>
               <CameraAltIcon />
               <PersonAddIcon />
@@ -46,10 +46,8 @@ const NotChoosedChat = styled.div`
   background-color: #212529;
 `;
 
-const FriendsName = styled.span``;
-
 const ChatContainer = styled.div`
-  flex: 3;
+  flex: 3 1;
 `;
 
 const ChatDetails = styled.div`

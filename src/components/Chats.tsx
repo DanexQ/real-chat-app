@@ -4,19 +4,15 @@ import styled from "styled-components";
 import AuthContext from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
-import { Avatar } from "./Navbar";
-
-export type UserInfoType = {
-  displayName: string;
-  photoURL: string;
-  uid: string;
-};
+import SearchIcon from "@mui/icons-material/Search";
+import ChatsFilters from "./ChatsFilters";
+import ChatPreview from "./ChatPreview";
 
 const Chats = () => {
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
   const [chats, setChats] = useState<DocumentData | undefined>(undefined);
-
+  console.log(chats);
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "userChats", currentUser!.uid), (doc) => {
       setChats(doc.data());
@@ -29,86 +25,126 @@ const Chats = () => {
     // eslint-disable-next-line
   }, [currentUser]);
 
-  const handleSelect = (userInfo: UserInfoType) => {
-    dispatch({ type: "CHANGE_USER", payload: userInfo });
-  };
-
   return (
-    <ChatsContainer>
-      <ChatsCounter>
-        Your chats: {chats ? Object.keys(chats).length : "0"}
-      </ChatsCounter>
+    <SChatsContainer>
+      <form style={{ position: "relative" }}>
+        <SSearchInput placeholder="Search chat" />
+        <SSearchIcon />
+      </form>
+      <SChatsTitle>
+        <STitle>Chats</STitle>
+        <SChatsMenu>
+          <DotsMenuIcon />
+        </SChatsMenu>
+      </SChatsTitle>
+      <ChatsFilters />
       {chats &&
         Object.entries(chats).map((chat) => (
-          <SChat key={chat[0]} onClick={() => handleSelect(chat[1].userInfo)}>
-            <ChatAvatar src={chat[1].userInfo.photoURL} alt="friend" />
-            <ChatDetails>
-              <FriendsName>{chat[1].userInfo.displayName}</FriendsName>
-              <LatestMessage>
-                {chat[1].lastMessage?.text.length < 20
-                  ? chat[1].lastMessage?.text
-                  : `${chat[1].lastMessage?.text.slice(0, 20)}...`}
-              </LatestMessage>
-            </ChatDetails>
-          </SChat>
+          <ChatPreview key={chat[0]} {...chat[1]} />
         ))}
-    </ChatsContainer>
+    </SChatsContainer>
   );
 };
 
 export default Chats;
 
-const ChatsCounter = styled.span`
-  color: #4bb3fd;
-  font-size: 2rem;
-  font-weight: 600;
-`;
-
-const ChatsContainer = styled.div`
+const SChatsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: #f5f3f4;
   height: 100vh;
-  gap: 1rem;
-  padding: 1rem 2rem;
+  gap: 3rem;
+  padding: 3rem 2rem;
   flex: 1;
 `;
 
-const SChat = styled.div`
+const SChatsTitle = styled.div`
   display: flex;
-  gap: 2rem;
-  background-color: #212529;
-  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
+`;
 
-  &:hover {
-    background-color: #343a40;
+const STitle = styled.h2`
+  font-size: 2.7rem;
+  color: #34aa44;
+`;
+
+const SChatsMenu = styled.div`
+  cursor: pointer;
+  padding: 1rem;
+  transform: translateX(1rem);
+
+  &:active {
+    div {
+      scale: 0.92;
+    }
   }
 `;
 
-const ChatAvatar = styled(Avatar)`
-  width: 6rem;
-  height: 6rem;
+export const DotsMenuIcon = styled.div`
+  position: relative;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #34aa44;
+  border-radius: 20rem;
+
+  &::before,
+  &::after {
+    position: absolute;
+    left: 0;
+    content: "";
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    background-color: inherit;
+  }
+
+  &::before {
+    top: -7px;
+  }
+
+  &::after {
+    top: 7px;
+  }
+`;
+
+const SSearchInput = styled.input`
+  width: 100%;
+  font-size: 1.8rem;
+  padding: 1rem 4rem 1rem 2rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
-`;
-
-const ChatDetails = styled.div`
-  flex: 1;
-  display: flex;
-
-  justify-content: center;
-  flex-direction: column;
-`;
-
-export const FriendsName = styled.span`
-  color: white;
-  font-size: 2rem;
   font-weight: 500;
-  margin-right: auto;
+  border-radius: 5px;
+  color: rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+
+  &:focus {
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    color: rgba(0, 0, 0, 0.7);
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.7) !important;
+    }
+
+    + svg {
+      color: rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  &::placeholder {
+    transition: all 0.2s;
+    color: rgba(0, 0, 0, 0.3) !important;
+  }
 `;
 
-const LatestMessage = styled.div`
-  font-size: 1.5rem;
-  color: white;
-  justify-self: flex-start;
-  align-self: flex-start;
+const SSearchIcon = styled(SearchIcon)`
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  font-size: 2.5rem !important;
+  transform: translateY(-54%);
+  cursor: pointer;
+  transition: color 0.2s !important;
+  color: rgba(0, 0, 0, 0.3);
 `;
