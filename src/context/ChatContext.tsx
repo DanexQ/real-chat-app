@@ -44,7 +44,7 @@ export const ChatContextProvider = ({
   const chatReducer = (state: ChatContextState, action: ActionType) => {
     switch (action.type) {
       case "CHANGE_USER":
-        console.log(action.payload);
+        if (state.user.uid === action.payload.uid) return { ...state };
         return {
           user: action.payload,
           chatID:

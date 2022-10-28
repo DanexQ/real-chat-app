@@ -43,11 +43,13 @@ const NotChoosedChat = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #212529;
+  background-color: #f5f3f4;
 `;
 
 const ChatContainer = styled.div`
   flex: 3 1;
+  height: 100vh;
+  border-left: 1px solid #d3d3d3;
 `;
 
 const ChatDetails = styled.div`
@@ -55,10 +57,9 @@ const ChatDetails = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 2rem;
-  border-bottom: 1px solid #495057;
   gap: 1rem;
   height: 9rem;
-  background-color: #212529;
+  background-color: #f5f3f4;
 `;
 
 const ChatAvatar = styled.img`

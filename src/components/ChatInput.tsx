@@ -119,7 +119,7 @@ const ChatFormContainer = styled.form`
   align-items: center;
   gap: 2rem;
   padding: 0 2rem;
-  background-color: #212529;
+  background-color: #f5f3f4;
   color: white;
 
   label {

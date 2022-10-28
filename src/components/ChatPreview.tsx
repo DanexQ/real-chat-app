@@ -14,23 +14,35 @@ interface ChatPreviewProps {
   date: Timestamp;
   lastMessage: { text: string };
   userInfo: UserInfoType;
+  isActive: boolean;
 }
 
-const ChatPreview = ({ date, lastMessage, userInfo }: ChatPreviewProps) => {
-  const { dispatch } = useContext(ChatContext);
+const ChatPreview = ({
+  date,
+  lastMessage,
+  userInfo,
+  isActive,
+}: ChatPreviewProps) => {
+  const { dispatch, data } = useContext(ChatContext);
 
-  const handleSelect = (userInfo: UserInfoType) => {
+  const handleSelect = () => {
+    if (data.user.uid === userInfo.uid) return;
     dispatch({ type: "CHANGE_USER", payload: userInfo });
   };
+
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+  };
+
   return (
-    <SChat onClick={() => handleSelect(userInfo)}>
+    <SChat onClick={handleSelect} isActive={isActive}>
       <ChatAvatar src={userInfo.photoURL} alt="friend" />
       <SPreviewContainer>
         <ChatsDetails>
           <FriendsName>{userInfo.displayName}</FriendsName>
           <Dot></Dot>
           <LastMessageDate>3:30 PM</LastMessageDate>
-          <SChatsMenu>
+          <SChatsMenu onClick={handleClick}>
             <DotsMenuIcon />
           </SChatsMenu>
         </ChatsDetails>
@@ -46,17 +58,72 @@ const ChatPreview = ({ date, lastMessage, userInfo }: ChatPreviewProps) => {
 
 export default ChatPreview;
 
-const SChat = styled.div`
+const SChatsMenu = styled.div`
+  cursor: pointer;
+  padding: 1rem;
+  position: relative;
+  z-index: 20;
+
+  &:active {
+    div {
+      scale: 0.9;
+    }
+  }
+`;
+
+const SChat = styled.div<{ isActive: boolean }>`
+  position: relative;
+  z-index: 10;
   display: flex;
-  padding: 2rem;
-  background-color: #34aa44;
-  color: white;
+  padding: 2rem 2rem 2rem 1rem;
+  background-color: #fff;
+  color: #bbb;
   gap: 1rem;
   border-radius: 1rem;
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.2rem 0.5rem #d9d9d9;
+  backface-visibility: hidden;
+  transition: all 0.2s;
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 0rem 0rem #d9d9d9;
+  }
+
+  &:has(${SChatsMenu}:active) {
+    transform: translateY(0);
+    box-shadow: 0 0.2rem 0.5rem #d9d9d9;
+  }
+
+  ${({ isActive }) =>
+    isActive &&
+    `background-color: #34aa44;
+     color: #fff; 
+     border: 1px solid #34aa44;
+     box-shadow: 0 0.2rem 0.5rem rgba(52, 170, 68, .5);
+
+     &:active {
+      transform: translateY(2px);
+      box-shadow: 0 0rem 0rem rgba(52, 170, 68, .5);
+    }
+
+    ${FriendsName}{
+      color: #fff;
+    }
+    ${Dot}{
+      background-color: #fff;
+    }
+    ${LastMessage}{
+      border-top: 1px solid rgba(255,255,255,.5);
+    }
+    ${DotsMenuIcon}{
+      background-color: #fff;
+    }
+    `}
 
   &:hover {
-    background-color: #343a40;
+    filter: brightness(95%);
   }
 `;
 
@@ -69,6 +136,8 @@ const LastMessageDate = styled.span`
 const ChatAvatar = styled(Avatar)`
   width: 3rem;
   height: 3rem;
+  align-self: flex-start;
+  transform: translateY(-0.4rem);
   border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
@@ -83,13 +152,13 @@ const ChatsDetails = styled.div`
 const Dot = styled.div`
   width: 0.7rem;
   aspect-ratio: 1/1;
-  background-color: white;
+  background-color: #bbb;
   border-radius: 2rem;
 `;
 
 const SPreviewContainer = styled.div`
   flex: 1;
-  gap: 1rem;
+  gap: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -98,34 +167,23 @@ const SPreviewContainer = styled.div`
 
 export const FriendsName = styled.span`
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 700;
+  color: #34aa44;
   letter-spacing: 0.5px;
 `;
 
-const LastMessage = styled.div`
+const LastMessage = styled.span`
   font-size: 1.6rem;
   width: 100%;
-  font-weight: 300;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
-`;
-
-const SChatsMenu = styled.div`
-  cursor: pointer;
-  padding: 1rem;
-
-  &:active {
-    div {
-      scale: 0.92;
-    }
-  }
+  border-top: 2px solid #eee;
 `;
 
 export const DotsMenuIcon = styled.div`
   position: relative;
   width: 0.5rem;
   height: 0.5rem;
-  background-color: #fff;
+  background-color: #bbb;
   border-radius: 20rem;
 
   &::before,

@@ -10,9 +10,9 @@ import ChatPreview from "./ChatPreview";
 
 const Chats = () => {
   const { currentUser } = useContext(AuthContext);
-  const { dispatch } = useContext(ChatContext);
+  const { dispatch, data } = useContext(ChatContext);
   const [chats, setChats] = useState<DocumentData | undefined>(undefined);
-  console.log(chats);
+
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "userChats", currentUser!.uid), (doc) => {
       setChats(doc.data());
@@ -40,7 +40,11 @@ const Chats = () => {
       <ChatsFilters />
       {chats &&
         Object.entries(chats).map((chat) => (
-          <ChatPreview key={chat[0]} {...chat[1]} />
+          <ChatPreview
+            key={chat[0]}
+            {...chat[1]}
+            isActive={chat[0] === data.chatID}
+          />
         ))}
     </SChatsContainer>
   );
@@ -55,7 +59,8 @@ const SChatsContainer = styled.div`
   height: 100vh;
   gap: 3rem;
   padding: 3rem 2rem;
-  flex: 1;
+  min-width: 30rem;
+  flex: 0.9;
 `;
 
 const SChatsTitle = styled.div`
