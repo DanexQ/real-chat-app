@@ -1,8 +1,8 @@
 import { Timestamp } from "firebase/firestore";
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { ChatContext } from "../context/ChatContext";
-import { Avatar } from "./Navbar";
+import { ChatContext } from "../../context/ChatContext";
+import { Avatar } from "../../styles/Avatar";
 
 export type UserInfoType = {
   displayName: string;

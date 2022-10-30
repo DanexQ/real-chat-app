@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
-import { FormDetails } from "../interfaces";
+import { FormDetails } from "../../interfaces";
 import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
 import * as Style from "./StyledFormTemplate";
-import { inputsProps } from "../interfaces";
-import Spinner from "./Spinner";
+import { inputsProps } from "../../interfaces";
+import Spinner from "../Spinner";
 
 export type initialStateType = {
   [x: string]: string;

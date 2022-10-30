@@ -1,11 +1,11 @@
-import FormTemplate from "../components/FormTemplate";
+import FormTemplate from "../components/form/FormTemplate";
 import { FormDetails } from "../interfaces";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { initialStateType } from "../components/FormTemplate";
+import { initialStateType } from "../components/form/FormTemplate";
 
 const Register = () => {
   const navigate = useNavigate();

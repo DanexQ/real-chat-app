@@ -1,9 +1,9 @@
 import { doc, DocumentData, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import AuthContext from "../context/AuthContext";
-import { ChatContext } from "../context/ChatContext";
-import { db } from "../firebase";
+import AuthContext from "../../context/AuthContext";
+import { ChatContext } from "../../context/ChatContext";
+import { db } from "../../firebase";
 import SearchIcon from "@mui/icons-material/Search";
 import ChatsFilters from "./ChatsFilters";
 import ChatPreview from "./ChatPreview";

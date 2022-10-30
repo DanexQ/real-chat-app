@@ -2,10 +2,10 @@ import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import AuthContext from "../context/AuthContext";
-import { ChatContext } from "../context/ChatContext";
+import AuthContext from "../../context/AuthContext";
+import { ChatContext } from "../../context/ChatContext";
 import { arrayUnion, doc, Timestamp, updateDoc } from "firebase/firestore";
-import { db, storage } from "../firebase";
+import { db, storage } from "../../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 

@@ -14,8 +14,8 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import AuthContext from "../context/AuthContext";
 import { db } from "../firebase";
-import { FriendsName } from "./ChatPreview";
-import { Avatar } from "./Navbar";
+import { FriendsName } from "../pages/Chat/ChatPreview";
+import { Avatar } from "../styles/Avatar";
 
 const SearchBar = () => {
   const { currentUser } = useContext(AuthContext);

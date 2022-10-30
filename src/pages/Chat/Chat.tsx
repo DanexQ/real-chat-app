@@ -5,7 +5,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Messages from "./Messages";
 import ChatInput from "./ChatInput";
 import { useContext } from "react";
-import { ChatContext } from "../context/ChatContext";
+import { ChatContext } from "../../context/ChatContext";
 
 const Chat = () => {
   const { data } = useContext(ChatContext);

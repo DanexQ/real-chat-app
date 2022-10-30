@@ -1,9 +1,9 @@
 import { Timestamp as TimestampType } from "firebase/firestore";
 import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
-import AuthContext from "../context/AuthContext";
-import { ChatContext } from "../context/ChatContext";
-import { Avatar } from "./Navbar";
+import AuthContext from "../../context/AuthContext";
+import { ChatContext } from "../../context/ChatContext";
+import { Avatar } from "../../styles/Avatar";
 import Timestamp from "react-timestamp";
 
 type MessageType = {

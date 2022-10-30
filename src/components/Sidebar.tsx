@@ -4,6 +4,8 @@ import AuthContext from "../context/AuthContext";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import { NavLink } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Sidebar = () => {
   const { currentUser } = useContext(AuthContext);
@@ -27,7 +29,13 @@ const Sidebar = () => {
           </ActiveLink>
         </li>
       </SSidebarMenu>
-      <SSidebarAvatar src={currentUser!.photoURL!} alt="imgdsa" />
+      <SSidebarAvatar
+        src={currentUser!.photoURL!}
+        alt="imgdsa"
+        onClick={() => {
+          signOut(auth);
+        }}
+      />
       {/* TODO: CLICK AVATAR AND PROFILE MENU SHOWS UP */}
     </SSidebarContainer>
   );

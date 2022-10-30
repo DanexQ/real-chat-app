@@ -1,4 +1,4 @@
-import { inputsProps } from "../interfaces";
+import { inputsProps } from "../../interfaces";
 import styled, { keyframes } from "styled-components";
 import react, { useState } from "react";
 

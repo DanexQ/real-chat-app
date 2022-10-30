@@ -1,16 +1,15 @@
 import styled from "styled-components";
-import { Navigate, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
+import { Route, Routes } from "react-router-dom";
+import ChatIndex from "./pages/Chat/ChatIndex";
 import SearchBar from "./components/SearchBar";
 import Sidebar from "./components/Sidebar";
-import Layout from "./components/Layout";
 
 function App() {
   return (
     <StyledApp>
       <Sidebar />
       <Routes>
-        <Route path="/" element={<Home />}>
+        <Route path="/" element={<ChatIndex />}>
           <Route path="search" element={<SearchBar />} />
         </Route>
       </Routes>

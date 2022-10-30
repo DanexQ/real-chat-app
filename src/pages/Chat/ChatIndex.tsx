@@ -1,19 +1,19 @@
 import styled from "styled-components";
-import Chat from "../components/Chat";
-import Chats from "../components/Chats";
+import Chat from "./Chat";
+import Chats from "./Chats";
 
-const Home = () => {
+const ChatMain = () => {
   return (
-    <HomePage>
+    <SChatMain>
       <Chats />
       <Chat />
-    </HomePage>
+    </SChatMain>
   );
 };
 
-export default Home;
+export default ChatMain;
 
-const HomePage = styled.div`
+const SChatMain = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
