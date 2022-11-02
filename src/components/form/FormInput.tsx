@@ -81,7 +81,8 @@ const HintMessage = styled.span`
   border-radius: 1rem;
   font-size: 1.2rem;
   width: 20rem;
-  background-color: #88cafc;
+  background-color: #34aa44;
+  color: #fff;
   overflow: hidden;
   visibility: hidden;
   opacity: 0;
@@ -107,7 +108,7 @@ const HintIcon = styled.div`
   width: 3rem;
   height: 3rem;
   border-radius: 100rem;
-  border: 3px solid #88cafc;
+  border: 3px solid #34aa44;
   background-color: #fff;
 
   &::after {
@@ -115,7 +116,7 @@ const HintIcon = styled.div`
     font-size: 1.6rem;
     font-weight: 700;
     position: absolute;
-    color: #88cafc;
+    color: #34aa44;
     top: 0;
     left: 40%;
   }

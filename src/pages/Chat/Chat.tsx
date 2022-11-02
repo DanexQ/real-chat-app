@@ -36,7 +36,7 @@ export default Chat;
 const NotChoosedChat = styled.div`
   width: 100%;
   height: 100%;
-  color: #4bb3fd;
+  color: #34aa44;
   font-size: 5rem;
   display: flex;
   justify-content: center;

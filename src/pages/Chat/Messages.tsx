@@ -44,7 +44,7 @@ const SMessagesContainer = styled.div`
   flex-direction: column-reverse;
   overflow-y: auto;
   background-color: #f5f3f4;
-  height: calc(100% - 21rem);
+  height: calc(100% - 18rem);
   border-top: 1px solid #d3d3d3;
   border-bottom: 1px solid #d3d3d3;
 `;

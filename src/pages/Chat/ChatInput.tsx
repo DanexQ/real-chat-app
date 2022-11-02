@@ -69,13 +69,17 @@ const ChatInput = () => {
     setImage(undefined);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+    console.log(e.target.value);
+  };
+
   return (
     <ChatFormContainer onSubmit={(e) => handleSend(e)}>
       <Input
         placeholder="Type a message here..."
-        onChange={(e) => setText(e.target.value)}
+        onChange={handleChange}
         value={text}
-        wrap="soft"
       />
 
       <label htmlFor="sendFile">
@@ -102,9 +106,9 @@ const ChatInput = () => {
         />
         <AddPhotoAlternateIcon />
       </label>
-      <button onClick={handleSend} disabled={isDisabled}>
+      <SButton onClick={handleSend} disabled={isDisabled}>
         Send
-      </button>
+      </SButton>
     </ChatFormContainer>
   );
 };
@@ -113,7 +117,7 @@ export default ChatInput;
 
 const ChatFormContainer = styled.form`
   width: 100%;
-  height: 12rem;
+  height: 9rem;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -141,49 +145,26 @@ const ChatFormContainer = styled.form`
       }
     }
   }
-
-  button {
-    font-size: 1.5rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    color: #212529;
-    font-weight: 500;
-    box-shadow: 0 2px 0.5rem rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    transition: all 0.2s;
-    background-color: #189ad3;
-
-    &:hover {
-      filter: brightness(90%);
-    }
-
-    &:active {
-      transform: translateY(1px);
-      box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0);
-    }
-
-    &:disabled {
-      background-color: #adb5bd;
-    }
-  }
 `;
 
-const Input = styled.textarea`
-  font-size: 1.6rem;
+const Input = styled.input`
+  font-size: 2rem;
   flex: 1;
   height: 90%;
   word-wrap: break-word;
   word-break: break-all;
   border: none;
+  color: black;
   background-color: inherit;
   resize: none;
+  vertical-align: middle;
 
   &:focus {
     outline: none;
     border: none;
 
     ~ label {
-      color: #189ad3;
+      color: #34aa44;
     }
   }
 `;
@@ -194,5 +175,37 @@ const FileInput = styled.input`
   visibility: hidden;
   &::-webkit-file-upload-button {
     visibility: hidden;
+  }
+`;
+
+const SButton = styled.button`
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  border: none;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 400;
+  border-radius: 1rem;
+  box-shadow: 0 2px 0.5rem rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: #34aa44;
+
+  &:hover {
+    filter: brightness(90%);
+  }
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0);
+  }
+
+  &:disabled {
+    background-color: #adb5bd;
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 0.5rem rgba(0, 0, 0, 0.3);
+    }
   }
 `;

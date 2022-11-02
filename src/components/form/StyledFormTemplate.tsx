@@ -17,7 +17,7 @@ export const FormContainer = styled.form`
 
 export const FormLabelMain = styled.h2`
   font-size: 5rem;
-  color: #88cafc;
+  color: #34aa44;
   text-transform: uppercase;
 `;
 
@@ -49,7 +49,7 @@ export const SubmitButton = react.memo(styled.button<{ isLoading: boolean }>`
   text-transform: uppercase;
   border: none;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: #88cafc;
+  background-color: #34aa44;
   border-radius: 1rem;
   color: #fff;
   cursor: pointer;
@@ -83,7 +83,7 @@ export const Reminder = styled.span`
   font-size: 1.5rem;
 
   > a {
-    color: #88cafc;
+    color: #34aa44;
     text-decoration: none;
     font-weight: 700;
     transition: all 0.2s;

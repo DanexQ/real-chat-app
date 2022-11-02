@@ -49,7 +49,7 @@ const ChatPreview = ({
         <LastMessage>
           {lastMessage?.text.length < 78
             ? lastMessage?.text
-            : `${lastMessage?.text.slice(0, 78)}...`}
+            : `${lastMessage?.text.slice(0, 70)}...`}
         </LastMessage>
       </SPreviewContainer>
     </SChat>
@@ -178,6 +178,8 @@ const LastMessage = styled.span`
   width: 100%;
   padding-top: 1rem;
   border-top: 2px solid #eee;
+  word-wrap: break-word;
+  word-break: break-word;
 `;
 
 export const DotsMenuIcon = styled.div`

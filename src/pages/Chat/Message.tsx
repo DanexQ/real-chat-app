@@ -26,8 +26,6 @@ const Message = ({ message }: { message: MessageType }) => {
     ref.current!.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
-  console.log(message);
-
   return (
     <SContainer ref={ref} isOwner>
       <SAvatar
@@ -105,6 +103,7 @@ const SText = styled.span`
   border-radius: 1rem;
   hyphens: auto;
   word-wrap: break-word;
+  word-break: break-word;
   padding: 1.5rem;
 `;
 
