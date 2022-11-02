@@ -5,6 +5,7 @@ import AuthContext from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { Avatar } from "../../styles/Avatar";
 import Timestamp from "react-timestamp";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 type MessageType = {
   date: TimestampType;
@@ -12,95 +13,111 @@ type MessageType = {
   senderId: string;
   text?: string;
   image?: string;
+  senderName?: string;
 };
 
 const Message = ({ message }: { message: MessageType }) => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const isOwner = message.senderId === currentUser?.uid ? true : false;
 
   useEffect(() => {
     ref.current!.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
+  console.log(message);
+
   return (
-    <>
-      <MessageContainer
-        ref={ref}
-        owner={message.senderId === currentUser?.uid ? true : false}
-      >
-        <MessageAvatar
-          src={
-            message.senderId === currentUser?.uid
-              ? currentUser.photoURL!
-              : data.user.photoURL
-          }
-          alt="you"
-        />
-        <MessageContent
-          owner={message.senderId === currentUser?.uid ? true : false}
-        >
-          {message.image && <Image src={message.image} alt="img" />}
-          {message.text && <MessageText>{message.text}</MessageText>}
-        </MessageContent>
-        <MessageDate>
-          <Timestamp
-            relative
-            date={message.date.toDate()}
-            relativeTo={new Date()}
-            autoUpdate
-          />{" "}
-          ago
-        </MessageDate>
-      </MessageContainer>
-    </>
+    <SContainer ref={ref} isOwner>
+      <SAvatar
+        src={
+          message.senderId === currentUser?.uid
+            ? currentUser.photoURL!
+            : data.user.photoURL
+        }
+        alt="you"
+      />
+      <SMessageLayout isOwner>
+        <SDetails>
+          <SSender>{message.senderName}</SSender>
+          <SDate>
+            <Timestamp
+              relative
+              date={message.date.toDate()}
+              relativeTo={new Date()}
+              autoUpdate
+            />{" "}
+            ago
+          </SDate>
+        </SDetails>
+        <SContentLayout>
+          <SMoreHorizIcon />
+          <SContent>
+            {!!message.image && <Image src={message.image} alt="img" />}
+            {!!message.text && <SText>{message.text}</SText>}
+          </SContent>
+        </SContentLayout>
+      </SMessageLayout>
+    </SContainer>
   );
 };
 
 export default Message;
 
-const MessageContainer = styled.div<{ owner: boolean }>`
+const SAvatar = styled(Avatar)`
+  align-self: flex-start;
+`;
+
+const SMessageLayout = styled.div<{ isOwner: boolean }>`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  ${({ owner }) =>
-    owner &&
-    `
-    flex-direction: row-reverse;
-  justify-content: flex-start;`}
+  flex-direction: column;
+  align-items: flex-end;
   gap: 1rem;
 `;
 
-const MessageAvatar = styled(Avatar)`
-  align-self: flex-end;
+const SDetails = styled.span`
+  display: flex;
+  width: 100%;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0 0 0;
 `;
 
-const MessageText = styled.span`
+const SSender = styled.span`
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #606060;
+`;
+
+const SDate = styled.div`
+  display: none;
+  align-self: center;
+  font-size: 1rem;
+  color: #b0b0b0;
+`;
+
+const SText = styled.span`
   padding: 1rem;
-  background-color: #adb5bd;
-  font-size: 1.6rem;
+  background-color: #e0e0e0;
+  font-size: 1.5rem;
   border-radius: 1rem;
   hyphens: auto;
   word-wrap: break-word;
-  width: 100%;
+  padding: 1.5rem;
 `;
 
-const MessageContent = styled.div<{ owner: boolean }>`
+const SContentLayout = styled.div`
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: row;
+  gap: 2rem;
+`;
 
-  ${({ owner }) =>
-    owner && "align-items: flex-end; span{background-color: #00a6fb;}"}
-  align-items: flex-start;
-  gap: 0.2rem;
-  max-width: 70%;
-
-  &:hover {
-    ~ div {
-      display: block;
-    }
-  }
+const SContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
 `;
 
 const Image = styled.img`
@@ -108,7 +125,54 @@ const Image = styled.img`
   max-height: 20rem;
 `;
 
-const MessageDate = styled.div`
-  display: none;
-  font-size: 1.2rem;
+const SMoreHorizIcon = styled(MoreHorizIcon)`
+  visibility: hidden;
+  font-size: 3rem !important;
+  align-self: center;
+  color: #bfbfbf;
+  cursor: pointer;
+  transition: color 0.2s !important;
+
+  &:hover {
+    color: #34aa44;
+  }
+
+  &:active {
+    scale: 0.95;
+  }
+`;
+
+const SContainer = styled.div<{ isOwner: boolean }>`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 70%;
+  margin: 0 auto 0 0;
+
+  ${({ isOwner }) =>
+    isOwner &&
+    `
+    margin: 0 0 0 auto;
+      flex-direction: row-reverse;
+      justify-content: flex-start;
+
+
+      ${SText}{
+        background-color: #34aa44;
+        color: #fff;
+      }
+
+  `}
+
+  &:hover {
+    ${SDate} {
+      display: block !important;
+    }
+    ${SMoreHorizIcon} {
+      visibility: visible;
+    }
+  }
+
+  gap: 1rem;
 `;

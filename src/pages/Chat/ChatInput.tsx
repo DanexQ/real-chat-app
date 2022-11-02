@@ -51,6 +51,7 @@ const ChatInput = () => {
           id: uuid(),
           text: text.trim(),
           senderId: currentUser?.uid,
+          senderName: currentUser?.displayName,
           date: Timestamp.now(),
         }),
       });
@@ -71,10 +72,10 @@ const ChatInput = () => {
   return (
     <ChatFormContainer onSubmit={(e) => handleSend(e)}>
       <Input
-        type="text"
-        placeholder="Type something..."
+        placeholder="Type a message here..."
         onChange={(e) => setText(e.target.value)}
         value={text}
+        wrap="soft"
       />
 
       <label htmlFor="sendFile">
@@ -112,13 +113,13 @@ export default ChatInput;
 
 const ChatFormContainer = styled.form`
   width: 100%;
-  height: 9rem;
+  height: 12rem;
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 2rem;
-  padding: 0 2rem;
+  padding: 1.25rem 2rem;
   background-color: #f5f3f4;
   color: white;
 
@@ -167,15 +168,15 @@ const ChatFormContainer = styled.form`
   }
 `;
 
-const Input = styled.input`
-  font-size: 2rem;
-  height: auto;
-  width: 90%;
+const Input = styled.textarea`
+  font-size: 1.6rem;
   flex: 1;
-  color: inherit;
-  word-break: break-word;
+  height: 90%;
+  word-wrap: break-word;
+  word-break: break-all;
   border: none;
   background-color: inherit;
+  resize: none;
 
   &:focus {
     outline: none;

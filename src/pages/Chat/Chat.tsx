@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Messages from "./Messages";
 import ChatInput from "./ChatInput";
 import { useContext } from "react";
@@ -18,10 +17,9 @@ const Chat = () => {
         <>
           <ChatDetails>
             <ChatAvatar src={data.user.photoURL} alt="friend" />
-            <span>{data.user.displayName}</span>
+            <SDisplayName>{data.user.displayName}</SDisplayName>
             <ChatOptions>
-              <CameraAltIcon />
-              <PersonAddIcon />
+              <CameraAltOutlinedIcon />
               <MoreHorizIcon />
             </ChatOptions>
           </ChatDetails>
@@ -56,31 +54,42 @@ const ChatDetails = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 2rem;
+  padding: 0 4rem;
   gap: 1rem;
   height: 9rem;
   background-color: #f5f3f4;
+
+  // #f5f3f4;
 `;
 
 const ChatAvatar = styled.img`
-  width: 5rem;
-  height: 5rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 2rem;
+`;
+
+const SDisplayName = styled.span`
+  color: #34aa44;
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-right: auto;
 `;
 
 const ChatOptions = styled.div`
   display: flex;
   gap: 1rem;
   justify-content: center;
-  align-items: center;
+  backface-visibility: hidden;
 
   svg {
-    font-size: 3rem !important;
-    color: white;
+    font-size: 3.5rem !important;
+    color: rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: color 0.2s;
+    backface-visibility: hidden;
 
     &:hover {
-      color: #005073;
+      color: #34aa44;
     }
 
     &:active {

@@ -98,14 +98,15 @@ const SChat = styled.div<{ isActive: boolean }>`
 
   ${({ isActive }) =>
     isActive &&
-    `background-color: #34aa44;
+    `
+     background-color: #34aa44;
      color: #fff; 
      border: 1px solid #34aa44;
-     box-shadow: 0 0.2rem 0.5rem rgba(52, 170, 68, .5);
+     transform: translateY(0);
+     box-shadow: 0 0 0 #d9d9d9;
 
-     &:active {
-      transform: translateY(2px);
-      box-shadow: 0 0rem 0rem rgba(52, 170, 68, .5);
+     &:has(${SChatsMenu}:active) {
+      box-shadow: 0 0 0 #d9d9d9;
     }
 
     ${FriendsName}{
@@ -167,7 +168,7 @@ const SPreviewContainer = styled.div`
 
 export const FriendsName = styled.span`
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 500;
   color: #34aa44;
   letter-spacing: 0.5px;
 `;

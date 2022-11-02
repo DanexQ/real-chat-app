@@ -19,30 +19,32 @@ const Messages = () => {
   }, [data.chatID]);
 
   return (
-    <Siema>
-      <MessagesContainer>
+    <SMessagesContainer>
+      <SMessages>
         {messages?.map((message, index) => (
           <Message key={index} message={message} />
         ))}
-      </MessagesContainer>
-    </Siema>
+      </SMessages>
+    </SMessagesContainer>
   );
 };
 
 export default Messages;
 
-const MessagesContainer = styled.div`
+const SMessages = styled.div`
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
   gap: 2rem;
-  padding: 1rem;
+  padding: 0rem 3rem 3rem 3rem;
 `;
 
-const Siema = styled.div`
+const SMessagesContainer = styled.div`
   display: flex;
   flex-direction: column-reverse;
   overflow-y: auto;
   background-color: #f5f3f4;
-  height: calc(100% - 180px);
+  height: calc(100% - 21rem);
+  border-top: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
 `;
