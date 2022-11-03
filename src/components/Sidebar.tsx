@@ -36,7 +36,6 @@ const Sidebar = () => {
           signOut(auth);
         }}
       />
-      {/* TODO: CLICK AVATAR AND PROFILE MENU SHOWS UP */}
     </SSidebarContainer>
   );
 };

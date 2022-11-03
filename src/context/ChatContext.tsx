@@ -58,9 +58,6 @@ export const ChatContextProvider = ({
       case "CLEAR_STATE":
         return {
           chatID: "null",
-          lastMessage: {
-            text: "",
-          },
           user: {
             displayName: "",
             photoURL: "",

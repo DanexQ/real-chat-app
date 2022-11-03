@@ -14,13 +14,18 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import AuthContext from "../context/AuthContext";
 import { db } from "../firebase";
-import { FriendsName } from "../pages/Chat/ChatPreview";
+import { FriendsName, UserInfoType } from "../pages/Chat/ChatPreview";
 import { Avatar } from "../styles/Avatar";
+
+import SearchIcon from "@mui/icons-material/Search";
+import { ChatContext } from "../context/ChatContext";
 
 const SearchBar = () => {
   const { currentUser } = useContext(AuthContext);
   const [searchedName, setSearchedName] = useState("");
-  const [user, setUser] = useState<DocumentData | null>(null);
+  const [user, setUser] = useState<UserInfoType | null>(null);
+  const { dispatch } = useContext(ChatContext);
+  console.log(user);
 
   const handleBlur = () => {
     setUser(null);
@@ -39,7 +44,7 @@ const SearchBar = () => {
       const querySnapshot = await getDocs(q);
       console.log("querySnapshot", querySnapshot);
       querySnapshot.forEach((doc) => {
-        setUser(doc.data());
+        setUser(doc.data() as UserInfoType);
         console.log("doc.data()", doc.data());
       });
     } catch (err) {
@@ -58,7 +63,7 @@ const SearchBar = () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("There is conversation with this user already!");
+      dispatch({ type: "CHANGE_USER", payload: user });
     } else {
       const docCollection = collection(db, "chats");
       await setDoc(doc(docCollection, combinedID), { messages: [] });
@@ -70,7 +75,7 @@ const SearchBar = () => {
           photoURL: user.photoURL,
         },
         [combinedID + ".date"]: serverTimestamp(),
-        [combinedID + ".lastMessage"]: { text: "" },
+        [combinedID + ".lastMessage"]: { text: "Start your new chat!" },
       });
 
       await updateDoc(doc(db, "userChats", user.uid), {
@@ -81,7 +86,7 @@ const SearchBar = () => {
         },
         [combinedID + ".date"]: serverTimestamp(),
         [combinedID + ".lastMessage"]: {
-          text: "",
+          text: "Start your new chat!",
         },
       });
     }
@@ -90,23 +95,25 @@ const SearchBar = () => {
   };
 
   return (
-    <SForm onSubmit={handleSubmit} onClick={handleBlur}>
-      <SInput
-        type="text"
-        placeholder="Find someone..."
-        onChange={(e) => setSearchedName(e.target.value)}
-        value={searchedName}
-      />
-      <SearchIcon></SearchIcon>
-      <SearchContainer>
+    <>
+      <SForm onSubmit={handleSubmit}>
+        <SInput
+          type="text"
+          placeholder="Find your friend..."
+          onChange={(e) => setSearchedName(e.target.value)}
+          value={searchedName}
+        />
+        <SSearchIcon />
         {user && (
-          <SingleResult onClick={handleSelect}>
-            <Avatar src={user.photoURL} alt="friend" />
-            <FriendsName>{user.displayName}</FriendsName>
-          </SingleResult>
+          <SResultsContainer>
+            <SingleResult onClick={handleSelect}>
+              <Avatar src={user.photoURL} alt="friend" />
+              <FriendsName>{user.displayName}</FriendsName>
+            </SingleResult>
+          </SResultsContainer>
         )}
-      </SearchContainer>
-    </SForm>
+      </SForm>
+    </>
   );
 };
 
@@ -114,21 +121,21 @@ export default SearchBar;
 
 const SForm = styled.form`
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 1rem;
-  gap: 0.5rem;
   width: 100%;
-  background-color: #212529;
 `;
 
-const SearchContainer = styled.div`
+const SResultsContainer = styled.div`
+  position: absolute;
+  background-color: #fff;
+  z-index: 9;
+  top: 4.6rem;
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  padding: 0.5rem;
   width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
 `;
 
 const SingleResult = styled.div`
@@ -137,87 +144,58 @@ const SingleResult = styled.div`
   align-items: center;
   justify-content: flex-start;
   background-color: #1565c0;
-  border-radius: 2rem;
+  border-radius: 1rem;
   gap: 1rem;
   padding: 1rem 2rem;
   background-color: inherit;
+  transition: all 0.2s;
 
   &:hover {
-    background-color: #343a40;
+    background-color: #34aa44;
+
+    span {
+      color: #fff;
+    }
   }
 `;
 
 const SInput = styled.input`
-  padding: 1rem 2rem;
-  font-size: 1.5rem;
   width: 100%;
-  align-self: flex-start;
-  color: white;
-  background-color: #343a40;
-  border: none;
-  border-radius: 2rem;
-  transition: all 0.2s, filter 0.1s;
-
-  &::placeholder {
-    color: #adb5bd;
-    font-weight: 400;
-  }
-
-  &:active {
-    filter: brightness(90%);
-  }
+  font-size: 1.8rem;
+  padding: 1rem 4rem 1rem 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-weight: 500;
+  border-radius: 5px;
+  color: rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
 
   &:focus {
     outline: none;
-  }
-`;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    color: rgba(0, 0, 0, 0.7);
 
-const SearchIcon = styled.div`
-  position: absolute;
-  top: 2rem;
-  right: 3rem;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 10rem;
-  background-color: #6c757d;
-  transition: all 0.2s;
-  cursor: pointer;
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.7) !important;
+    }
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 10rem;
-    background-color: #343a40;
-    z-index: 10;
-  }
-
-  &::after {
-    position: absolute;
-    top: 50%;
-    left: 70%;
-    content: "";
-    background-color: #6c757d;
-    width: 0.4rem;
-    border-radius: 2rem;
-    transform: rotate(-35deg);
-    height: 1.5rem;
-    z-index: 9;
-  }
-
-  &:hover {
-    background-color: #495057;
-
-    &::after {
-      background-color: inherit;
+    + svg {
+      color: rgba(0, 0, 0, 0.7);
     }
   }
 
-  &:active {
-    transform: translateY(1px);
+  &::placeholder {
+    transition: all 0.2s;
+    color: rgba(0, 0, 0, 0.3) !important;
   }
+`;
+
+const SSearchIcon = styled(SearchIcon)`
+  position: absolute;
+  top: 2.5rem;
+  right: 1rem;
+  font-size: 2.5rem !important;
+  transform: translateY(-54%);
+  cursor: pointer;
+  transition: color 0.2s !important;
+  color: rgba(0, 0, 0, 0.3);
 `;

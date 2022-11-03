@@ -3,15 +3,32 @@ import { Route, Routes } from "react-router-dom";
 import ChatIndex from "./pages/Chat/ChatIndex";
 import SearchBar from "./components/SearchBar";
 import Sidebar from "./components/Sidebar";
+import Chat from "./pages/Chat/Chat";
+import Chats from "./pages/Chat/Chats";
 
 function App() {
   return (
     <StyledApp>
       <Sidebar />
       <Routes>
-        <Route path="/" element={<ChatIndex />}>
-          <Route path="search" element={<SearchBar />} />
-        </Route>
+        <Route
+          path="/"
+          element={
+            <>
+              <Chats />
+              <Chat />
+            </>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <>
+              <SearchBar />
+              <Chat />
+            </>
+          }
+        />
       </Routes>
     </StyledApp>
   );
@@ -25,5 +42,4 @@ const StyledApp = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: #495057;
 `;

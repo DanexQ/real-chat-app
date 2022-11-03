@@ -7,6 +7,7 @@ import { db } from "../../firebase";
 import SearchIcon from "@mui/icons-material/Search";
 import ChatsFilters from "./ChatsFilters";
 import ChatPreview from "./ChatPreview";
+import SearchBar from "../../components/SearchBar";
 
 const Chats = () => {
   const { currentUser } = useContext(AuthContext);
@@ -27,10 +28,7 @@ const Chats = () => {
 
   return (
     <SChatsContainer>
-      <form style={{ position: "relative" }}>
-        <SSearchInput placeholder="Search chat" />
-        <SSearchIcon />
-      </form>
+      <SearchBar />
       <SChatsTitle>
         <STitle>Chats</STitle>
         <SChatsMenu>
