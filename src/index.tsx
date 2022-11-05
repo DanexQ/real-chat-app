@@ -9,6 +9,7 @@ import { ChatContextProvider } from "./context/ChatContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ChatsContextProvider } from "./context/ChatsContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,36 +18,38 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <ChatContextProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/*"
-              element={
-                <ProtectedRoute passedFrom="home">
-                  <App />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <ProtectedRoute passedFrom="login">
-                  <Login />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <ProtectedRoute passedFrom="register">
-                  <Register />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </ChatContextProvider>
+      <ChatsContextProvider>
+        <ChatContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/*"
+                element={
+                  <ProtectedRoute passedFrom="home">
+                    <App />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <ProtectedRoute passedFrom="login">
+                    <Login />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <ProtectedRoute passedFrom="register">
+                    <Register />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </ChatContextProvider>
+      </ChatsContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );

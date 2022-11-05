@@ -8,23 +8,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import ChatsFilters from "./ChatsFilters";
 import ChatPreview from "./ChatPreview";
 import SearchBar from "../../components/SearchBar";
+import { ChatsContext } from "../../context/ChatsContext";
 
 const Chats = () => {
-  const { currentUser } = useContext(AuthContext);
-  const { dispatch, data } = useContext(ChatContext);
-  const [chats, setChats] = useState<DocumentData | undefined>(undefined);
-
-  useEffect(() => {
-    const unsub = onSnapshot(doc(db, "userChats", currentUser!.uid), (doc) => {
-      setChats(doc.data());
-    });
-
-    return () => {
-      unsub();
-      dispatch({ type: "CLEAR_STATE" });
-    };
-    // eslint-disable-next-line
-  }, [currentUser]);
+  const { data } = useContext(ChatContext);
+  const { chats } = useContext(ChatsContext);
 
   return (
     <SChatsContainer>
@@ -37,7 +25,7 @@ const Chats = () => {
       </SChatsTitle>
       <ChatsFilters />
       {chats &&
-        Object.entries(chats).map((chat) => (
+        chats.map((chat) => (
           <ChatPreview
             key={chat[0]}
             {...chat[1]}

@@ -1,7 +1,6 @@
 import {
   collection,
   doc,
-  DocumentData,
   getDoc,
   getDocs,
   query,
@@ -10,26 +9,45 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import AuthContext from "../context/AuthContext";
 import { db } from "../firebase";
 import { FriendsName, UserInfoType } from "../pages/Chat/ChatPreview";
 import { Avatar } from "../styles/Avatar";
-
 import SearchIcon from "@mui/icons-material/Search";
 import { ChatContext } from "../context/ChatContext";
+import { ChatsContext } from "../context/ChatsContext";
+import { combineId } from "../utils/CombineId";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 const SearchBar = () => {
   const { currentUser } = useContext(AuthContext);
   const [searchedName, setSearchedName] = useState("");
   const [user, setUser] = useState<UserInfoType | null>(null);
   const { dispatch } = useContext(ChatContext);
-  console.log(user);
+  const { chats } = useContext(ChatsContext);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  console.log(resultsRef);
 
-  const handleBlur = () => {
+  const handleBlur = (e: React.FocusEvent<HTMLBodyElement>) => {
+    console.log(e);
     setUser(null);
   };
+
+  useEffect(() => {
+    const listenerFunc = (event: any) => {
+      if (!resultsRef.current?.contains(event.target)) {
+        setUser(null);
+      }
+    };
+
+    document.addEventListener("click", listenerFunc);
+
+    return () => {
+      document.removeEventListener("click", listenerFunc);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,23 +60,19 @@ const SearchBar = () => {
 
     try {
       const querySnapshot = await getDocs(q);
-      console.log("querySnapshot", querySnapshot);
       querySnapshot.forEach((doc) => {
         setUser(doc.data() as UserInfoType);
-        console.log("doc.data()", doc.data());
       });
     } catch (err) {
       console.log(err);
     }
+    resultsRef.current?.focus();
   };
 
   const handleSelect = async () => {
     if (!user || !currentUser) return;
 
-    const combinedID =
-      currentUser?.uid > user?.uid
-        ? currentUser.uid + user.uid
-        : user.uid + currentUser.uid;
+    const combinedID = combineId(currentUser?.uid, user.uid);
     const docRef = doc(db, "chats", combinedID);
     const docSnap = await getDoc(docRef);
 
@@ -95,7 +109,7 @@ const SearchBar = () => {
   };
 
   return (
-    <>
+    <div ref={resultsRef}>
       <SForm onSubmit={handleSubmit}>
         <SInput
           type="text"
@@ -104,16 +118,22 @@ const SearchBar = () => {
           value={searchedName}
         />
         <SSearchIcon />
-        {user && (
+        {!!user && (
           <SResultsContainer>
             <SingleResult onClick={handleSelect}>
               <Avatar src={user.photoURL} alt="friend" />
-              <FriendsName>{user.displayName}</FriendsName>
+              <SFriendsName>{user.displayName}</SFriendsName>
+              {/* function below checks if searched user is in our chats already */}
+              {chats
+                ?.map((chat) => chat[0])
+                .includes(combineId(currentUser!.uid, user.uid)) && (
+                <SMyFriend />
+              )}
             </SingleResult>
           </SResultsContainer>
         )}
       </SForm>
-    </>
+    </div>
   );
 };
 
@@ -134,8 +154,14 @@ const SResultsContainer = styled.div`
   cursor: pointer;
   padding: 0.5rem;
   width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.7);
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+`;
+
+const SMyFriend = styled(HowToRegIcon)`
+  transition: all 0.2s;
+  color: #34aa44;
+  font-size: 2rem !important;
 `;
 
 const SingleResult = styled.div`
@@ -152,6 +178,10 @@ const SingleResult = styled.div`
 
   &:hover {
     background-color: #34aa44;
+
+    ${SMyFriend} {
+      color: #fff;
+    }
 
     span {
       color: #fff;
@@ -198,4 +228,8 @@ const SSearchIcon = styled(SearchIcon)`
   cursor: pointer;
   transition: color 0.2s !important;
   color: rgba(0, 0, 0, 0.3);
+`;
+
+const SFriendsName = styled(FriendsName)`
+  margin-right: auto;
 `;

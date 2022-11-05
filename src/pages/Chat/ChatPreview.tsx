@@ -10,7 +10,7 @@ export type UserInfoType = {
   uid: string;
 };
 
-interface ChatPreviewProps {
+export interface ChatPreviewProps {
   date: Timestamp;
   lastMessage: { text: string };
   userInfo: UserInfoType;

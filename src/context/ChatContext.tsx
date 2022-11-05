@@ -19,12 +19,12 @@ type ActionType =
       type: "CLEAR_STATE";
     };
 
-interface ChatContextType {
+interface ChatContextInterface {
   data: ChatContextState;
   dispatch: React.Dispatch<ActionType>;
 }
 
-export const ChatContext = createContext({} as ChatContextType);
+export const ChatContext = createContext({} as ChatContextInterface);
 
 export const ChatContextProvider = ({
   children,
