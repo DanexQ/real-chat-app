@@ -28,12 +28,6 @@ const SearchBar = () => {
   const { dispatch } = useContext(ChatContext);
   const { chats } = useContext(ChatsContext);
   const resultsRef = useRef<HTMLDivElement>(null);
-  console.log(resultsRef);
-
-  const handleBlur = (e: React.FocusEvent<HTMLBodyElement>) => {
-    console.log(e);
-    setUser(null);
-  };
 
   useEffect(() => {
     const listenerFunc = (event: any) => {
