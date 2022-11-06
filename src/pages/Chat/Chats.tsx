@@ -29,6 +29,7 @@ const Chats = () => {
           <ChatPreview
             key={chat[0]}
             {...chat[1]}
+            chatId={chat[0]}
             isActive={chat[0] === data.chatID}
           />
         ))}

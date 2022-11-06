@@ -21,6 +21,9 @@ const ChatInput = () => {
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
+    setText("");
+    setFile(undefined);
+    setImage(undefined);
     if (image) {
       const storageRef = ref(storage, uuid());
       const uploadTask = uploadBytesResumable(storageRef, image);
@@ -64,9 +67,6 @@ const ChatInput = () => {
       [data?.chatID + ".lastMessage"]: { text },
       [data?.chatID + ".date"]: Timestamp.now(),
     });
-    setText("");
-    setFile(undefined);
-    setImage(undefined);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -6,9 +6,20 @@ import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import { NavLink } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import { ChatContext } from "../context/ChatContext";
+import { ChatsContext } from "../context/ChatsContext";
 
 const Sidebar = () => {
   const { currentUser } = useContext(AuthContext);
+  const { dispatch: chatDispatch } = useContext(ChatContext);
+  const { dispatch: chatsDispatch } = useContext(ChatsContext);
+
+  const handleSingOut = () => {
+    chatsDispatch({ type: "CLEAR_STATE" });
+    chatDispatch({ type: "CLEAR_STATE" });
+    signOut(auth);
+  };
+
   return (
     <SSidebarContainer>
       <SSidebarLogo>LOGO</SSidebarLogo>
@@ -32,9 +43,7 @@ const Sidebar = () => {
       <SSidebarAvatar
         src={currentUser!.photoURL!}
         alt="imgdsa"
-        onClick={() => {
-          signOut(auth);
-        }}
+        onClick={handleSingOut}
       />
     </SSidebarContainer>
   );

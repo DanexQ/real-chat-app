@@ -15,6 +15,7 @@ export type ChatsContextActionType =
 
 interface ChatsContextInterface {
   chats: INITIAL_STATE_TYPE;
+  dispatch: React.Dispatch<ChatsContextActionType>;
 }
 
 export const ChatsContext = createContext({} as ChatsContextInterface);
@@ -42,7 +43,7 @@ export const ChatsContextProvider = ({
   }, [currentUser]);
 
   return (
-    <ChatsContext.Provider value={{ chats: state }}>
+    <ChatsContext.Provider value={{ chats: state, dispatch }}>
       {children}
     </ChatsContext.Provider>
   );

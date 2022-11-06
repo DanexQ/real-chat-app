@@ -1,8 +1,17 @@
-import { Timestamp } from "firebase/firestore";
+import {
+  deleteDoc,
+  deleteField,
+  doc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { ChatContext } from "../../context/ChatContext";
 import { Avatar } from "../../styles/Avatar";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { db } from "../../firebase";
+import AuthContext from "../../context/AuthContext";
 
 export type UserInfoType = {
   displayName: string;
@@ -15,6 +24,7 @@ export interface ChatPreviewProps {
   lastMessage: { text: string };
   userInfo: UserInfoType;
   isActive: boolean;
+  chatId: string;
 }
 
 const ChatPreview = ({
@@ -22,7 +32,9 @@ const ChatPreview = ({
   lastMessage,
   userInfo,
   isActive,
+  chatId,
 }: ChatPreviewProps) => {
+  const { currentUser } = useContext(AuthContext);
   const { dispatch, data } = useContext(ChatContext);
 
   const handleSelect = () => {
@@ -30,8 +42,18 @@ const ChatPreview = ({
     dispatch({ type: "CHANGE_USER", payload: userInfo });
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleClick = async (e: React.MouseEvent<SVGElement>) => {
     e.stopPropagation();
+    const userChatsRef = doc(db, "userChats", currentUser!.uid);
+    const chatsRef = doc(db, "chats", chatId);
+    try {
+      dispatch({ type: "CLEAR_STATE" });
+      await updateDoc(userChatsRef, {
+        [chatId]: deleteField(),
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -42,9 +64,7 @@ const ChatPreview = ({
           <FriendsName>{userInfo.displayName}</FriendsName>
           <Dot></Dot>
           <LastMessageDate>3:30 PM</LastMessageDate>
-          <SChatsMenu onClick={handleClick}>
-            <DotsMenuIcon />
-          </SChatsMenu>
+          <SDeleteOutlineIcon onClick={handleClick} />
         </ChatsDetails>
         <LastMessage>
           {lastMessage?.text.length < 78
@@ -58,16 +78,14 @@ const ChatPreview = ({
 
 export default ChatPreview;
 
-const SChatsMenu = styled.div`
-  cursor: pointer;
-  padding: 1rem;
-  position: relative;
-  z-index: 20;
+const SDeleteOutlineIcon = styled(DeleteOutlineIcon)`
+  font-size: 2.2rem !important;
 
+  &:hover {
+    filter: brightness(0.9);
+  }
   &:active {
-    div {
-      scale: 0.9;
-    }
+    transform: scale(0.9);
   }
 `;
 
@@ -91,7 +109,7 @@ const SChat = styled.div<{ isActive: boolean }>`
     box-shadow: 0 0rem 0rem #d9d9d9;
   }
 
-  &:has(${SChatsMenu}:active) {
+  &:has(${SDeleteOutlineIcon}:active) {
     transform: translateY(0);
     box-shadow: 0 0.2rem 0.5rem #d9d9d9;
   }
@@ -105,11 +123,11 @@ const SChat = styled.div<{ isActive: boolean }>`
      transform: translateY(0);
      box-shadow: 0 0 0 #d9d9d9;
 
-     &:has(${SChatsMenu}:active) {
+     &:has(${SDeleteOutlineIcon}:active) {
       box-shadow: 0 0 0 #d9d9d9;
     }
 
-    ${FriendsName}{
+    ${FriendsName}, ${SDeleteOutlineIcon}{
       color: #fff;
     }
     ${Dot}{
@@ -118,9 +136,7 @@ const SChat = styled.div<{ isActive: boolean }>`
     ${LastMessage}{
       border-top: 1px solid rgba(255,255,255,.5);
     }
-    ${DotsMenuIcon}{
-      background-color: #fff;
-    }
+    
     `}
 
   &:hover {
