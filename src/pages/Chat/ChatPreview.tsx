@@ -12,6 +12,7 @@ import { Avatar } from "../../styles/Avatar";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { db } from "../../firebase";
 import AuthContext from "../../context/AuthContext";
+import { ChatsContext } from "../../context/ChatsContext";
 
 export type UserInfoType = {
   displayName: string;
@@ -25,6 +26,7 @@ export interface ChatPreviewProps {
   userInfo: UserInfoType;
   isActive: boolean;
   chatId: string;
+  chatType: "user" | "group";
 }
 
 const ChatPreview = ({
@@ -35,19 +37,23 @@ const ChatPreview = ({
   chatId,
 }: ChatPreviewProps) => {
   const { currentUser } = useContext(AuthContext);
-  const { dispatch, data } = useContext(ChatContext);
+  const { dispatch: dispatchChat, data } = useContext(ChatContext);
+  const { dispatch: dispatchChats } = useContext(ChatsContext);
 
   const handleSelect = () => {
     if (data.user.uid === userInfo.uid) return;
-    dispatch({ type: "CHANGE_USER", payload: userInfo });
+    dispatchChat({ type: "CHANGE_USER", payload: userInfo });
   };
 
-  const handleClick = async (e: React.MouseEvent<SVGElement>) => {
+  const handleDeleteChat = async (
+    e: React.MouseEvent<SVGElement>,
+    chatId: string
+  ) => {
     e.stopPropagation();
     const userChatsRef = doc(db, "userChats", currentUser!.uid);
-    const chatsRef = doc(db, "chats", chatId);
     try {
-      dispatch({ type: "CLEAR_STATE" });
+      dispatchChat({ type: "CLEAR_STATE" });
+      dispatchChats({ type: "DELETE_CHAT", chatId: chatId });
       await updateDoc(userChatsRef, {
         [chatId]: deleteField(),
       });
@@ -64,7 +70,7 @@ const ChatPreview = ({
           <FriendsName>{userInfo.displayName}</FriendsName>
           <Dot></Dot>
           <LastMessageDate>3:30 PM</LastMessageDate>
-          <SDeleteOutlineIcon onClick={handleClick} />
+          <SDeleteOutlineIcon onClick={(e) => handleDeleteChat(e, chatId)} />
         </ChatsDetails>
         <LastMessage>
           {lastMessage?.text.length < 78

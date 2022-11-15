@@ -1,9 +1,7 @@
 import { doc, DocumentData, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import AuthContext from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
-import { db } from "../../firebase";
 import SearchIcon from "@mui/icons-material/Search";
 import ChatsFilters from "./ChatsFilters";
 import ChatPreview from "./ChatPreview";
@@ -12,7 +10,7 @@ import { ChatsContext } from "../../context/ChatsContext";
 
 const Chats = () => {
   const { data } = useContext(ChatContext);
-  const { chats } = useContext(ChatsContext);
+  const { chatsState } = useContext(ChatsContext);
 
   return (
     <SChatsContainer>
@@ -24,8 +22,8 @@ const Chats = () => {
         </SChatsMenu>
       </SChatsTitle>
       <ChatsFilters />
-      {chats &&
-        chats.map((chat) => (
+      {!!chatsState.filteredChats &&
+        chatsState.filteredChats.map((chat) => (
           <ChatPreview
             key={chat[0]}
             {...chat[1]}

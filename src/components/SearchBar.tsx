@@ -26,7 +26,7 @@ const SearchBar = () => {
   const [searchedName, setSearchedName] = useState("");
   const [user, setUser] = useState<UserInfoType | null>(null);
   const { dispatch } = useContext(ChatContext);
-  const { chats } = useContext(ChatsContext);
+  const { chatsState } = useContext(ChatsContext);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -72,7 +72,6 @@ const SearchBar = () => {
     const userChatsSnap = await getDoc(userChatsRef);
     const userChats = Object.keys(userChatsSnap.data() as object);
     const docSnap = await getDoc(docRef);
-    console.log(docSnap.data());
 
     if (docSnap.exists()) {
       dispatch({ type: "CHANGE_USER", payload: user });
@@ -135,7 +134,7 @@ const SearchBar = () => {
               <Avatar src={user.photoURL} alt="friend" />
               <SFriendsName>{user.displayName}</SFriendsName>
               {/* function below checks if searched user is in our chats already */}
-              {chats
+              {chatsState.filteredChats
                 ?.map((chat) => chat[0])
                 .includes(combineId(currentUser!.uid, user.uid)) && (
                 <SMyFriend />

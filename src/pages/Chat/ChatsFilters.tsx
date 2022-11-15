@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
+import { ChatsContext } from "../../context/ChatsContext";
 
 const ChatsFilters = () => {
+  const { dispatch } = useContext(ChatsContext);
   const [activeFilter, setActiveFilter] = useState({
     all: true,
     people: false,
@@ -15,6 +17,10 @@ const ChatsFilters = () => {
       people: false,
       [filter]: !prevState[filter as keyof typeof prevState],
     }));
+    dispatch({
+      type: "FILTER_CHATS",
+      chatType: filter as "all" | "user" | "group",
+    });
   };
 
   return (
@@ -27,7 +33,7 @@ const ChatsFilters = () => {
       </SFilter>
       <SFilter
         activeFilter={activeFilter.people}
-        onClick={() => handleClickFilter("people")}
+        onClick={() => handleClickFilter("user")}
       >
         People Chats
       </SFilter>
