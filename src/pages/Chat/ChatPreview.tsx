@@ -51,6 +51,7 @@ const ChatPreview = ({
   ) => {
     e.stopPropagation();
     const userChatsRef = doc(db, "userChats", currentUser!.uid);
+
     try {
       dispatchChat({ type: "CLEAR_STATE" });
       dispatchChats({ type: "DELETE_CHAT", chatId: chatId });

@@ -4,6 +4,8 @@ import { db } from "../firebase";
 import { ChatsReducer, INITIAL_STATE_TYPE } from "../reducers/ChatsReducer";
 import AuthContext from "./AuthContext";
 
+export type FilterTypes = "all" | "user" | "group";
+
 export type ChatsContextActionType =
   | {
       type: "SET_STATE";
@@ -11,11 +13,15 @@ export type ChatsContextActionType =
     }
   | {
       type: "FILTER_CHATS";
-      chatType: "all" | "user" | "group";
+      chatType: FilterTypes;
     }
   | {
       type: "DELETE_CHAT";
       chatId: string;
+    }
+  | {
+      type: "ADD_USER";
+      payload: DocumentData;
     }
   | {
       type: "CLEAR_STATE";
@@ -33,7 +39,11 @@ export const ChatsContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const INITIAL_STATE: INITIAL_STATE_TYPE = { chats: [], filteredChats: [] };
+  const INITIAL_STATE: INITIAL_STATE_TYPE = {
+    filter: "all",
+    chats: [],
+    filteredChats: [],
+  };
   const { currentUser } = useContext(AuthContext);
   const [state, dispatch] = useReducer(ChatsReducer, INITIAL_STATE);
 

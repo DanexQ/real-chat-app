@@ -75,6 +75,7 @@ const SearchBar = () => {
 
     if (docSnap.exists()) {
       dispatch({ type: "CHANGE_USER", payload: user });
+
       !userChats.includes(combinedID) &&
         (await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedID + ".userInfo"]: {
@@ -83,7 +84,7 @@ const SearchBar = () => {
             photoURL: user.photoURL,
           },
           [combinedID + ".date"]: serverTimestamp(),
-          [combinedID + ".lastMessage"]: { text: "Start your new chat!" },
+          [combinedID + ".lastMessage"]: { text: "Start your chat!" },
           [combinedID + ".chatType"]: "user",
         }));
     } else {

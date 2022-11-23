@@ -1,26 +1,38 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { ChatsContext } from "../../context/ChatsContext";
+import { ChatsContext, FilterTypes } from "../../context/ChatsContext";
 
 const ChatsFilters = () => {
-  const { dispatch } = useContext(ChatsContext);
+  const { dispatch: dispatchChats, chatsState } = useContext(ChatsContext);
   const [activeFilter, setActiveFilter] = useState({
     all: true,
-    people: false,
+    user: false,
     group: false,
   });
 
+  useEffect(() => {
+    !!chatsState.chats &&
+      dispatchChats({
+        type: "FILTER_CHATS",
+        chatType: "all",
+      });
+  }, [chatsState.chats]);
+
   const handleClickFilter = (filter: string) => {
-    setActiveFilter((prevState) => ({
-      all: false,
-      group: false,
-      people: false,
-      [filter]: !prevState[filter as keyof typeof prevState],
-    }));
-    dispatch({
-      type: "FILTER_CHATS",
-      chatType: filter as "all" | "user" | "group",
-    });
+    if (!activeFilter[filter as FilterTypes]) {
+      setActiveFilter((prevState) => ({
+        all: false,
+        group: false,
+        user: false,
+        [filter]: !prevState[filter as keyof typeof prevState],
+      }));
+      dispatchChats({
+        type: "FILTER_CHATS",
+        chatType: filter as "all" | "user" | "group",
+      });
+
+      console.log("filter", filter);
+    }
   };
 
   return (
@@ -32,10 +44,10 @@ const ChatsFilters = () => {
         All Chats
       </SFilter>
       <SFilter
-        activeFilter={activeFilter.people}
+        activeFilter={activeFilter.user}
         onClick={() => handleClickFilter("user")}
       >
-        People Chats
+        User Chats
       </SFilter>
       <SFilter
         activeFilter={activeFilter.group}

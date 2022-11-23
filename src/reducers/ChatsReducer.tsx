@@ -1,7 +1,8 @@
-import { ChatsContextActionType } from "../context/ChatsContext";
+import { ChatsContextActionType, FilterTypes } from "../context/ChatsContext";
 import { ChatPreviewProps } from "../pages/Chat/ChatPreview";
 
 export type INITIAL_STATE_TYPE = {
+  filter: FilterTypes;
   chats: [string, ChatPreviewProps][] | undefined;
   filteredChats: [string, ChatPreviewProps][] | undefined;
 };
@@ -20,15 +21,21 @@ export const ChatsReducer = (
       const filteredChats = state.chats?.filter((chat) =>
         action.chatType !== "all" ? chat[1].chatType === action.chatType : chat
       );
-      return { ...state, filteredChats: filteredChats };
+      return {
+        ...state,
+        filter: action.chatType,
+        filteredChats: filteredChats,
+      };
     case "DELETE_CHAT":
       const newState = state.chats?.filter((chat) => chat[0] !== action.chatId);
       const newfilteredChats = state.filteredChats?.filter(
         (chat) => chat[0] !== action.chatId
       );
-      return { filteredChats: newfilteredChats, chats: newState };
+      return { ...state, filteredChats: newfilteredChats, chats: newState };
+    case "ADD_USER":
+      return { ...state };
     case "CLEAR_STATE":
-      return { chats: [], filteredChats: [] };
+      return { filter: "all", chats: [], filteredChats: [] };
     default:
       throw new Error("CHATS REDUCER: TYPE NOT FOUND", action);
   }

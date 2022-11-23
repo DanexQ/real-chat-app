@@ -27,16 +27,16 @@ const Message = ({ message }: { message: MessageType }) => {
   }, [message]);
 
   return (
-    <SContainer ref={ref} isOwner>
+    <SContainer ref={ref} isOwner={isOwner}>
       <SAvatar
         src={
           message.senderId === currentUser?.uid
             ? currentUser.photoURL!
             : data.user.photoURL
         }
-        alt="you"
+        alt="Profile Picture"
       />
-      <SMessageLayout isOwner>
+      <SMessageLayout isOwner={isOwner}>
         <SDetails>
           <SSender>{message.senderName}</SSender>
           <SDate>
@@ -77,8 +77,8 @@ const SMessageLayout = styled.div<{ isOwner: boolean }>`
 const SDetails = styled.span`
   display: flex;
   width: 100%;
-  flex-direction: row-reverse;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-end;
   gap: 1rem;
   padding: 0.5rem 0 0 0;
 `;
@@ -109,7 +109,7 @@ const SText = styled.span`
 
 const SContentLayout = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   gap: 2rem;
 `;
 
@@ -152,7 +152,7 @@ const SContainer = styled.div<{ isOwner: boolean }>`
   ${({ isOwner }) =>
     isOwner &&
     `
-    margin: 0 0 0 auto;
+      margin: 0 0 0 auto;
       flex-direction: row-reverse;
       justify-content: flex-start;
 
@@ -160,6 +160,14 @@ const SContainer = styled.div<{ isOwner: boolean }>`
       ${SText}{
         background-color: #34aa44;
         color: #fff;
+      }
+
+      ${SDetails}{
+        flex-direction: row-reverse;
+      }
+
+      ${SContentLayout}{
+        flex-direction: row;
       }
 
   `}
