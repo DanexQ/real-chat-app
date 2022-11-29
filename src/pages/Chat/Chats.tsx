@@ -1,5 +1,4 @@
-import { doc, DocumentData, onSnapshot } from "firebase/firestore";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { ChatContext } from "../../context/ChatContext";
 import SearchIcon from "@mui/icons-material/Search";
@@ -11,6 +10,16 @@ import { ChatsContext } from "../../context/ChatsContext";
 const Chats = () => {
   const { data } = useContext(ChatContext);
   const { chatsState } = useContext(ChatsContext);
+  const chats =
+    !!chatsState.filteredChats &&
+    chatsState.filteredChats.map((chat) => (
+      <ChatPreview
+        key={chat[0]}
+        {...chat[1]}
+        chatId={chat[0]}
+        isActive={chat[0] === data.chatID}
+      />
+    ));
 
   return (
     <SChatsContainer>
@@ -22,15 +31,7 @@ const Chats = () => {
         </SChatsMenu>
       </SChatsTitle>
       <ChatsFilters />
-      {!!chatsState.filteredChats &&
-        chatsState.filteredChats.map((chat) => (
-          <ChatPreview
-            key={chat[0]}
-            {...chat[1]}
-            chatId={chat[0]}
-            isActive={chat[0] === data.chatID}
-          />
-        ))}
+      {chats}
     </SChatsContainer>
   );
 };

@@ -13,21 +13,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { db } from "../../firebase";
 import AuthContext from "../../context/AuthContext";
 import { ChatsContext } from "../../context/ChatsContext";
-
-export type UserInfoType = {
-  displayName: string;
-  photoURL: string;
-  uid: string;
-};
-
-export interface ChatPreviewProps {
-  date: Timestamp;
-  lastMessage: { text: string };
-  userInfo: UserInfoType;
-  isActive: boolean;
-  chatId: string;
-  chatType: "user" | "group";
-}
+import { ChatPreviewProps } from "../../interfaces/ChatsInterfaces";
 
 const ChatPreview = ({
   date,
@@ -39,10 +25,14 @@ const ChatPreview = ({
   const { currentUser } = useContext(AuthContext);
   const { dispatch: dispatchChat, data } = useContext(ChatContext);
   const { dispatch: dispatchChats } = useContext(ChatsContext);
+  const formattedLastMessage =
+    lastMessage?.text.length < 78
+      ? lastMessage?.text
+      : `${lastMessage?.text.slice(0, 70)}...`;
 
-  const handleSelect = () => {
+  const handleSelectChat = () => {
     if (data.user.uid === userInfo.uid) return;
-    dispatchChat({ type: "CHANGE_USER", payload: userInfo });
+    dispatchChat({ type: "CHANGE_USER_CHAT", payload: userInfo });
   };
 
   const handleDeleteChat = async (
@@ -53,18 +43,18 @@ const ChatPreview = ({
     const userChatsRef = doc(db, "userChats", currentUser!.uid);
 
     try {
-      dispatchChat({ type: "CLEAR_STATE" });
-      dispatchChats({ type: "DELETE_CHAT", chatId: chatId });
       await updateDoc(userChatsRef, {
         [chatId]: deleteField(),
       });
+      dispatchChat({ type: "CLEAR_STATE" });
+      dispatchChats({ type: "DELETE_CHAT", chatId: chatId });
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   };
 
   return (
-    <SChat onClick={handleSelect} isActive={isActive}>
+    <SChat onClick={handleSelectChat} isActive={isActive}>
       <ChatAvatar src={userInfo.photoURL} alt="friend" />
       <SPreviewContainer>
         <ChatsDetails>
@@ -73,11 +63,7 @@ const ChatPreview = ({
           <LastMessageDate>3:30 PM</LastMessageDate>
           <SDeleteOutlineIcon onClick={(e) => handleDeleteChat(e, chatId)} />
         </ChatsDetails>
-        <LastMessage>
-          {lastMessage?.text.length < 78
-            ? lastMessage?.text
-            : `${lastMessage?.text.slice(0, 70)}...`}
-        </LastMessage>
+        <LastMessage>{formattedLastMessage}</LastMessage>
       </SPreviewContainer>
     </SChat>
   );

@@ -43,6 +43,7 @@ const ChatInput = () => {
                 senderId: currentUser?.uid,
                 date: Timestamp.now(),
                 image: downloadURL,
+                unread: true,
               }),
             });
           });
@@ -56,6 +57,7 @@ const ChatInput = () => {
           senderId: currentUser?.uid,
           senderName: currentUser?.displayName,
           date: Timestamp.now(),
+          unread: true,
         }),
       });
     }

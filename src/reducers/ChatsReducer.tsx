@@ -1,5 +1,5 @@
 import { ChatsContextActionType, FilterTypes } from "../context/ChatsContext";
-import { ChatPreviewProps } from "../pages/Chat/ChatPreview";
+import { ChatPreviewProps } from "../interfaces/ChatsInterfaces";
 
 export type INITIAL_STATE_TYPE = {
   filter: FilterTypes;

@@ -13,13 +13,14 @@ import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import AuthContext from "../context/AuthContext";
 import { db } from "../firebase";
-import { FriendsName, UserInfoType } from "../pages/Chat/ChatPreview";
+import { FriendsName } from "../pages/Chat/ChatPreview";
 import { Avatar } from "../styles/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
 import { ChatContext } from "../context/ChatContext";
 import { ChatsContext } from "../context/ChatsContext";
 import { combineId } from "../utils/CombineId";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import { UserInfoType } from "../interfaces/ChatsInterfaces";
 
 const SearchBar = () => {
   const { currentUser } = useContext(AuthContext);
@@ -74,7 +75,7 @@ const SearchBar = () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      dispatch({ type: "CHANGE_USER", payload: user });
+      dispatch({ type: "CHANGE_USER_CHAT", payload: user });
 
       !userChats.includes(combinedID) &&
         (await updateDoc(doc(db, "userChats", currentUser.uid), {

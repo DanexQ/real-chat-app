@@ -30,8 +30,6 @@ const ChatsFilters = () => {
         type: "FILTER_CHATS",
         chatType: filter as "all" | "user" | "group",
       });
-
-      console.log("filter", filter);
     }
   };
 

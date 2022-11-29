@@ -8,6 +8,9 @@ import Message from "./Message";
 const Messages = () => {
   const { data } = useContext(ChatContext);
   const [messages, setMessages] = useState([]);
+  const mappedMessages = messages?.map((message, index) => (
+    <Message key={index} message={message} />
+  ));
 
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "chats", data.chatID), (doc) => {
@@ -20,11 +23,7 @@ const Messages = () => {
 
   return (
     <SMessagesContainer>
-      <SMessages>
-        {messages?.map((message, index) => (
-          <Message key={index} message={message} />
-        ))}
-      </SMessages>
+      <SMessages>{mappedMessages}</SMessages>
     </SMessagesContainer>
   );
 };
