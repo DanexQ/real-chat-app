@@ -6,7 +6,7 @@ export type FilterTypes = "all" | "user" | "group";
 export type ChatsContextActionType =
   | {
       type: "SET_STATE";
-      payload: DocumentData | undefined;
+      payload: ChatsPayload;
     }
   | {
       type: "FILTER_CHATS";
@@ -35,17 +35,24 @@ export type UserInfoType = {
   uid: string;
 };
 
-export interface ChatPreviewProps {
+export interface ChatPreviewProps extends ChatType {
+  isActive: boolean;
+  chatId: string;
+}
+
+export type ChatType = {
   date: Timestamp;
   lastMessage: { text: string };
   userInfo: UserInfoType;
-  isActive: boolean;
-  chatId: string;
   chatType: "user" | "group";
-}
+};
 
 export type INITIAL_STATE_TYPE = {
   filter: FilterTypes;
-  chats: [string, ChatPreviewProps][] | undefined;
+  chats: [string, ChatPreviewProps][];
   filteredChats: [string, ChatPreviewProps][] | undefined;
+};
+
+export type ChatsPayload = {
+  [x: string]: ChatType;
 };

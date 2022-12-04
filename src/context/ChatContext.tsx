@@ -13,7 +13,6 @@ export const ChatContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { currentUser } = useContext(AuthContext);
   const INITIAL_STATE: ChatContextState = {
     chatID: "null",
     user: {

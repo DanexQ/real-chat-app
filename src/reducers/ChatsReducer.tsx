@@ -1,10 +1,13 @@
-import { ChatsContextActionType, FilterTypes } from "../context/ChatsContext";
-import { ChatPreviewProps } from "../interfaces/ChatsInterfaces";
+import { FilterTypes } from "../context/ChatsContext";
+import {
+  ChatsContextActionType,
+  ChatType,
+} from "../interfaces/ChatsInterfaces";
 
 export type INITIAL_STATE_TYPE = {
   filter: FilterTypes;
-  chats: [string, ChatPreviewProps][] | undefined;
-  filteredChats: [string, ChatPreviewProps][] | undefined;
+  chats: [string, ChatType][] | undefined;
+  filteredChats: [string, ChatType][] | undefined;
 };
 
 export const ChatsReducer = (
@@ -13,9 +16,13 @@ export const ChatsReducer = (
 ): INITIAL_STATE_TYPE => {
   switch (action.type) {
     case "SET_STATE":
+      const sortedChats = Object.entries(action.payload).sort(
+        (a, b) => b[1].date.toDate().getTime() - a[1].date.toDate().getTime()
+      );
+      console.log(sortedChats.map((chat) => chat[1].date.toDate()));
       return {
         ...state,
-        chats: action.payload ? Object.entries(action.payload) : action.payload,
+        chats: sortedChats,
       };
     case "FILTER_CHATS":
       const filteredChats = state.chats?.filter((chat) =>

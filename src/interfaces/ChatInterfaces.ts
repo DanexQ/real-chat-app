@@ -1,4 +1,4 @@
-import { UserInfoType } from "../pages/Chat/ChatPreview";
+import { UserInfoType } from "./ChatsInterfaces";
 
 export type ChatContextState = {
   chatID: string;
@@ -8,7 +8,10 @@ export type ChatContextState = {
 export type ChatActions =
   | {
       type: "CHANGE_USER_CHAT";
-      payload: UserInfoType;
+      payload: {
+        user: UserInfoType;
+        combinedID: string;
+      };
     }
   | {
       type: "SHOW_STATE";

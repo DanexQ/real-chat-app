@@ -67,6 +67,8 @@ const SearchBar = () => {
   const handleSelect = async () => {
     if (!user || !currentUser) return;
 
+    setUser(null);
+    setSearchedName("");
     const combinedID = combineId(currentUser?.uid, user.uid);
     const docRef = doc(db, "chats", combinedID);
     const userChatsRef = doc(db, "userChats", currentUser!.uid);
@@ -75,7 +77,10 @@ const SearchBar = () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      dispatch({ type: "CHANGE_USER_CHAT", payload: user });
+      dispatch({
+        type: "CHANGE_USER_CHAT",
+        payload: { user: user, combinedID: combinedID },
+      });
 
       !userChats.includes(combinedID) &&
         (await updateDoc(doc(db, "userChats", currentUser.uid), {
@@ -116,8 +121,6 @@ const SearchBar = () => {
         [combinedID + ".chatType"]: "user",
       });
     }
-    setUser(null);
-    setSearchedName("");
   };
 
   return (

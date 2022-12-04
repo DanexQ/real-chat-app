@@ -14,6 +14,7 @@ import { db } from "../../firebase";
 import AuthContext from "../../context/AuthContext";
 import { ChatsContext } from "../../context/ChatsContext";
 import { ChatPreviewProps } from "../../interfaces/ChatsInterfaces";
+import { combineId } from "../../utils/CombineId";
 
 const ChatPreview = ({
   date,
@@ -23,7 +24,7 @@ const ChatPreview = ({
   chatId,
 }: ChatPreviewProps) => {
   const { currentUser } = useContext(AuthContext);
-  const { dispatch: dispatchChat, data } = useContext(ChatContext);
+  const { dispatch: dispatchChat } = useContext(ChatContext);
   const { dispatch: dispatchChats } = useContext(ChatsContext);
   const formattedLastMessage =
     lastMessage?.text.length < 78
@@ -31,9 +32,24 @@ const ChatPreview = ({
       : `${lastMessage?.text.slice(0, 70)}...`;
 
   const handleSelectChat = () => {
-    if (data.user.uid === userInfo.uid) return;
-    dispatchChat({ type: "CHANGE_USER_CHAT", payload: userInfo });
+    const combinedID = combineId(currentUser!.uid, userInfo.uid);
+    dispatchChat({
+      type: "CHANGE_USER_CHAT",
+      payload: { user: userInfo, combinedID: combinedID },
+    });
   };
+
+  const options: Intl.DateTimeFormatOptions = {
+    month: "numeric",
+    day: "numeric",
+    year: "2-digit",
+    hour: "numeric",
+    minute: "numeric",
+  };
+
+  const chatDate = new Intl.DateTimeFormat("en-US", options).format(
+    date.toDate()
+  );
 
   const handleDeleteChat = async (
     e: React.MouseEvent<SVGElement>,
@@ -46,7 +62,6 @@ const ChatPreview = ({
       await updateDoc(userChatsRef, {
         [chatId]: deleteField(),
       });
-      dispatchChat({ type: "CLEAR_STATE" });
       dispatchChats({ type: "DELETE_CHAT", chatId: chatId });
     } catch (err) {
       alert(err);
@@ -60,7 +75,7 @@ const ChatPreview = ({
         <ChatsDetails>
           <FriendsName>{userInfo.displayName}</FriendsName>
           <Dot></Dot>
-          <LastMessageDate>3:30 PM</LastMessageDate>
+          <LastMessageDate>{chatDate}</LastMessageDate>
           <SDeleteOutlineIcon onClick={(e) => handleDeleteChat(e, chatId)} />
         </ChatsDetails>
         <LastMessage>{formattedLastMessage}</LastMessage>

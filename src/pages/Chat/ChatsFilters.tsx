@@ -11,11 +11,10 @@ const ChatsFilters = () => {
   });
 
   useEffect(() => {
-    !!chatsState.chats &&
-      dispatchChats({
-        type: "FILTER_CHATS",
-        chatType: "all",
-      });
+    dispatchChats({
+      type: "FILTER_CHATS",
+      chatType: chatsState.filter,
+    });
   }, [chatsState.chats]);
 
   const handleClickFilter = (filter: string) => {
