@@ -4,11 +4,11 @@ import { ChatContext } from "../../context/ChatContext";
 import SearchIcon from "@mui/icons-material/Search";
 import ChatsFilters from "./ChatsFilters";
 import ChatPreview from "./ChatPreview";
-import SearchBar from "../../components/SearchBar";
+import SearchBar from "../../components/searchBar/SearchBar";
 import { ChatsContext } from "../../context/ChatsContext";
 
 const Chats = () => {
-  const { data } = useContext(ChatContext);
+  const { chat: chatState } = useContext(ChatContext);
   const { chatsState } = useContext(ChatsContext);
   const chats =
     !!chatsState.filteredChats &&
@@ -17,7 +17,7 @@ const Chats = () => {
         key={chat[0]}
         {...chat[1]}
         chatId={chat[0]}
-        isActive={chat[0] === data.chatID}
+        isActive={chat[0] === chatState.chatID}
       />
     ));
 

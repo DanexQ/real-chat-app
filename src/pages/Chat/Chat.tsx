@@ -7,17 +7,17 @@ import { useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 
 const Chat = () => {
-  const { data } = useContext(ChatContext);
+  const { chat } = useContext(ChatContext);
 
   return (
     <ChatContainer>
-      {data.chatID === "null" ? (
+      {chat.chatID === "null" ? (
         <NotChoosedChat>Start chatting with your friend!</NotChoosedChat>
       ) : (
         <>
           <ChatDetails>
-            <ChatAvatar src={data.user.photoURL} alt="friend" />
-            <SDisplayName>{data.user.displayName}</SDisplayName>
+            <ChatAvatar src={chat.user.photoURL} alt="friend" />
+            <SDisplayName>{chat.user.displayName}</SDisplayName>
             <ChatOptions>
               <CameraAltOutlinedIcon />
               <MoreHorizIcon />

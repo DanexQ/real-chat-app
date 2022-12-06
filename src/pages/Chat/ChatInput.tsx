@@ -17,7 +17,7 @@ const ChatInput = () => {
     ![file, image, text].some((val) => !!val) ||
     text.split("").every((letter) => letter === " ");
   const { currentUser } = useContext(AuthContext);
-  const { data } = useContext(ChatContext);
+  const { chat } = useContext(ChatContext);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ const ChatInput = () => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            await updateDoc(doc(db, "chats", data?.chatID), {
+            await updateDoc(doc(db, "chats", chat?.chatID), {
               messages: arrayUnion({
                 id: uuid(),
                 text: text.trim(),
@@ -50,7 +50,7 @@ const ChatInput = () => {
         }
       );
     } else if (text) {
-      await updateDoc(doc(db, "chats", data?.chatID), {
+      await updateDoc(doc(db, "chats", chat?.chatID), {
         messages: arrayUnion({
           id: uuid(),
           text: text.trim(),
@@ -62,12 +62,12 @@ const ChatInput = () => {
       });
     }
     await updateDoc(doc(db, "userChats", currentUser!.uid), {
-      [data?.chatID + ".lastMessage"]: { text },
-      [data?.chatID + ".date"]: Timestamp.now(),
+      [chat?.chatID + ".lastMessage"]: { text },
+      [chat?.chatID + ".date"]: Timestamp.now(),
     });
-    await updateDoc(doc(db, "userChats", data.user.uid), {
-      [data?.chatID + ".lastMessage"]: { text },
-      [data?.chatID + ".date"]: Timestamp.now(),
+    await updateDoc(doc(db, "userChats", chat.user.uid), {
+      [chat?.chatID + ".lastMessage"]: { text },
+      [chat?.chatID + ".date"]: Timestamp.now(),
     });
   };
 

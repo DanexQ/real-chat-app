@@ -21,6 +21,8 @@ export type ChatActions =
     };
 
 export interface ChatContextInterface {
-  data: ChatContextState;
-  dispatch: React.Dispatch<ChatActions>;
+  chat: ChatContextState;
+  chatDispatch: ChatDispatchType;
 }
+
+export type ChatDispatchType = React.Dispatch<ChatActions>;

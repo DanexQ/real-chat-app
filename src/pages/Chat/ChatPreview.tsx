@@ -24,7 +24,7 @@ const ChatPreview = ({
   chatId,
 }: ChatPreviewProps) => {
   const { currentUser } = useContext(AuthContext);
-  const { dispatch: dispatchChat } = useContext(ChatContext);
+  const { chatDispatch } = useContext(ChatContext);
   const { dispatch: dispatchChats } = useContext(ChatsContext);
   const formattedLastMessage =
     lastMessage?.text.length < 78
@@ -33,7 +33,7 @@ const ChatPreview = ({
 
   const handleSelectChat = () => {
     const combinedID = combineId(currentUser!.uid, userInfo.uid);
-    dispatchChat({
+    chatDispatch({
       type: "CHANGE_USER_CHAT",
       payload: { user: userInfo, combinedID: combinedID },
     });
@@ -46,7 +46,7 @@ const ChatPreview = ({
     hour: "numeric",
     minute: "numeric",
   };
-
+  console.log(chatId, date.toDate());
   const chatDate = new Intl.DateTimeFormat("en-US", options).format(
     date.toDate()
   );

@@ -16,10 +16,8 @@ export const ChatsReducer = (
 ): INITIAL_STATE_TYPE => {
   switch (action.type) {
     case "SET_STATE":
-      const sortedChats = Object.entries(action.payload).sort(
-        (a, b) => b[1].date.toDate().getTime() - a[1].date.toDate().getTime()
-      );
-      console.log(sortedChats.map((chat) => chat[1].date.toDate()));
+      console.log(Object.entries(action.payload));
+      const sortedChats = Object.entries(action.payload);
       return {
         ...state,
         chats: sortedChats,
