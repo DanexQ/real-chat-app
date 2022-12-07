@@ -11,7 +11,7 @@ import { ChatsContext } from "../context/ChatsContext";
 
 const Sidebar = () => {
   const { currentUser } = useContext(AuthContext);
-  const { dispatch: chatDispatch } = useContext(ChatContext);
+  const { chatDispatch } = useContext(ChatContext);
   const { dispatch: chatsDispatch } = useContext(ChatsContext);
 
   const handleSingOut = () => {

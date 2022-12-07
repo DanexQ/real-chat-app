@@ -1,9 +1,9 @@
 import { doc, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
 import { ChatContext } from "../../context/ChatContext";
 import { db } from "../../firebase";
 import Message from "./Message";
+import * as S from "./StyledMessages";
 
 const Messages = () => {
   const { chat } = useContext(ChatContext);
@@ -14,6 +14,7 @@ const Messages = () => {
 
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "chats", chat.chatID), (doc) => {
+      console.log(doc.data());
       doc.exists() && setMessages(doc.data()?.messages);
     });
     return () => {
@@ -22,28 +23,10 @@ const Messages = () => {
   }, [chat.chatID]);
 
   return (
-    <SMessagesContainer>
-      <SMessages>{mappedMessages}</SMessages>
-    </SMessagesContainer>
+    <S.MessagesContainer>
+      <S.Messages>{mappedMessages}</S.Messages>
+    </S.MessagesContainer>
   );
 };
 
 export default Messages;
-
-const SMessages = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 0rem 3rem 3rem 3rem;
-`;
-
-const SMessagesContainer = styled.div`
-  display: flex;
-  flex-direction: column-reverse;
-  overflow-y: auto;
-  background-color: #f5f3f4;
-  height: calc(100% - 18rem);
-  border-top: 1px solid #d3d3d3;
-  border-bottom: 1px solid #d3d3d3;
-`;

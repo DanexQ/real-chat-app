@@ -6,8 +6,8 @@ import {
 
 export type INITIAL_STATE_TYPE = {
   filter: FilterTypes;
-  chats: [string, ChatType][] | undefined;
-  filteredChats: [string, ChatType][] | undefined;
+  chats: [string, ChatType][];
+  filteredChats: [string, ChatType][];
 };
 
 export const ChatsReducer = (
@@ -16,8 +16,9 @@ export const ChatsReducer = (
 ): INITIAL_STATE_TYPE => {
   switch (action.type) {
     case "SET_STATE":
-      console.log(Object.entries(action.payload));
-      const sortedChats = Object.entries(action.payload);
+      const sortedChats = Object.entries(action.payload).sort(
+        (a, b) => b[1].date.toDate().getTime() - a[1].date.toDate().getTime()
+      );
       return {
         ...state,
         chats: sortedChats,

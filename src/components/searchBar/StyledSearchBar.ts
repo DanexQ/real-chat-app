@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import { FriendsName as Name } from "../../pages/Chat/ChatPreview";
+import { FriendsName as Name } from "../../pages/Chat/StyledChatPreview";
 
 export const Form = styled.form`
   position: relative;
