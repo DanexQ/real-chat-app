@@ -1,40 +1,13 @@
-import { doc, DocumentData, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { db } from "../firebase";
 import {
   ChatsPayload,
-  ChatsContextActionType,
+  ChatsContextInterface,
+  INITIAL_STATE_TYPE,
 } from "../interfaces/ChatsInterfaces";
-import { ChatsReducer, INITIAL_STATE_TYPE } from "../reducers/ChatsReducer";
+import { ChatsReducer } from "../reducers/ChatsReducer";
 import AuthContext from "./AuthContext";
-
-export type FilterTypes = "all" | "user" | "group";
-
-// export type ChatsContextActionType =
-//   | {
-//       type: "SET_STATE";
-//       payload: DocumentData | undefined;
-//     }
-//   | {
-//       type: "FILTER_CHATS";
-//       chatType: FilterTypes;
-//     }
-//   | {
-//       type: "DELETE_CHAT";
-//       chatId: string;
-//     }
-//   | {
-//       type: "ADD_USER";
-//       payload: DocumentData;
-//     }
-//   | {
-//       type: "CLEAR_STATE";
-//     };
-
-interface ChatsContextInterface {
-  chatsState: INITIAL_STATE_TYPE;
-  dispatch: React.Dispatch<ChatsContextActionType>;
-}
 
 export const ChatsContext = createContext({} as ChatsContextInterface);
 

@@ -1,19 +1,6 @@
-import react from "react";
 import styled, { keyframes } from "styled-components";
 
-const Spinner = () => {
-  return (
-    <SpinnerContainer>
-      <StyledSpinner delay={0}></StyledSpinner>
-      <StyledSpinner delay={1}></StyledSpinner>
-      <StyledSpinner delay={2}></StyledSpinner>
-    </SpinnerContainer>
-  );
-};
-
-export default react.memo(Spinner);
-
-const SpinnerContainer = styled.div`
+export const SpinnerContainer = styled.div`
   position: absolute;
   display: flex;
   align-content: center;
@@ -40,7 +27,7 @@ const spinnerAnimation = keyframes`
 }
 `;
 
-const StyledSpinner = styled.div<{ delay: number }>`
+export const Spinner = styled.div<{ delay: number }>`
   display: none;
   align-self: center;
   width: 1rem;

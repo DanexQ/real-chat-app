@@ -12,7 +12,7 @@ export const MessagesContainer = styled.div`
   display: flex;
   flex-direction: column-reverse;
   overflow-y: auto;
-  background-color: #f5f3f4;
+  background-color: ${({ theme }) => theme.secondaryColor};
   height: calc(100% - 18rem);
   border-top: 1px solid #d3d3d3;
   border-bottom: 1px solid #d3d3d3;

@@ -49,8 +49,8 @@ export type ChatType = {
 
 export type INITIAL_STATE_TYPE = {
   filter: FilterTypes;
-  chats: [string, ChatPreviewProps][];
-  filteredChats: [string, ChatPreviewProps][] | undefined;
+  chats: [string, ChatType][];
+  filteredChats: [string, ChatType][];
 };
 
 export type ChatsPayload = {

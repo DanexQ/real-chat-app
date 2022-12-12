@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { ChatsContext, FilterTypes } from "../../context/ChatsContext";
+import { ChatsContext } from "../../context/ChatsContext";
+
+type FilterTypes = "all" | "user" | "group";
 
 const ChatsFilters = () => {
   const { dispatch: dispatchChats, chatsState } = useContext(ChatsContext);

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Chat from "./Chat";
-import Chats from "./Chats";
+import Chat from "../Chat";
+import Chats from "../../Chats/Chats";
 
 const ChatMain = () => {
   return (

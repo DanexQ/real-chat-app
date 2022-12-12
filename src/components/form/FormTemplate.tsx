@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
 import * as Style from "./StyledFormTemplate";
 import { inputsProps } from "../../interfaces";
-import Spinner from "../Spinner";
+import Spinner from "../spinner/Spinner";
 
 export type initialStateType = {
   [x: string]: string;

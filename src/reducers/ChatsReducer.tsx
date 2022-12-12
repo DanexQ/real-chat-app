@@ -1,14 +1,7 @@
-import { FilterTypes } from "../context/ChatsContext";
 import {
   ChatsContextActionType,
-  ChatType,
+  INITIAL_STATE_TYPE,
 } from "../interfaces/ChatsInterfaces";
-
-export type INITIAL_STATE_TYPE = {
-  filter: FilterTypes;
-  chats: [string, ChatType][];
-  filteredChats: [string, ChatType][];
-};
 
 export const ChatsReducer = (
   state: INITIAL_STATE_TYPE,

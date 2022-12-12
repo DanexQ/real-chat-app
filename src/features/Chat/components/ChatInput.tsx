@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import AuthContext from "../../context/AuthContext";
-import { ChatContext } from "../../context/ChatContext";
-import { sendMessage } from "./sendMessage";
-import * as S from "./StyledChatInput";
+import AuthContext from "@context/AuthContext";
+import { ChatContext } from "@context/ChatContext";
+import { sendMessage } from "../sendMessage";
+import * as S from "../styles/StyledChatInput";
 
 const ChatInput = () => {
   const [text, setText] = useState("");

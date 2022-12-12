@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { Avatar as Ava } from "../../styles/Avatar";
+import { Avatar as Ava } from "../../../styles/Avatar";
 
 export const Avatar = styled(Ava)`
   align-self: flex-start;
@@ -88,7 +88,7 @@ export const Container = styled.div<{ isOwner: boolean }>`
   max-width: 70%;
   margin: 0 auto 0 0;
 
-  ${({ isOwner }) =>
+  ${({ isOwner, theme }) =>
     isOwner &&
     `
       margin: 0 0 0 auto;
@@ -97,7 +97,7 @@ export const Container = styled.div<{ isOwner: boolean }>`
 
 
       ${Text}{
-        background-color: #34aa44;
+        background-color: ${theme.primaryColor};
         color: #fff;
       }
 

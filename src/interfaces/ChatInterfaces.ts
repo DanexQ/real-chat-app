@@ -1,7 +1,7 @@
 import { UserInfoType } from "./ChatsInterfaces";
 
 export type ChatContextState = {
-  chatID: string;
+  chatID: string | null;
   user: UserInfoType;
 };
 

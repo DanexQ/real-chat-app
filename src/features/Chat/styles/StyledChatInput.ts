@@ -9,7 +9,7 @@ export const ChatFormContainer = styled.form`
   align-items: center;
   gap: 2rem;
   padding: 1.25rem 2rem;
-  background-color: #f5f3f4;
+  background-color: ${({ theme }) => theme.secondaryColor};
   color: white;
 
   label {
@@ -49,7 +49,7 @@ export const Input = styled.input`
     border: none;
 
     ~ label {
-      color: #34aa44;
+      color: ${({ theme }) => theme.primaryColor};
     }
   }
 `;
@@ -74,7 +74,7 @@ export const Button = styled.button`
   box-shadow: 0 2px 0.5rem rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.2s;
-  background-color: #34aa44;
+  background-color: ${({ theme }) => theme.primaryColor};
 
   &:hover {
     filter: brightness(90%);

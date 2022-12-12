@@ -1,9 +1,9 @@
 import { Timestamp as TimestampType } from "firebase/firestore";
 import React, { useContext, useEffect, useRef } from "react";
-import AuthContext from "../../context/AuthContext";
-import { ChatContext } from "../../context/ChatContext";
+import AuthContext from "@context/AuthContext";
+import { ChatContext } from "@context/ChatContext";
 import Timestamp from "react-timestamp";
-import * as S from "./StyledMessage";
+import * as S from "../styles/StyledMessage";
 
 type MessageType = {
   date: TimestampType;
@@ -18,7 +18,7 @@ const Message = ({ message }: { message: MessageType }) => {
   const { currentUser } = useContext(AuthContext);
   const { chat } = useContext(ChatContext);
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const isOwner = message.senderId === currentUser?.uid ? true : false;
+  const isOwner = message.senderId === currentUser?.uid;
 
   useEffect(() => {
     ref.current!.scrollIntoView({ behavior: "smooth" });

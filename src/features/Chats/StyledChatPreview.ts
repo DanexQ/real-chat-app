@@ -16,7 +16,7 @@ export const DeleteIcon = styled(DeleteOutlineIcon)`
 export const FriendsName = styled.span`
   font-size: 1.5rem;
   font-weight: 500;
-  color: #34aa44;
+  color: ${({ theme }) => theme.primaryColor};
   letter-spacing: 0.5px;
 `;
 
@@ -45,12 +45,12 @@ export const Chat = styled.div<{ isActive: boolean }>`
     box-shadow: 0 0.2rem 0.5rem #d9d9d9;
   }
 
-  ${({ isActive }) =>
+  ${({ isActive, theme }) =>
     isActive &&
     `
-     background-color: #34aa44;
+     background-color: ${theme.primaryColor};
      color: #fff; 
-     border: 1px solid #34aa44;
+     border: 1px solid ${theme.primaryColor};
      transform: translateY(0);
      box-shadow: 0 0 0 #d9d9d9;
 

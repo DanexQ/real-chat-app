@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useReducer } from "react";
-import AuthContext from "./AuthContext";
+import React, { createContext, useReducer } from "react";
 import {
   ChatContextInterface,
   ChatContextState,
@@ -14,7 +13,7 @@ export const ChatContextProvider = ({
   children: React.ReactNode;
 }) => {
   const INITIAL_STATE: ChatContextState = {
-    chatID: "null",
+    chatID: null,
     user: {
       displayName: "",
       photoURL: "",

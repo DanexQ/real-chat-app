@@ -8,8 +8,14 @@ import { AuthContextProvider } from "./context/AuthContext";
 import { ChatContextProvider } from "./context/ChatContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/routes/ProtectedRoute";
 import { ChatsContextProvider } from "./context/ChatsContext";
+import { ThemeProvider } from "styled-components";
+
+const theme = {
+  primaryColor: "#34aa44",
+  secondaryColor: "#f5f3f4",
+};
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -20,34 +26,36 @@ root.render(
     <AuthContextProvider>
       <ChatsContextProvider>
         <ChatContextProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route
-                path="/*"
-                element={
-                  <ProtectedRoute passedFrom="home">
-                    <App />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  <ProtectedRoute passedFrom="login">
-                    <Login />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/register"
-                element={
-                  <ProtectedRoute passedFrom="register">
-                    <Register />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>
+              <Routes>
+                <Route
+                  path="/*"
+                  element={
+                    <ProtectedRoute passedFrom="home">
+                      <App />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/login"
+                  element={
+                    <ProtectedRoute passedFrom="login">
+                      <Login />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/register"
+                  element={
+                    <ProtectedRoute passedFrom="register">
+                      <Register />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </BrowserRouter>
+          </ThemeProvider>
         </ChatContextProvider>
       </ChatsContextProvider>
     </AuthContextProvider>

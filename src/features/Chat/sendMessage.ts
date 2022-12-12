@@ -1,16 +1,9 @@
-import {
-  arrayUnion,
-  doc,
-  serverTimestamp,
-  Timestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { arrayUnion, doc, Timestamp, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { User } from "firebase/auth";
 import { ChatContextState } from "../../interfaces/ChatInterfaces";
-import { currentUserType } from "../../context/AuthContext";
 import { updateUserChats } from "../../utils/updateUserChats";
 
 interface SendMessageProps {
@@ -40,7 +33,7 @@ export const sendMessage = async ({
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            await updateDoc(doc(db, "chats", chat.chatID), {
+            await updateDoc(doc(db, "chats", chat.chatID!), {
               messages: arrayUnion({
                 id: uuid(),
                 text: text?.trim(),
@@ -54,7 +47,7 @@ export const sendMessage = async ({
         }
       );
     } else if (text) {
-      await updateDoc(doc(db, "chats", chat.chatID), {
+      await updateDoc(doc(db, "chats", chat.chatID!), {
         messages: arrayUnion({
           id: uuid(),
           text: text.trim(),
@@ -65,8 +58,8 @@ export const sendMessage = async ({
         }),
       });
     }
-    updateUserChats(currentUser!.uid, chat.user, chat.chatID, text);
-    updateUserChats(chat.user.uid, currentUser!, chat.chatID, text);
+    updateUserChats(currentUser!.uid, chat.user, chat.chatID!, text);
+    updateUserChats(chat.user.uid, currentUser!, chat.chatID!, text);
   } catch (err) {
     alert(`Error from sendMessage.ts: ${err}`);
     throw new Error();

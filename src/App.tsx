@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { Route, Routes } from "react-router-dom";
-import ChatIndex from "./pages/Chat/ChatIndex";
 import SearchBar from "./components/searchBar/SearchBar";
-import Sidebar from "./components/Sidebar";
-import Chat from "./pages/Chat/Chat";
-import Chats from "./pages/Chat/Chats";
+import Sidebar from "./components/sidebar/Sidebar";
+import Chat from "./features/Chat/Chat";
+import Chats from "./features/Chats/Chats";
 
 function App() {
   return (
