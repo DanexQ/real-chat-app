@@ -30,7 +30,7 @@ const Chats = () => {
         </S.ChatsMenu>
       </S.ChatsTitle>
       <ChatsFilters />
-      {chats}
+      <S.ChatsOverflow>{chats}</S.ChatsOverflow>
     </S.ChatsContainer>
   );
 };

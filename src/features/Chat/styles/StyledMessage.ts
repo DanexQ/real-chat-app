@@ -87,6 +87,7 @@ export const Container = styled.div<{ isOwner: boolean }>`
   align-items: center;
   max-width: 70%;
   margin: 0 auto 0 0;
+  gap: 1rem;
 
   ${({ isOwner, theme }) =>
     isOwner &&
@@ -120,5 +121,7 @@ export const Container = styled.div<{ isOwner: boolean }>`
     }
   }
 
-  gap: 1rem;
+  @media only screen and (max-width: 1200px) {
+    max-width: 100%;
+  }
 `;

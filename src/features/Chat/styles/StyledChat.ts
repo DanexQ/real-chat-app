@@ -13,7 +13,7 @@ export const NotChoosedChat = styled.div`
 
 export const ChatContainer = styled.div`
   flex: 3 1;
-  height: 100vh;
+  max-height: 100vh;
   border-left: 1px solid #d3d3d3;
 `;
 

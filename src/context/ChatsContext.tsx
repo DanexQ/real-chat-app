@@ -28,7 +28,8 @@ export const ChatsContextProvider = ({
   useEffect(() => {
     if (!currentUser) return;
     const unsub = onSnapshot(doc(db, "userChats", currentUser!.uid), (doc) => {
-      dispatch({ type: "SET_STATE", payload: doc.data() as ChatsPayload });
+      const payload = (doc.data() as ChatsPayload) || {};
+      dispatch({ type: "SET_STATE", payload });
     });
 
     return () => {

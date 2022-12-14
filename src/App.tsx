@@ -36,9 +36,17 @@ function App() {
 export default App;
 
 const StyledApp = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
   width: 100vw;
   height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: minmax(7rem, 10rem) minmax(12rem, 40rem) 1fr;
+
+  @media only screen and (max-width: 900px) {
+    grid-template-columns: 20rem 1fr;
+    grid-template-rows: 7rem 1fr;
+  }
 `;

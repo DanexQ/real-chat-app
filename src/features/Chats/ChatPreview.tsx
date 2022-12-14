@@ -1,20 +1,13 @@
-import {
-  deleteDoc,
-  deleteField,
-  doc,
-  Timestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { deleteField, doc, updateDoc } from "firebase/firestore";
 import React, { useContext } from "react";
-import styled from "styled-components";
 import { ChatContext } from "../../context/ChatContext";
-import { Avatar } from "../../styles/Avatar";
 import * as S from "./StyledChatPreview";
 import { db } from "../../firebase";
 import AuthContext from "../../context/AuthContext";
 import { ChatsContext } from "../../context/ChatsContext";
 import { ChatPreviewProps } from "../../interfaces/ChatsInterfaces";
 import { combineId } from "../../utils/CombineId";
+import { calcMessageDate } from "../../utils/calcMessageDate";
 
 const ChatPreview = ({
   date,
@@ -30,6 +23,7 @@ const ChatPreview = ({
     lastMessage?.text.length < 78
       ? lastMessage?.text
       : `${lastMessage?.text.slice(0, 70)}...`;
+  const chatDate = calcMessageDate(date);
 
   const handleSelectChat = () => {
     const combinedID = combineId(currentUser!.uid, userInfo.uid);
@@ -38,16 +32,6 @@ const ChatPreview = ({
       payload: { user: userInfo, combinedID: combinedID },
     });
   };
-
-  const options: Intl.DateTimeFormatOptions = {
-    month: "numeric",
-    day: "numeric",
-    year: "2-digit",
-    hour: "numeric",
-    minute: "numeric",
-  };
-  const chatDate =
-    !!date && new Intl.DateTimeFormat("en-US", options).format(date.toDate());
 
   const handleDeleteChat = async (
     e: React.MouseEvent<SVGElement>,
@@ -68,7 +52,9 @@ const ChatPreview = ({
 
   return (
     <S.Chat onClick={handleSelectChat} isActive={isActive}>
-      <S.ChatAvatar src={userInfo.photoURL} alt="friend" />
+      <S.ChatAvatarContainer>
+        <S.ChatAvatar src={userInfo.photoURL} alt="friend" />
+      </S.ChatAvatarContainer>
       <S.PreviewContainer>
         <S.ChatsDetails>
           <S.FriendsName>{userInfo.displayName}</S.FriendsName>

@@ -8,16 +8,24 @@ export const SidebarContainer = styled.nav`
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  padding: 3rem 0;
-  height: 100vh;
+  padding: 2rem 0;
   background-color: #34aa44;
-  width: 10rem;
+
+  @media only screen and (max-width: 900px) {
+    grid-area: 2/1/3/3;
+    flex-direction: row;
+    padding: 0 2rem;
+  }
 `;
 
 export const SidebarMenu = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  @media only screen and (max-width: 900px) {
+    flex-direction: row;
+  }
 `;
 
 export const SidebarAvatar = styled.img`

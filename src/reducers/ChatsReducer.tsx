@@ -9,6 +9,7 @@ export const ChatsReducer = (
 ): INITIAL_STATE_TYPE => {
   switch (action.type) {
     case "SET_STATE":
+      console.log(action.payload);
       const sortedChats = Object.entries(action.payload).sort(
         (a, b) => b[1].date.toDate().getTime() - a[1].date.toDate().getTime()
       );

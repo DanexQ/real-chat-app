@@ -83,8 +83,6 @@ const Register = () => {
 
       //create empty user chats on firestore
       await setDoc(doc(db, "userChats", response.user.uid), {});
-
-      navigate("/login");
     } catch (err) {
       if (err instanceof Error) {
         err.message === "Firebase: Error (auth/email-already-in-use)." &&

@@ -4,11 +4,13 @@ export const ChatsContainer = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.secondaryColor};
-  height: 100vh;
   gap: 3rem;
-  padding: 3rem 2rem;
-  min-width: 30rem;
-  flex: 0.9;
+  padding: 3rem;
+  overflow: auto;
+
+  @media only screen and (max-width: 1200px) {
+    padding: 2rem;
+  }
 `;
 
 export const ChatsTitle = styled.div`
@@ -59,4 +61,13 @@ export const DotsMenuIcon = styled.div`
   &::after {
     top: 7px;
   }
+`;
+
+export const ChatsOverflow = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 `;

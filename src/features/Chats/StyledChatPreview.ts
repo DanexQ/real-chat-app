@@ -76,17 +76,22 @@ export const Chat = styled.div<{ isActive: boolean }>`
 `;
 
 export const LastMessageDate = styled.span`
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   margin-right: auto;
-  font-weight: 300;
+  font-weight: 400;
 `;
 
 export const ChatAvatar = styled(Avatar)`
   width: 3rem;
   height: 3rem;
-  align-self: flex-start;
-  transform: translateY(-0.4rem);
   border: 1px solid rgba(0, 0, 0, 0.2);
+`;
+
+export const ChatAvatarContainer = styled.div`
+  height: 50%;
+  align-self: flex-start;
+  display: grid;
+  align-items: center;
 `;
 
 export const ChatsDetails = styled.div`
@@ -98,8 +103,8 @@ export const ChatsDetails = styled.div`
 `;
 
 export const Dot = styled.div`
-  width: 0.7rem;
-  aspect-ratio: 1/1;
+  width: 0.5rem;
+  height: 0.5rem;
   background-color: #bbb;
   border-radius: 2rem;
 `;
@@ -111,6 +116,10 @@ export const PreviewContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
+
+  @media only screen and (max-width: 900px) {
+    display: none;
+  }
 `;
 
 export const LastMessage = styled.span`

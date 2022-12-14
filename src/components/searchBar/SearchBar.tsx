@@ -67,7 +67,7 @@ const SearchBar = () => {
       <S.Form onSubmit={handleSubmit}>
         <S.Input
           type="text"
-          placeholder="Find your friend..."
+          placeholder="Search..."
           onChange={(e) => setSearchedName(e.target.value)}
           value={searchedName}
         />
