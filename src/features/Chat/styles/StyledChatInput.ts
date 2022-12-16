@@ -30,6 +30,11 @@ export const ChatFormContainer = styled.form`
       }
     }
   }
+
+  @media only screen and (max-width: 500px) {
+    gap: 1rem;
+    padding: 1rem;
+  }
 `;
 
 export const Input = styled.input`
@@ -51,6 +56,10 @@ export const Input = styled.input`
     ~ label {
       color: ${({ theme }) => theme.primaryColor};
     }
+  }
+
+  @media only screen and (max-width: 500px) {
+    font-size: 1.75rem;
   }
 `;
 

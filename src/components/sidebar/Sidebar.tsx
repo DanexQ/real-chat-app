@@ -26,14 +26,19 @@ const Sidebar = () => {
             <S.ChatIcon />
           </S.ActiveLink>
         </li>
-        <li>
+        {/* <li>
           <S.ActiveLink to="/add">
+            <S.PersonAddIcon />
+          </S.ActiveLink>
+        </li> */}
+        <li>
+          <S.ActiveLink to="/search">
             <S.PersonAddIcon />
           </S.ActiveLink>
         </li>
         <li>
-          <S.ActiveLink to="/search">
-            <S.PersonAddIcon />
+          <S.ActiveLink to="/chats">
+            <S.PeopleIcon />
           </S.ActiveLink>
         </li>
       </S.SidebarMenu>

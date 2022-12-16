@@ -6,7 +6,8 @@ import SearchBar from "../../components/searchBar/SearchBar";
 import { ChatsContext } from "../../context/ChatsContext";
 import * as S from "./StyledChats";
 
-const Chats = () => {
+const Chats = ({ mobile }: { mobile: boolean }) => {
+  console.log("component", mobile);
   const { chat: chatState } = useContext(ChatContext);
   const { chatsState } = useContext(ChatsContext);
   const chats =
@@ -21,7 +22,7 @@ const Chats = () => {
     ));
 
   return (
-    <S.ChatsContainer>
+    <S.ChatsContainer mobile={mobile}>
       <SearchBar />
       <S.ChatsTitle>
         <S.Title>Chats</S.Title>

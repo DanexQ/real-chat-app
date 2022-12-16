@@ -65,6 +65,10 @@ const SFiltersContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media only screen and (min-width: 500px) and (max-width: 900px) {
+    display: none;
+  }
 `;
 
 const SFilter = styled.a<{ activeFilter: boolean }>`

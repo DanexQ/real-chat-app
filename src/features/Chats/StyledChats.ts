@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ChatsContainer = styled.div`
+export const ChatsContainer = styled.div<{ mobile: boolean }>`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.secondaryColor};
@@ -9,7 +9,15 @@ export const ChatsContainer = styled.div`
   overflow: auto;
 
   @media only screen and (max-width: 1200px) {
-    padding: 2rem;
+    padding: 1.5rem;
+  }
+
+  @media only screen and (max-width: 500px) {
+    ${({ mobile }) =>
+      mobile
+        ? `display:none;`
+        : `
+        padding: 2rem;`}
   }
 `;
 
@@ -70,4 +78,8 @@ export const ChatsOverflow = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media only screen and (max-width: 900px) {
+    align-items: center;
+  }
 `;

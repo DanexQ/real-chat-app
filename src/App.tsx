@@ -14,7 +14,7 @@ function App() {
           path="/"
           element={
             <>
-              <Chats />
+              <Chats mobile={true} />
               <Chat />
             </>
           }
@@ -25,6 +25,14 @@ function App() {
             <>
               <SearchBar />
               <Chat />
+            </>
+          }
+        />
+        <Route
+          path="/chats"
+          element={
+            <>
+              <Chats mobile={false} />
             </>
           }
         />
@@ -46,7 +54,12 @@ const StyledApp = styled.div`
   grid-template-columns: minmax(7rem, 10rem) minmax(12rem, 40rem) 1fr;
 
   @media only screen and (max-width: 900px) {
-    grid-template-columns: 20rem 1fr;
-    grid-template-rows: 7rem 1fr;
+    grid-template-columns: 10rem 1fr;
+    grid-template-rows: 7rem minmax(20rem, 1fr);
+  }
+
+  @media only screen and (max-width: 500px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 7rem minmax(20rem, 1fr);
   }
 `;

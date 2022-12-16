@@ -27,6 +27,11 @@ export const ChatDetails = styled.div`
   background-color: #f5f3f4;
 
   // #f5f3f4;
+
+  @media only screen and (max-width: 900px) {
+    padding: 0 2rem;
+    height: 7rem;
+  }
 `;
 
 export const ChatAvatar = styled.img`

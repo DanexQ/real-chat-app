@@ -73,6 +73,18 @@ export const Chat = styled.div<{ isActive: boolean }>`
   &:hover {
     filter: brightness(95%);
   }
+
+  @media only screen and (min-width: 500px) and (max-width: 900px) {
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    width: 6rem;
+    height: 6rem;
+  }
+
+  @media only screen and (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 export const LastMessageDate = styled.span`
@@ -85,6 +97,10 @@ export const ChatAvatar = styled(Avatar)`
   width: 3rem;
   height: 3rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
+  @media only screen and (min-width: 500px) and (max-width: 900px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const ChatAvatarContainer = styled.div`
@@ -117,7 +133,7 @@ export const PreviewContainer = styled.div`
   justify-content: flex-start;
   flex-direction: column;
 
-  @media only screen and (max-width: 900px) {
+  @media only screen and (min-width: 500px) and (max-width: 900px) {
     display: none;
   }
 `;

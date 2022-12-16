@@ -62,13 +62,17 @@ const SearchBar = () => {
     addFriend({ currentUser, user, chatDispatch });
   };
 
+  const handleChangeSearchedName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchedName(e.target.value);
+  };
+
   return (
-    <div ref={resultsRef}>
+    <S.DivRef ref={resultsRef}>
       <S.Form onSubmit={handleSubmit}>
         <S.Input
           type="text"
           placeholder="Search..."
-          onChange={(e) => setSearchedName(e.target.value)}
+          onChange={handleChangeSearchedName}
           value={searchedName}
         />
         <S.SearchIco />
@@ -82,7 +86,7 @@ const SearchBar = () => {
           </S.ResultsContainer>
         )}
       </S.Form>
-    </div>
+    </S.DivRef>
   );
 };
 

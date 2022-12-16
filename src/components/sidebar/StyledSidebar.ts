@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import { NavLink } from "react-router-dom";
 
 export const SidebarContainer = styled.nav`
@@ -12,7 +13,7 @@ export const SidebarContainer = styled.nav`
   background-color: #34aa44;
 
   @media only screen and (max-width: 900px) {
-    grid-area: 2/1/3/3;
+    grid-area: 1/1/2/3;
     flex-direction: row;
     padding: 0 2rem;
   }
@@ -72,3 +73,4 @@ export const ActiveLink = styled(NavLink)`
 
 export const ChatIcon = Icon.withComponent(ChatOutlinedIcon);
 export const PersonAddIcon = Icon.withComponent(PersonAddOutlinedIcon);
+export const PeopleIcon = Icon.withComponent(PeopleOutlinedIcon);

@@ -6,6 +6,10 @@ export const Messages = styled.div`
   flex-direction: column;
   gap: 2rem;
   padding: 0rem 3rem 3rem 3rem;
+
+  @media only screen and (max-width: 900px) {
+    padding: 1rem;
+  }
 `;
 
 export const MessagesContainer = styled.div`
@@ -16,4 +20,8 @@ export const MessagesContainer = styled.div`
   height: calc(100% - 18rem);
   border-top: 1px solid #d3d3d3;
   border-bottom: 1px solid #d3d3d3;
+
+  @media only screen and (max-width: 900px) {
+    height: calc(100% - 16rem);
+  }
 `;
