@@ -74,7 +74,7 @@ export const Chat = styled.div<{ isActive: boolean }>`
     filter: brightness(95%);
   }
 
-  @media only screen and (min-width: 500px) and (max-width: 900px) {
+  @media only screen and (min-width: 501px) and (max-width: 900px) {
     justify-content: center;
     align-items: center;
     padding: 1rem;
@@ -97,7 +97,7 @@ export const ChatAvatar = styled(Avatar)`
   width: 3rem;
   height: 3rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  @media only screen and (min-width: 500px) and (max-width: 900px) {
+  @media only screen and (min-width: 501px) and (max-width: 900px) {
     width: 100%;
     height: 100%;
   }
@@ -133,7 +133,7 @@ export const PreviewContainer = styled.div`
   justify-content: flex-start;
   flex-direction: column;
 
-  @media only screen and (min-width: 500px) and (max-width: 900px) {
+  @media only screen and (min-width: 501px) and (max-width: 900px) {
     display: none;
   }
 `;

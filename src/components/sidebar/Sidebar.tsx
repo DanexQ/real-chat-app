@@ -5,11 +5,13 @@ import { auth } from "../../firebase";
 import { ChatContext } from "../../context/ChatContext";
 import { ChatsContext } from "../../context/ChatsContext";
 import * as S from "./StyledSidebar";
+import { useWindowWidth } from "../../hooks/useWindowWidth";
 
 const Sidebar = () => {
   const { currentUser } = useContext(AuthContext);
   const { chatDispatch } = useContext(ChatContext);
   const { dispatch: chatsDispatch } = useContext(ChatsContext);
+  const width = useWindowWidth();
 
   const handleSingOut = () => {
     chatsDispatch({ type: "CLEAR_STATE" });
@@ -26,21 +28,18 @@ const Sidebar = () => {
             <S.ChatIcon />
           </S.ActiveLink>
         </li>
-        {/* <li>
-          <S.ActiveLink to="/add">
-            <S.PersonAddIcon />
-          </S.ActiveLink>
-        </li> */}
         <li>
           <S.ActiveLink to="/search">
             <S.PersonAddIcon />
           </S.ActiveLink>
         </li>
-        <li>
-          <S.ActiveLink to="/chats">
-            <S.PeopleIcon />
-          </S.ActiveLink>
-        </li>
+        {width && (
+          <li>
+            <S.ActiveLink to="/chats">
+              <S.PeopleIcon />
+            </S.ActiveLink>
+          </li>
+        )}
       </S.SidebarMenu>
       <S.SidebarAvatar
         src={currentUser!.photoURL!}

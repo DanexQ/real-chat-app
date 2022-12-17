@@ -66,7 +66,7 @@ const SFiltersContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  @media only screen and (min-width: 500px) and (max-width: 900px) {
+  @media only screen and (min-width: 501px) and (max-width: 900px) {
     display: none;
   }
 `;

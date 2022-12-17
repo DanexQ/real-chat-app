@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ChatsContainer = styled.div<{ mobile: boolean }>`
+export const ChatsContainer = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.secondaryColor};
@@ -13,11 +13,7 @@ export const ChatsContainer = styled.div<{ mobile: boolean }>`
   }
 
   @media only screen and (max-width: 500px) {
-    ${({ mobile }) =>
-      mobile
-        ? `display:none;`
-        : `
-        padding: 2rem;`}
+    padding: 2rem;
   }
 `;
 

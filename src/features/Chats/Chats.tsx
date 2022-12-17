@@ -1,15 +1,16 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ChatContext } from "../../context/ChatContext";
 import ChatsFilters from "./ChatsFilters";
 import ChatPreview from "./ChatPreview";
 import SearchBar from "../../components/searchBar/SearchBar";
 import { ChatsContext } from "../../context/ChatsContext";
 import * as S from "./StyledChats";
+import { useWindowWidth } from "../../hooks/useWindowWidth";
 
-const Chats = ({ mobile }: { mobile: boolean }) => {
-  console.log("component", mobile);
+const Chats = () => {
   const { chat: chatState } = useContext(ChatContext);
   const { chatsState } = useContext(ChatsContext);
+
   const chats =
     !!chatsState.filteredChats &&
     chatsState.filteredChats.map((chat) => (
@@ -22,7 +23,7 @@ const Chats = ({ mobile }: { mobile: boolean }) => {
     ));
 
   return (
-    <S.ChatsContainer mobile={mobile}>
+    <S.ChatsContainer>
       <SearchBar />
       <S.ChatsTitle>
         <S.Title>Chats</S.Title>

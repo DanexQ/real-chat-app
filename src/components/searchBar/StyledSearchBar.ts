@@ -4,7 +4,7 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { FriendsName as Name } from "../../features/Chats/StyledChatPreview";
 
 export const DivRef = styled.div`
-  @media only screen and (min-width: 500px) and (max-width: 900px) {
+  @media only screen and (min-width: 501px) and (max-width: 900px) {
     display: none;
   }
 `;

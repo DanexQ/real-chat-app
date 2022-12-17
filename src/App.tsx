@@ -1,11 +1,13 @@
 import styled from "styled-components";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import SearchBar from "./components/searchBar/SearchBar";
 import Sidebar from "./components/sidebar/Sidebar";
 import Chat from "./features/Chat/Chat";
 import Chats from "./features/Chats/Chats";
+import { useWindowWidth } from "./hooks/useWindowWidth";
 
 function App() {
+  const width = useWindowWidth();
   return (
     <StyledApp>
       <Sidebar />
@@ -14,7 +16,7 @@ function App() {
           path="/"
           element={
             <>
-              <Chats mobile={true} />
+              {!width && <Chats />}
               <Chat />
             </>
           }
@@ -28,14 +30,8 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/chats"
-          element={
-            <>
-              <Chats mobile={false} />
-            </>
-          }
-        />
+        {width && <Route path="/chats" element={<Chats />} />}
+        <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
     </StyledApp>
   );
