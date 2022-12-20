@@ -40,9 +40,6 @@ function App() {
 export default App;
 
 const StyledApp = styled.div`
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
   width: 100vw;
   height: 100vh;
   display: grid;

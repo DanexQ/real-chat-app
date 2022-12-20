@@ -33,22 +33,22 @@ const ChatPreview = ({
     });
   };
 
-  const handleDeleteChat = async (
-    e: React.MouseEvent<SVGElement>,
-    chatId: string
-  ) => {
-    e.stopPropagation();
-    const userChatsRef = doc(db, "userChats", currentUser!.uid);
+  // const handleDeleteChat = async (
+  //   e: React.MouseEvent<SVGElement>,
+  //   chatId: string
+  // ) => {
+  //   e.stopPropagation();
+  //   const userChatsRef = doc(db, "userChats", currentUser!.uid);
 
-    try {
-      await updateDoc(userChatsRef, {
-        [chatId]: deleteField(),
-      });
-      dispatchChats({ type: "DELETE_CHAT", chatId: chatId });
-    } catch (err) {
-      alert(err);
-    }
-  };
+  //   try {
+  //     await updateDoc(userChatsRef, {
+  //       [chatId]: deleteField(),
+  //     });
+  //     dispatchChats({ type: "DELETE_CHAT", chatId: chatId });
+  //   } catch (err) {
+  //     alert(err);
+  //   }
+  // };
 
   return (
     <S.Chat onClick={handleSelectChat} isActive={isActive}>
@@ -60,7 +60,7 @@ const ChatPreview = ({
           <S.FriendsName>{userInfo.displayName}</S.FriendsName>
           <S.Dot></S.Dot>
           <S.LastMessageDate>{chatDate}</S.LastMessageDate>
-          <S.DeleteIcon onClick={(e) => handleDeleteChat(e, chatId)} />
+          {/* <S.DeleteIcon onClick={(e) => handleDeleteChat(e, chatId)} /> */}
         </S.ChatsDetails>
         <S.LastMessage>{formattedLastMessage}</S.LastMessage>
       </S.PreviewContainer>

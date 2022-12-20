@@ -8,7 +8,7 @@ export const ChatFormContainer = styled.form`
   flex-direction: row;
   align-items: center;
   gap: 2rem;
-  padding: 1.25rem 2rem;
+  padding: 0 2rem;
   background-color: ${({ theme }) => theme.secondaryColor};
   color: white;
 
@@ -40,7 +40,7 @@ export const ChatFormContainer = styled.form`
 export const Input = styled.input`
   font-size: 2rem;
   flex: 1;
-  height: 90%;
+  height: 100%;
   word-wrap: break-word;
   word-break: break-all;
   border: none;
@@ -48,6 +48,7 @@ export const Input = styled.input`
   background-color: inherit;
   resize: none;
   vertical-align: middle;
+  z-index: 4;
 
   &:focus {
     outline: none;
