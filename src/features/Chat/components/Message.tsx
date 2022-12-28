@@ -4,6 +4,7 @@ import AuthContext from "@context/AuthContext";
 import { ChatContext } from "@context/ChatContext";
 import * as S from "../styles/StyledMessage";
 import { calcMessageDate } from "../../../utils/calcMessageDate";
+import Image from "./Image";
 
 type MessageType = {
   date: TimestampType;
@@ -43,7 +44,7 @@ const Message = ({ message }: { message: MessageType }) => {
         <S.ContentLayout>
           <S.MoreIcon />
           <S.Content>
-            {!!message.image && <img src={message.image} alt="img" />}
+            {!!message.image && <Image src={message.image} id={message.id} />}
             {!!message.text && <S.Text>{message.text}</S.Text>}
           </S.Content>
         </S.ContentLayout>

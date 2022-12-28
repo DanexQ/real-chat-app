@@ -29,7 +29,7 @@ const ChatPreview = ({
     const combinedID = combineId(currentUser!.uid, userInfo.uid);
     chatDispatch({
       type: "CHANGE_USER_CHAT",
-      payload: { user: userInfo, combinedID: combinedID },
+      payload: { user: userInfo, combinedID },
     });
   };
 

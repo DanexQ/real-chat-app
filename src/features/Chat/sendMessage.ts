@@ -22,6 +22,7 @@ export const sendMessage = async ({
   const date = Timestamp.now();
   try {
     if (image) {
+      text = text?.trim();
       const storageRef = ref(storage, uuid());
       const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -36,7 +37,7 @@ export const sendMessage = async ({
             await updateDoc(doc(db, "chats", chat.chatID!), {
               messages: arrayUnion({
                 id: uuid(),
-                text: text?.trim(),
+                text: text,
                 senderId: currentUser?.uid,
                 date,
                 image: downloadURL,
