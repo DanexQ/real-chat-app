@@ -21,7 +21,6 @@ export const ChatReducer = (state: ChatContextState, action: ChatActions) => {
         },
       };
     default:
-      console.log("there is no case for that type");
-      throw new Error();
+      throw new Error("CHAT REDUCER: TYPE NOT FOUND", action);
   }
 };
