@@ -13,6 +13,7 @@ import { ChatsContextProvider } from "./context/ChatsContext";
 import { ThemeProvider } from "styled-components";
 
 const theme = {
+  borderColor: "#d3d3d3",
   primaryColor: "#34aa44",
   secondaryColor: "#f5f3f4",
 };

@@ -1,4 +1,3 @@
-
 import Messages from "./components/Messages";
 import ChatInput from "./components/ChatInput";
 import { useContext } from "react";
@@ -11,11 +10,11 @@ const Chat = () => {
 
   return (
     <S.ChatContainer>
-      {!chat.chatID ? (
+      {!chat.chatID || chat.chatID === "null" ? (
         <S.NotChoosedChat>Start chatting with your friend!</S.NotChoosedChat>
       ) : (
         <>
-          <ChatDetails/>
+          <ChatDetails />
           <Messages />
           <ChatInput />
         </>

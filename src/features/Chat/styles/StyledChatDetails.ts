@@ -44,10 +44,6 @@ export const ChatOptions = styled.div`
     transition: color 0.2s;
     backface-visibility: hidden;
 
-    &:hover {
-      color: #34aa44;
-    }
-
     &:active {
       transform: scale(0.95);
     }

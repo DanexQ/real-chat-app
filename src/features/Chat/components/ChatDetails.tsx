@@ -8,17 +8,11 @@ import ChatMoreOptions from "./ChatMoreOptions";
 const ChatDetails = () => {
   const { chat } = useContext(ChatContext);
   const [showModal, setShowModal] = useState(false);
-  const [hideAnimation, setHideAnimation] = useState(false);
+  const [hideAnimation, setHideAnimation] = useState(true);
 
-  const handleClickShowModal = () => {
-    if (showModal) {
-      new Promise(() => {
-        setHideAnimation(true);
-        setTimeout(() => {
-          setShowModal(false);
-        }, 1000);
-      });
-    } else setShowModal((prevValue) => !prevValue);
+  const handleClickModalVisibility = () => {
+    hideAnimation && setShowModal(true);
+    setHideAnimation((prevHide) => !prevHide);
   };
 
   return (
@@ -27,8 +21,13 @@ const ChatDetails = () => {
       <S.DisplayName>{chat.user.displayName}</S.DisplayName>
       <S.ChatOptions>
         <CameraAltOutlinedIcon />
-        <MoreHorizIcon onClick={handleClickShowModal} />
-        {showModal && <ChatMoreOptions hide={hideAnimation} />}
+        <MoreHorizIcon
+          onClick={handleClickModalVisibility}
+          onBlur={handleClickModalVisibility}
+        />
+        {showModal && (
+          <ChatMoreOptions hide={hideAnimation} setShowModal={setShowModal} />
+        )}
       </S.ChatOptions>
     </S.ChatDetails>
   );
