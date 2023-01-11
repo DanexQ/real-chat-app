@@ -39,6 +39,7 @@ export const sendMessage = async ({
                 id: uuid(),
                 text: text,
                 senderId: currentUser?.uid,
+                senderName: currentUser?.displayName,
                 date,
                 image: downloadURL,
                 unread: true,
@@ -51,7 +52,7 @@ export const sendMessage = async ({
       await updateDoc(doc(db, "chats", chat.chatID!), {
         messages: arrayUnion({
           id: uuid(),
-          text: text.trim(),
+          text: text,
           senderId: currentUser?.uid,
           senderName: currentUser?.displayName,
           date,

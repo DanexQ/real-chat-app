@@ -8,7 +8,7 @@ export const ChatsContainer = styled.div`
   padding: 3rem;
   overflow: auto;
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 900px) {
     padding: 1.5rem;
   }
 

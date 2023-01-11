@@ -12,9 +12,11 @@ export const ModalContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 200;
 `;
 
 export const ModalImage = styled.img`
-  max-width: 160rem;
-  max-height: 100rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  z-index: 300;
 `;

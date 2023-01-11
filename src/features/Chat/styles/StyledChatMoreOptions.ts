@@ -42,7 +42,6 @@ export const MoreOptionsContainer = styled.div<{ hide: boolean }>`
   overflow: hidden;
   animation: ${({ hide }) => (hide ? animationRuleOut : animationRuleIn)};\
   animation-fill-mode: both;
-
 `;
 
 export const OptionsList = styled.ul`
@@ -50,19 +49,28 @@ export const OptionsList = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1rem 1rem;
   gap: 1rem;
 `;
 
 export const Option = styled.li`
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 1rem;
   font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 1rem;
 
   svg {
     font-size: 2rem !important;
+  }
+
+  &:hover {
+    color: rgb(0, 0, 0, 0.7);
+    svg {
+      color: ${({ theme }) => theme.primaryColor};
+    }
   }
 `;

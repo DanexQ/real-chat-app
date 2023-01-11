@@ -1,3 +1,4 @@
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import styled, { keyframes } from "styled-components";
 
 export const ChatDetails = styled.div`
@@ -8,8 +9,7 @@ export const ChatDetails = styled.div`
   gap: 1rem;
   height: 9rem;
   background-color: #f5f3f4;
-
-  // #f5f3f4;
+  border-bottom: 1px solid #d3d3d3;
 
   @media only screen and (max-width: 900px) {
     padding: 0 2rem;
@@ -48,4 +48,9 @@ export const ChatOptions = styled.div`
       transform: scale(0.95);
     }
   }
+`;
+
+export const MoreOptionsIcon = styled(MoreHorizIcon)<{ showModal: boolean }>`
+  color: ${({ theme, showModal }) =>
+    showModal && theme.primaryColor} !important;
 `;

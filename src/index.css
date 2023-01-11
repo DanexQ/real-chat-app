@@ -6,7 +6,6 @@
   align-items: center;
   width: 100vw;
   min-height: 100vh;
-  background-color: #34aa44;
 }
 
 body {
@@ -16,7 +15,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
 }
 
 code {
@@ -34,11 +32,11 @@ html {
   }
 }
 
-@media only screen and (max-width: 500px) {
+/* @media only screen and (max-width: 500px) {
   html {
     font-size: 50%;
   }
-}
+} */
 
 /* width */
 @media only screen and (min-width: 900px) {

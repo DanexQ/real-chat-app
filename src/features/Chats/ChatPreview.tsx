@@ -18,7 +18,7 @@ const ChatPreview = ({
 }: ChatPreviewProps) => {
   const { currentUser } = useContext(AuthContext);
   const { chatDispatch } = useContext(ChatContext);
-  const { dispatch: dispatchChats } = useContext(ChatsContext);
+
   const formattedLastMessage =
     lastMessage?.text.length < 78
       ? lastMessage?.text

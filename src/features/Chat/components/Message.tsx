@@ -18,16 +18,11 @@ type MessageType = {
 const Message = ({ message }: { message: MessageType }) => {
   const { currentUser } = useContext(AuthContext);
   const { chat } = useContext(ChatContext);
-  const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const isOwner = message.senderId === currentUser?.uid;
   const messageDate = calcMessageDate(message.date);
 
-  useEffect(() => {
-    ref.current!.scrollIntoView({ behavior: "smooth" });
-  }, [message]);
-
   return (
-    <S.Container ref={ref} isOwner={isOwner}>
+    <S.Container isOwner={isOwner}>
       <S.Avatar
         src={
           message.senderId === currentUser?.uid

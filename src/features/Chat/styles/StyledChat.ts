@@ -16,4 +16,3 @@ export const ChatContainer = styled.div`
   max-height: 100vh;
   border-left: 1px solid #d3d3d3;
 `;
-

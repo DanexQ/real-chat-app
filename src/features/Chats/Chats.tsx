@@ -27,9 +27,9 @@ const Chats = () => {
       <SearchBar />
       <S.ChatsTitle>
         <S.Title>Chats</S.Title>
-        <S.ChatsMenu>
+        {/* <S.ChatsMenu>
           <S.DotsMenuIcon />
-        </S.ChatsMenu>
+        </S.ChatsMenu> */}
       </S.ChatsTitle>
       <ChatsFilters />
       <S.ChatsOverflow>{chats}</S.ChatsOverflow>

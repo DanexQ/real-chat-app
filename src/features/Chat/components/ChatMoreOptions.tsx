@@ -2,7 +2,7 @@ import AuthContext from "@context/AuthContext";
 import { ChatContext } from "@context/ChatContext";
 import { ChatsContext } from "@context/ChatsContext";
 import { deleteField, doc, updateDoc } from "firebase/firestore";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { db } from "src/firebase";
 import * as S from "../styles/StyledChatMoreOptions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";

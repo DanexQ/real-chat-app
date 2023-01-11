@@ -11,6 +11,7 @@ export const ChatFormContainer = styled.form`
   padding: 0 2rem;
   background-color: ${({ theme }) => theme.secondaryColor};
   color: white;
+  border-top: 1px solid #d3d3d3;
 
   label {
     color: #adb5bd;

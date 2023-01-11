@@ -1,8 +1,7 @@
 import { ChatContext } from "@context/ChatContext";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import * as S from "../styles/StyledChatDetails";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ChatMoreOptions from "./ChatMoreOptions";
 
 const ChatDetails = () => {
@@ -20,8 +19,8 @@ const ChatDetails = () => {
       <S.ChatAvatar src={chat.user.photoURL} alt="friend" />
       <S.DisplayName>{chat.user.displayName}</S.DisplayName>
       <S.ChatOptions>
-        <CameraAltOutlinedIcon />
-        <MoreHorizIcon
+        <S.MoreOptionsIcon
+          showModal={showModal}
           onClick={handleClickModalVisibility}
           onBlur={handleClickModalVisibility}
         />
