@@ -30,7 +30,9 @@ export const sendMessage = async ({
         "state_changed",
         () => {},
         (error: Error) => {
-          console.log(error);
+          alert(
+            `Something went wrong with sending message(uploadTask.on). Please try again in a while. \n${error.message}`
+          );
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
@@ -60,10 +62,13 @@ export const sendMessage = async ({
         }),
       });
     }
+    text = text || `${currentUser?.displayName} sent a photo.`;
     updateUserChats(currentUser!.uid, chat.user, chat.chatID!, text);
     updateUserChats(chat.user.uid, currentUser!, chat.chatID!, text);
   } catch (err) {
-    alert(`Error from sendMessage.ts: ${err}`);
+    alert(
+      `Something went wrong with sending message. Please try again in a while.: ${err}`
+    );
     throw new Error();
   }
 };

@@ -2,7 +2,7 @@ import AuthContext from "@context/AuthContext";
 import { ChatContext } from "@context/ChatContext";
 import { ChatsContext } from "@context/ChatsContext";
 import { deleteField, doc, updateDoc } from "firebase/firestore";
-import React, { useContext, useRef } from "react";
+import React, { SyntheticEvent, useContext, useRef } from "react";
 import { db } from "src/firebase";
 import * as S from "../styles/StyledChatMoreOptions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -32,12 +32,12 @@ const ChatMoreOptions = ({ hide, setShowModal }: Props) => {
     }
   };
 
-  const handleAnimationEnd = () => {
+  const handleHideModal = () => {
     hide && setShowModal(false);
   };
 
   return (
-    <S.MoreOptionsContainer hide={hide} onAnimationEnd={handleAnimationEnd}>
+    <S.MoreOptionsContainer hide={hide} onAnimationEnd={handleHideModal}>
       <S.OptionsList>
         <S.Option onClick={() => handleDeleteChat(chat.chatID!)}>
           <DeleteOutlineIcon />

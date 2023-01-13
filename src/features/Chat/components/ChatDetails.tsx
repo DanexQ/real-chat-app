@@ -1,8 +1,8 @@
 import { ChatContext } from "@context/ChatContext";
 import { useContext, useState } from "react";
 import * as S from "../styles/StyledChatDetails";
-import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import ChatMoreOptions from "./ChatMoreOptions";
+import ModalOverlay from "src/components/modalOverlay/ModalOverlay";
 
 const ChatDetails = () => {
   const { chat } = useContext(ChatContext);
@@ -20,7 +20,7 @@ const ChatDetails = () => {
       <S.DisplayName>{chat.user.displayName}</S.DisplayName>
       <S.ChatOptions>
         <S.MoreOptionsIcon
-          showModal={showModal}
+          showmodal={showModal.toString()}
           onClick={handleClickModalVisibility}
           onBlur={handleClickModalVisibility}
         />
@@ -28,6 +28,7 @@ const ChatDetails = () => {
           <ChatMoreOptions hide={hideAnimation} setShowModal={setShowModal} />
         )}
       </S.ChatOptions>
+      {showModal && <ModalOverlay handleClick={handleClickModalVisibility} />}
     </S.ChatDetails>
   );
 };

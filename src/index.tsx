@@ -16,6 +16,8 @@ const theme = {
   borderColor: "#d3d3d3",
   primaryColor: "#34aa44",
   secondaryColor: "#f5f3f4",
+  tertiaryColor: "#e0e0e0",
+  buttonColor: "#b8b8b8",
 };
 
 const root = ReactDOM.createRoot(

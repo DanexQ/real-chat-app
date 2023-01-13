@@ -37,7 +37,7 @@ export const Date = styled.div`
 
 export const Text = styled.span`
   padding: 1rem;
-  background-color: #e0e0e0;
+  background-color: ${({ theme }) => theme.tertiaryColor};
   font-size: 1.5rem;
   border-radius: 1rem;
   hyphens: auto;

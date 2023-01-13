@@ -8,8 +8,8 @@ export const ChatDetails = styled.div`
   padding: 0 4rem;
   gap: 1rem;
   height: 9rem;
-  background-color: #f5f3f4;
-  border-bottom: 1px solid #d3d3d3;
+  background-color: ${({ theme }) => theme.secondaryColor};
+  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
 
   @media only screen and (max-width: 900px) {
     padding: 0 2rem;
@@ -39,7 +39,7 @@ export const ChatOptions = styled.div`
 
   svg {
     font-size: 3.5rem !important;
-    color: rgba(0, 0, 0, 0.3);
+    color: ${({ theme }) => theme.buttonColor};
     cursor: pointer;
     transition: color 0.2s;
     backface-visibility: hidden;
@@ -50,7 +50,9 @@ export const ChatOptions = styled.div`
   }
 `;
 
-export const MoreOptionsIcon = styled(MoreHorizIcon)<{ showModal: boolean }>`
-  color: ${({ theme, showModal }) =>
-    showModal && theme.primaryColor} !important;
+export const MoreOptionsIcon = styled(MoreHorizIcon)<{
+  showmodal: string;
+}>`
+  color: ${({ theme, showmodal }) =>
+    showmodal === "true" && theme.primaryColor} !important;
 `;
